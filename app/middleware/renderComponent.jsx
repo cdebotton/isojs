@@ -24,7 +24,13 @@ function renderComponent() {
       var markup = React.renderToString(
         <Handler params={state.params} query={state.query} />
       );
-      this.body = htmlBeautify(`<!doctype html>\n${markup}`);
+      var body = `<!doctype html>\n${markup}`;
+
+      if (process.env.NODE_ENV === 'development') {
+        body = htmlBeautify(body);
+      }
+
+      this.body = body;
     }
     catch (e) {
       this.status = 500;
