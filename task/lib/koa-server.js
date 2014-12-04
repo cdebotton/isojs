@@ -15,18 +15,14 @@ module.exports = (function () {
             lr.listen(port);
         },
         reload: function (fileName) {
-            lr.changed({
-                body: {
-                    files: [fileName]
-                }
-            });
+            lr.changed({body: { files: [fileName] }});
         }
     };
     return {
         run: function (newOptions) {
             var options = merge(defaultOptions, newOptions || {});
 
-            if (service) {    //stop
+            if (service) {
                 service.kill('SIGKILL');
                 service = undefined;
             } else {
