@@ -1,0 +1,28 @@
+{
+  "name": "gen-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^0.8.0",
+    "koa": "^0.13.0",
+    "koa-bodyparser": "^1.3.0",
+    "koa-compress": "^1.0.8",
+    "koa-mount": "^1.3.0",
+    "koa-passport": "^1.1.3",
+    "koa-router": "^3.7.0",
+    "koa-session": "^2.0.0",
+    "mongoose": "^3.8.20",
+    "node-jsx": "^0.12.4",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "react": "^0.12.1",
+    "react-router": "^0.11.4"
+  }
+}
