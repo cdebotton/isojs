@@ -21,6 +21,7 @@ function Bundler(watch, build) {
   watchify.args.debug     = !build ? true : false;
 
   var bundler = browserify('./app/index.js', watchify.args);
+  bundler.transform(envify({NODE_ENV: build ? 'production' : 'development'}));
 
   if (watch) {
     bundler = watchify(bundler);
@@ -31,7 +32,7 @@ function Bundler(watch, build) {
   function rebundle() {
     gUtil.log(gUtil.colors.green('Building JavaScripts with Browserify'));
 
-    bundler.transform(envify({NODE_ENV: build ? 'production' : 'development'}))
+    bundler
       .bundle()
       .on('error', gUtil.log.bind(gUtil, 'Browserify error'))
       .pipe(source('bundle.js'))

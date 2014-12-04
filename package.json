@@ -34,7 +34,7 @@
       ]
     ]
   },
-  "author": "",
+  "author": "Christian de Botton",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^0.8.0",
