@@ -22,8 +22,8 @@ gulp.task('browserify', require('./task/browserify').run);
 gulp.task('browserify:watch', require('./task/browserify').watch);
 gulp.task('browserify:build', require('./task/browserify').build);
 
-gulp.task('express:dev', require('./task/express').development);
-gulp.task('express:prd', require('./task/express').production);
+gulp.task('koa:dev', require('./task/koa').development);
+gulp.task('koa:prd', require('./task/koa').production);
 
 gulp.task('migrate:drop', require('./task/migrate').drop);
 gulp.task('migrate:seed', require('./task/migrate').seed);
@@ -31,6 +31,6 @@ gulp.task('migrate:reset', require('./task/migrate').reset);
 
 gulp.task('test', ['flow', 'jest']);
 gulp.task('build', ['assets:build', 'browserify:build', 'stylus:build']);
-gulp.task('serve', ['build', 'express:prd']);
-gulp.task('watch', ['assets:watch', 'express:dev', 'browserify:watch', 'stylus:watch']);
+gulp.task('serve', ['build', 'koa:prd']);
+gulp.task('watch', ['assets:watch', 'koa:dev', 'browserify:watch', 'stylus:watch']);
 gulp.task('default', ['flow', 'assets', 'browserify', 'stylus', 'jest']);

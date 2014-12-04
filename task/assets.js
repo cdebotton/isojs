@@ -15,7 +15,7 @@ function not(path) {
 }
 
 function AssetPipeline(watch, build) {
-  var gExpress      = require('gulp-express');
+  var kLr      = require('./lib/koa-server');
 
   watch || (watch = false);
   build || (build = false);
@@ -27,7 +27,7 @@ function AssetPipeline(watch, build) {
   if (watch) {
     gulp.watch([PATHS.IMAGE_SRC], this.prototype.gImagemin.bind(this, build));
     gulp.watch([PATHS.SRC, not(PATHS.IMAGE_SRC), not(PATHS.HTML_SRC)], this.prototype.gCopy.bind(this, build));
-    gulp.watch([PATHS.BUILD], gExpress.notify);
+    gulp.watch([PATHS.BUILD], kLr.notify);
   }
 }
 

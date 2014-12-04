@@ -7,7 +7,7 @@ var gConcat     = require('gulp-concat');
 var gRename     = require('gulp-rename');
 var gMinifyCss  = require('gulp-minify-css');
 var gSourcemaps = require('gulp-sourcemaps');
-var gExpress    = require('gulp-express');
+var koaServer   = require('./lib/koa-server');
 var nib         = require('nib');
 var streamqueue = require('streamqueue');
 
@@ -54,7 +54,7 @@ function StylusCompiler(watch, build) {
 
   if (watch) {
     gulp.watch(PATHS.STYLUS, compileStylus);
-    gulp.watch(PATHS.DEST_SRC, gExpress.notify);
+    gulp.watch(PATHS.DEST_SRC, koaServer.notify);
   }
 
   return compileStylus();

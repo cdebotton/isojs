@@ -3,7 +3,7 @@
 var gulp        = require('gulp');
 var gIf         = require('gulp-if');
 var gUglify     = require('gulp-uglify');
-var gExpress    = require('gulp-express');
+var koaServer   = require('./lib/koa-server');
 var gUtil       = require('gulp-util');
 var gRename     = require('gulp-rename');
 var gStreamify  = require('gulp-streamify');
@@ -25,7 +25,7 @@ function Bundler(watch, build) {
   if (watch) {
     bundler = watchify(bundler);
     bundler.on('update', rebundle);
-    gulp.watch(['./dist/**/*.js'], gExpress.notify);
+    gulp.watch(['./dist/**/*.js'], koaServer.notify);
   }
 
   function rebundle() {

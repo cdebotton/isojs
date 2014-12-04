@@ -21,13 +21,11 @@ var responseTime    = require('./utils/responseTime');
 var Api             = require('./api/routes/Api');
 var app             = koa();
 
-app.keys = ['secret'];
+var env = process.env.NODE_ENV === 'production'
+  ? 'production'
+  : 'development';
 
-if (process.env.NODE_ENV === 'development') {
-  var koaLr = require('koa-livereload')();
-  var lr  = require('tiny-lr')();
-  app.use(koaLr);
-}
+app.keys = ['secret'];
 
 app.use(responseTime('Response-time'));
 app.use(compress());
@@ -37,6 +35,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(serveStatic(path.join(__dirname, '../dist')));
 app.use(mount('/api', Api.middleware()));
+
+if (env === 'development') {
+  var koaLr = require('koa-livereload');
+  app.use(koaLr());
+}
 
 require('node-jsx').install({
   harmony: true,
@@ -49,8 +52,10 @@ app.use(renderComponent());
 
 mongoose.connect('mongodb://localhost/debotton', function() {
   console.log('Connected to `mongodb://localhost/debotton`.');
-  app.listen(3000, function(err) {
+
+  var port = process.env.PORT || 3000;
+  app.listen(port, function(err) {
     if (err) throw err;
-    console.log('Listening on port `3000`.');
+    console.log('Listening in `' + process.env.NODE_ENV + '` mode on port `' + port + '`.');
   });
 });

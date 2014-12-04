@@ -1,9 +1,9 @@
 function StartServer(env) {
-  var gExpress  = require('gulp-express');
+  var koaServer = require('./lib/koa-server');
 
   env || (env = 'development');
 
-  gExpress.run({
+  koaServer.run({
     file: './app/server.js',
     env: env
   });
