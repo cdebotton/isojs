@@ -1,7 +1,7 @@
 var path            = require('path');
 var fs              = require('fs');
 
-var modelPath = path.join(__dirname, 'api', 'models');
+var modelPath = path.join(__dirname, 'models');
 var files = fs.readdirSync(modelPath);
 files.forEach(function(file) {
   if (/[A-Z].+\.js$/.test(file)) {
@@ -17,8 +17,8 @@ var mount           = require('koa-mount');
 var passport        = require('koa-passport');
 var mongoose        = require('mongoose');
 var serveStatic     = require('koa-static');
-var responseTime    = require('./api/middleware/responseTime');
-var Api             = require('./api/routes/Api');
+var responseTime    = require('./middleware/responseTime');
+var Api             = require('./routes/Api');
 var app             = koa();
 
 var env = process.env.NODE_ENV === 'production'
@@ -33,12 +33,12 @@ app.use(bodyParser());
 app.use(session());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(serveStatic(path.join(__dirname, '../dist')));
+app.use(serveStatic(path.join(__dirname, '../../dist')));
 app.use(mount('/api', Api.middleware()));
 
 if (env === 'development') {
   var koaLr = require('koa-livereload');
-  var clearCache = require('./api/middleware/clearCache');
+  var clearCache = require('./middleware/clearCache');
   app.use(koaLr());
   app.use(clearCache());
 }
@@ -48,7 +48,7 @@ require('node-jsx').install({
   stripTypes: true
 });
 
-var renderComponent = require('./api/middleware/renderComponent.jsx');
+var renderComponent = require('./middleware/renderComponent.jsx');
 
 app.use(renderComponent());
 
