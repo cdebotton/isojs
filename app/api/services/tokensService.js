@@ -1,5 +1,5 @@
 var mongoose  = require('mongoose');
-var Token      = mongoose.model('Token');
+var Token     = mongoose.model('Token');
 
 var tokensService = {
   all: function *() {

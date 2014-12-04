@@ -4,41 +4,33 @@ var usersService    = require('../services/usersService');
 var tokensService   = require('../services/tokensService');
 var Api             = new Router();
 
-Api.get('/users', passport.authenticate('bearer', {session: false}),
-  function *() {
-    var users = yield usersService.all();
-    this.body = JSON.stringify(users);
-  }
-);
+var bearer = passport.authenticate('bearer', {session: false});
 
-Api.get('/users/:userId', passport.authenticate('bearer', {session: false}),
-  function *() {
-    var userId = this.req.params.userId;
-    var user = yield usersService.findById(userId);
-    this.body = JSON.stringify(user);
-  }
-);
+Api.get('/users', bearer, function *() {
+  var users = yield usersService.all();
+  this.body = JSON.stringify(users);
+});
 
-Api.post('/users', passport.authenticate('bearer', {session: false}),
-  function *() {
-    var body = this.req.body;
-    var user = yield usersService.create(body);
-    this.body = JSON.stringify(user);
-  }
-);
+Api.get('/users/:userId', bearer, function *() {
+  var userId = this.req.params.userId;
+  var user = yield usersService.findById(userId);
+  this.body = JSON.stringify(user);
+});
 
-Api.delete('/users/:userId', passport.authenticate('bearer', {session: false}),
-  function *() {
-    var userId = this.req.params.userId;
-    yield usersService.destroy(userId);
-  }
-);
+Api.post('/users', bearer, function *() {
+  var body = this.req.body;
+  var user = yield usersService.create(body);
+  this.body = JSON.stringify(user);
+});
 
-Api.get('/tokens', passport.authenticate('bearer', {session: false}),
-  function *() {
-    var tokens = yield tokensService.all();
-    this.body = JSON.stringify(tokens);
-  }
-);
+Api.delete('/users/:userId', bearer, function *() {
+  var userId = this.req.params.userId;
+  yield usersService.destroy(userId);
+});
+
+Api.get('/tokens', bearer, function *() {
+  var tokens = yield tokensService.all();
+  this.body = JSON.stringify(tokens);
+});
 
 module.exports = Api;
