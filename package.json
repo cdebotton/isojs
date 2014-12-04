@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "jest",
+    "start": "gulp serve"
   },
   "jest": {
     "scriptPreprocessor": "../preprocessor.js",
@@ -80,6 +80,8 @@
     "gulp-util": "^3.0.1",
     "imagemin-pngcrush": "^4.0.0",
     "immutable": "^3.3.0",
+    "jest-cli": "^0.2.0",
+    "koa-livereload": "^0.1.23",
     "nib": "^1.0.4",
     "normalize.css": "^3.0.2",
     "react-tools": "^0.12.1",

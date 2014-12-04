@@ -23,13 +23,19 @@ var app             = koa();
 
 app.keys = ['secret'];
 
+if (process.env.NODE_ENV === 'development') {
+  var koaLr = require('koa-livereload')();
+  var lr  = require('tiny-lr')();
+  app.use(koaLr);
+}
+
 app.use(responseTime('Response-time'));
 app.use(compress());
 app.use(bodyParser());
 app.use(session());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(serveStatic(path.join(__dirname, 'dist')));
+app.use(serveStatic(path.join(__dirname, '../dist')));
 app.use(mount('/api', Api.middleware()));
 
 require('node-jsx').install({
