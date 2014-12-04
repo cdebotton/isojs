@@ -17,7 +17,6 @@ var mount           = require('koa-mount');
 var passport        = require('koa-passport');
 var mongoose        = require('mongoose');
 var responseTime    = require('./utils/responseTime');
-var renderComponent = require('./utils/renderComponent');
 var Api             = require('./api/routes/Api');
 var app             = koa();
 
@@ -30,6 +29,14 @@ app.use(session());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(mount('/api', Api.middleware()));
+
+require('node-jsx').install({
+  harmony: true,
+  stripTypes: true
+});
+
+var renderComponent = require('./utils/renderComponent.jsx');
+
 app.use(renderComponent());
 
 mongoose.connect('mongodb://localhost/debotton', function() {
