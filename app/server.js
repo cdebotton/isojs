@@ -17,7 +17,7 @@ var mount           = require('koa-mount');
 var passport        = require('koa-passport');
 var mongoose        = require('mongoose');
 var serveStatic     = require('koa-static');
-var responseTime    = require('./middleware/responseTime');
+var responseTime    = require('./api/middleware/responseTime');
 var Api             = require('./api/routes/Api');
 var app             = koa();
 
@@ -38,7 +38,7 @@ app.use(mount('/api', Api.middleware()));
 
 if (env === 'development') {
   var koaLr = require('koa-livereload');
-  var clearCache = require('./middleware/clearCache');
+  var clearCache = require('./api/middleware/clearCache');
   app.use(koaLr());
   app.use(clearCache());
 }
@@ -48,7 +48,7 @@ require('node-jsx').install({
   stripTypes: true
 });
 
-var renderComponent = require('./middleware/renderComponent.jsx');
+var renderComponent = require('./api/middleware/renderComponent.jsx');
 
 app.use(renderComponent());
 
