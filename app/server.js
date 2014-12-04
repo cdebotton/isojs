@@ -1,7 +1,7 @@
 var path            = require('path');
 var fs              = require('fs');
 
-var modelPath = path.join(__dirname, 'models');
+var modelPath = path.join(__dirname, 'api', 'models');
 var files = fs.readdirSync(modelPath);
 files.forEach(function(file) {
   if (/[A-Z].+\.js$/.test(file)) {
@@ -18,7 +18,7 @@ var passport        = require('koa-passport');
 var mongoose        = require('mongoose');
 var serveStatic     = require('koa-static');
 var responseTime    = require('./middleware/responseTime');
-var Api             = require('./routes/Api');
+var Api             = require('./api/routes/Api');
 var app             = koa();
 
 var env = process.env.NODE_ENV === 'production'
@@ -33,7 +33,7 @@ app.use(bodyParser());
 app.use(session());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(serveStatic(path.join(__dirname, '../../dist')));
+app.use(serveStatic(path.join(__dirname, '../dist')));
 app.use(mount('/api', Api.middleware()));
 
 if (env === 'development') {

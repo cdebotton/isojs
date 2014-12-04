@@ -3,7 +3,7 @@ var ReactRouter   = require('react-router');
 var htmlBeautify  = require('js-beautify').html;
 
 function getRoutedComponent(url) {
-  var Routes = require('../../components/Routes.jsx');
+  var Routes = require('../components/Routes.jsx');
   return new Promise(function(resolve, reject) {
     try {
       ReactRouter.run(Routes, url, function(Handler, state) {

@@ -4,7 +4,7 @@ function StartServer(env) {
   env || (env = 'development');
 
   koaServer.run({
-    file: './app/api/index.js',
+    file: './app/server.js',
     env: env
   });
 }
