@@ -16,6 +16,7 @@ var compress        = require('koa-compress');
 var mount           = require('koa-mount');
 var passport        = require('koa-passport');
 var mongoose        = require('mongoose');
+var serveStatic     = require('koa-static');
 var responseTime    = require('./utils/responseTime');
 var Api             = require('./api/routes/Api');
 var app             = koa();
@@ -28,6 +29,7 @@ app.use(bodyParser());
 app.use(session());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(serveStatic(path.join(__dirname, 'dist')));
 app.use(mount('/api', Api.middleware()));
 
 require('node-jsx').install({
