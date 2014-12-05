@@ -19,7 +19,7 @@ var UsersStore = Object.assign(Store, {
    * @return {object}
    */
   getState(): Object {
-    return _users;
+    return _users.toArray();
   },
 
   getPending(): ?Request {
