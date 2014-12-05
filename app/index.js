@@ -8,7 +8,8 @@ if ('undefined' !== typeof window) {
       React.render(
         <Handler
           params={state.params}
-          query={state.query} />,
+          query={state.query}
+          env={process.env.NODE_ENV} />,
         document
       );
     });

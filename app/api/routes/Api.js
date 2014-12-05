@@ -1,7 +1,7 @@
 var Router          = require('koa-router');
 var passport        = require('./passport');
 var usersService    = require('../services/usersService');
-var tokensService   = require('../services/tokensService');
+var authService     = require('../services/authService');
 var Api             = new Router();
 
 var bearer = passport.authenticate('bearer', {session: false});
@@ -28,9 +28,20 @@ Api.delete('/users/:userId', bearer, function *() {
   yield usersService.destroy(userId);
 });
 
-Api.get('/tokens', bearer, function *() {
-  var tokens = yield tokensService.all();
-  this.body = JSON.stringify(tokens);
+Api.get('/login', function *(next) {
+  try {
+    var user = yield authService.login(this.req, this.res);
+    this.body = JSON.stringify(user);
+  }
+  catch (err) {
+    this.status = 500;
+    this.body = JSON.stringify(err);
+  }
+});
+
+Api.post('/logout', function *(next) {
+  var key = this.req.body.key;
+  yield authService.logout(key);
 });
 
 module.exports = Api;

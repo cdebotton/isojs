@@ -22,7 +22,7 @@ function renderComponent() {
 
     try {
       var markup = React.renderToString(
-        <Handler params={state.params} query={state.query} />
+        <Handler params={state.params} query={state.query} env={process.env.NODE_ENV} />
       );
       var body = `<!doctype html>\n${markup}`;
 

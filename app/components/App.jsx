@@ -1,22 +1,35 @@
 var React           = require('react');
 var {RouteHandler}  = require('react-router');
 
+var Head = require('./Head.jsx');
+var Navigation = require('./Navigation.jsx');
+
 var App = React.createClass({
+  propTypes: {
+    query: React.PropTypes.object.isRequired,
+    params: React.PropTypes.object.isRequired,
+    env: React.PropTypes.string.isRequired
+  },
+
+  getBundle(env: string): any {
+    var min = env === 'production' ? '.min' : '';
+
+    return (
+      <script src={'/bundle' + min + '.js'} />
+    );
+  },
+
   render(): any {
+    var {env} = this.props;
+    var Bundle = this.getBundle(env);
+
     return (
       <html lang="us">
-      <head>
-        <meta charSet="utf-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <title>koajs test</title>
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic|Josefin+Slab:400,600' rel='stylesheet' />
-        <link href="/stylesheets/app.css" rel="stylesheet" />
-      </head>
+      <Head env={env} />
       <body>
+        <Navigation />
         <RouteHandler />
-        <script src="/bundle.js" />
+        {Bundle}
       </body>
       </html>
     );
