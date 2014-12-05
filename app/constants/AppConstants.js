@@ -7,7 +7,18 @@ var AppConstants = {
   }),
 
   ActionTypes: keyMirror({
+    AUTH_LOGOUT: null,
+    AUTH_POST_LOGIN: null,
+    AUTH_VERIFY_SESSION: null,
 
+    GET_USERS: null,
+    GET_USER_BY_ID: null,
+    POST_USERS: null,
+    PUT_USERS: null,
+    DELETE_USERS: null,
+    CREATE_USER: null,
+    DESTROY_USERS: null,
+    UPDATE_USER: null
   }),
 
   ApiStates: keyMirror({
