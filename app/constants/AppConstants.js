@@ -18,7 +18,9 @@ var AppConstants = {
     DELETE_USERS: null,
     CREATE_USER: null,
     DESTROY_USERS: null,
-    UPDATE_USER: null
+    UPDATE_USER: null,
+
+    GET_SUBREDDIT: null
   }),
 
   ApiStates: keyMirror({

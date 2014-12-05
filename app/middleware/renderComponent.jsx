@@ -10,8 +10,8 @@ function getRoutedComponent(url) {
         resolve({Handler, state});
       });
     }
-    catch (e) {
-      reject();
+    catch (err) {
+      reject(err);
     }
   })
 }

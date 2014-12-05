@@ -15,6 +15,7 @@ var session         = require('koa-session');
 var compress        = require('koa-compress');
 var mount           = require('koa-mount');
 var passport        = require('koa-passport');
+var json            = require('koa-json');
 var mongoose        = require('mongoose');
 var serveStatic     = require('koa-static');
 var responseTime    = require('./middleware/responseTime');
@@ -28,13 +29,14 @@ var env = process.env.NODE_ENV === 'production'
 app.keys = ['secret'];
 
 app.use(responseTime('Response-time'));
+app.use(json());
 app.use(compress());
 app.use(bodyParser());
 app.use(session());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(serveStatic(path.join(__dirname, '../dist')));
-app.use(mount('/api', Api.middleware()));
+app.use(mount('/api/v1', Api.middleware()));
 
 if (env === 'development') {
   var koaLr = require('koa-livereload');

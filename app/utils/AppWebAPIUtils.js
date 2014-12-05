@@ -5,7 +5,7 @@ var AppDispatcher             = require('../dispatchers/AppDispatcher');
 
 var {getQuery, putQuery, delQuery, postQuery, TIMEOUT} = require('./RequestUtils');
 
-var API_URL: string = '/api/v1';
+var API_URL: string = 'http://localhost:3000/api/v1';
 var _pendingRequests: Object = {};
 
 /**
@@ -76,10 +76,12 @@ var AppWebAPIUtils: Object = {
     var params: Object  = {email: email, password: password};
 
     abortPendingRequests(key);
-    dispatch(key, ApiStates.PENDING, params);
 
     _pendingRequests[key] = postQuery(url, params)
       .end(digestResponse(key, params));
+
+
+    dispatch(key, _pendingRequests[key], params);
   },
 
   logout(id: number): void {
@@ -111,10 +113,11 @@ var AppWebAPIUtils: Object = {
     var url: string = makeUrl('users');
 
     abortPendingRequests(key);
-    dispatch(key, ApiStates.PENDING);
 
     _pendingRequests[key] = getQuery(url)
       .end(digestResponse(key));
+
+    dispatch(key, _pendingRequests[key]);
   },
 
   getUserById(id: number): void {
@@ -151,7 +154,7 @@ var AppWebAPIUtils: Object = {
       .end(digestResponse(key));
   },
 
-  putUsers(id: number, params: Object) {
+  putUsers(id: number, params: Object): void {
     var key: string = ActionTypes.PUT_USERS;
     var url: string = makeUrl('users', id);
 

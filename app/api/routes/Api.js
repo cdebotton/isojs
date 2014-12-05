@@ -6,21 +6,21 @@ var Api             = new Router();
 
 var bearer = passport.authenticate('bearer', {session: false});
 
-Api.get('/users', bearer, function *() {
+Api.get('/users'/*, bearer*/, function *() {
   var users = yield usersService.all();
-  this.body = JSON.stringify(users);
+  this.body = users;
 });
 
 Api.get('/users/:userId', bearer, function *() {
   var userId = this.req.params.userId;
   var user = yield usersService.findById(userId);
-  this.body = JSON.stringify(user);
+  this.body = user;
 });
 
 Api.post('/users', bearer, function *() {
   var body = this.req.body;
   var user = yield usersService.create(body);
-  this.body = JSON.stringify(user);
+  this.body = user;
 });
 
 Api.delete('/users/:userId', bearer, function *() {
@@ -31,11 +31,11 @@ Api.delete('/users/:userId', bearer, function *() {
 Api.get('/login', function *(next) {
   try {
     var user = yield authService.login(this.req, this.res);
-    this.body = JSON.stringify(user);
+    this.body = user;
   }
   catch (err) {
     this.status = 500;
-    this.body = JSON.stringify(err);
+    this.body = err;
   }
 });
 
