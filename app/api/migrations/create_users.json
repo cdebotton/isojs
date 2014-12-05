@@ -1,0 +1,11 @@
+{
+  "model": "User",
+  "seed": [{
+    "email": "admin@cdb.dev",
+    "password": "root",
+    "name": {
+      "first": "Optimus",
+      "last": "Prime"
+    }
+  }]
+}
