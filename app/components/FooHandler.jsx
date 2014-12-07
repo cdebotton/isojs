@@ -16,32 +16,24 @@ var FooHandler = React.createClass({
     return getState();
   },
 
-  // componentDidMount(): void {
-  //   UsersStore.addChangeListener(this.handleChange);
-  // },
+  componentDidMount(): void {
+    UsersStore.addChangeListener(this.handleChange);
+  },
 
-  // componentWillUnmount(): void {
-  //   UsersStore.removeChangeListener(this.handleChange);
-  // },
+  componentWillUnmount(): void {
+    UsersStore.removeChangeListener(this.handleChange);
+  },
 
-  // handleChange(): void {
-  //   this.setState(getState());
-  // },
+  handleChange(): void {
+    this.setState(getState());
+  },
 
   render(): any {
-    var users = this.state.users.map((user, i) => {
-      return (
-        <div className="user" key={'users:'+i}>
-          <h2>{user.name.first} {user.name.last}</h2>
-          <h3>{user.email}</h3>
-        </div>
-      );
-    });
+    console.log(this.state.users);
 
     return (
       <div className="foo-handler">
         <h2>Foo Handler</h2>
-        {users}
       </div>
     );
   }

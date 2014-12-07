@@ -2,6 +2,8 @@ var React         = require('react');
 var ReactRouter   = require('react-router');
 var htmlBeautify  = require('js-beautify').html;
 
+var PRODUCTION    = process.env.NODE_ENV === 'production';
+
 function getRoutedComponent(url) {
   var Routes = require('../components/Routes.jsx');
   return new Promise(function(resolve, reject) {
@@ -17,7 +19,7 @@ function getRoutedComponent(url) {
 }
 
 function renderComponent() {
-  return function *() {
+  return function *(next) {
     var {Handler, state} = yield getRoutedComponent(this.req.url);
 
     try {
@@ -34,7 +36,7 @@ function renderComponent() {
     }
     catch (e) {
       this.status = 500;
-      this.body = JSON.stringify(e);
+      this.body = PRODUCTION ? 'Internal Server Error' : e.toString();
     }
   };
 }

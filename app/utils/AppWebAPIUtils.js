@@ -113,11 +113,10 @@ var AppWebAPIUtils: Object = {
     var url: string = makeUrl('users');
 
     abortPendingRequests(key);
+    dispatch(key, _pendingRequests[key]);
 
     _pendingRequests[key] = getQuery(url)
       .end(digestResponse(key));
-
-    dispatch(key, _pendingRequests[key]);
   },
 
   getUserById(id: number): void {

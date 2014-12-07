@@ -16,6 +16,7 @@ var compress        = require('koa-compress');
 var mount           = require('koa-mount');
 var passport        = require('koa-passport');
 var json            = require('koa-json');
+var favicon         = require('koa-favicon');
 var mongoose        = require('mongoose');
 var serveStatic     = require('koa-static');
 var responseTime    = require('./middleware/responseTime');
@@ -26,10 +27,13 @@ var env = process.env.NODE_ENV === 'production'
   ? 'production'
   : 'development';
 
+var production = env === 'production';
+
 app.keys = ['secret'];
 
 app.use(responseTime('Response-time'));
-app.use(json());
+app.use(favicon(path.join(__dirname, '../dist', 'img', 'favicon.ico')));
+app.use(json({ pretty: !production }));
 app.use(compress());
 app.use(bodyParser());
 app.use(session());
@@ -38,7 +42,7 @@ app.use(passport.session());
 app.use(serveStatic(path.join(__dirname, '../dist')));
 app.use(mount('/api/v1', Api.middleware()));
 
-if (env === 'development') {
+if (! production) {
   var koaLr = require('koa-livereload');
   var clearCache = require('./middleware/clearCache');
   app.use(koaLr());
