@@ -1,17 +1,23 @@
 /** @flow */
 
-var React = require('react');
+var React   = require('react');
+var Promise = require('bluebird');
 
-var UserActionCreators  = require('../actions/UserActionCreators');
-var UsersStore          = require('../stores/UsersStore');
-var StoreMixin          = require('../mixins/StoreMixin');
+var UserActionCreators        = require('../actions/UserActionCreators');
+var {ActionTypes}             = require('../constants/AppConstants');
+var UsersStore                = require('../stores/UsersStore');
+var StoreMixin                = require('../mixins/StoreMixin');
+var AppWebAPIUtils            = require('../utils/AppWebAPIUtils');
 
 var FooHandler = React.createClass({
   mixins: [StoreMixin(getState)],
 
   statics: {
-    willTransitionTo(transition: Object, params: Object) {
-      transition.wait(UserActionCreators.getUsers());
+    willTransitionTo(transition: Object, params: Object): void {
+      UserActionCreators.getUsers();
+      transition.wait(AppWebAPIUtils.getPendingRequest([
+        ActionTypes.GET_USERS
+      ]));
     }
   },
 
@@ -29,7 +35,8 @@ var FooHandler = React.createClass({
               <li className="user" key={i}>
                 <h3>
                   <a href={url}>{fullName}</a>
-                  <a href={email}><i className="fa fa-email" /></a>
+                  <span>&nbsp;</span>
+                  <a href={email}><i className="fa fa-envelope-o" /></a>
                 </h3>
               </li>
             );

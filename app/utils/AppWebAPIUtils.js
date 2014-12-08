@@ -8,6 +8,12 @@ var {getQuery, putQuery, delQuery, postQuery, TIMEOUT} = require('./RequestUtils
 var API_URL: string = 'http://localhost:3000/api/v1';
 var _pendingRequests: Object = {};
 
+function digestResponse(key: string, params: Object): Function {
+  return function(res: any): void {
+    dispatch(key, res, params);
+  }
+}
+
 /**
  * Abort existing pending requests to
  * prevent duplicate calls.
@@ -16,7 +22,7 @@ var _pendingRequests: Object = {};
  */
 function abortPendingRequests(key: string): void {
   if (_pendingRequests[key]) {
-    _pendingRequests[key] = null;
+    _pendingRequests[key].cancel();
   }
 }
 
@@ -50,48 +56,21 @@ function dispatch(key: string, response: any, params?: ?Object): void {
   AppDispatcher.handleServerAction(action);
 }
 
-function digestResponse(key: string, params?: ?Object) {
-  params || (params = {});
-  return function(err: ?Object, res: any) {
-    if (err && err.timeout === TIMEOUT) {
-      if ('function' === typeof params.reject) {
-        params.reject(ApiStates.TIMEOUT);
-      }
-      dispatch(key, ApiStates.TIMEOUT, params);
-    }
-    else if (res.status === 400) {
-      if ('function' === typeof params.reject) {
-        params.reject(ApiStates.BAD_REQUEST);
-      }
-      dispatch(key, ApiStates.BAD_REQUEST, params);
-    }
-    else if (! res.ok) {
-      if ('function' === typeof params.reject) {
-        params.reject(ApiStates.ERROR);
-      }
-      dispatch(key, ApiStates.ERROR, params);
-    }
-    else {
-      if ('function' === typeof params.resolve) {
-        params.resolve(res.body);
-      }
-      dispatch(key, res.body, params);
-    }
-  };
-};
-
 var AppWebAPIUtils: Object = {
+  getPendingRequest(key: string) {
+    return _pendingRequests[key];
+  },
+
   login(email: string, password: string): void {
     var key: string     = ActionTypes.AUTH_POST_LOGIN;
     var url: string     = makeUrl('login');
     var params: Object  = {email: email, password: password};
 
     abortPendingRequests(key);
+    dispatch(key, ApiStates.PENDING, params);
 
     _pendingRequests[key] = postQuery(url, params)
       .end(digestResponse(key, params));
-
-    dispatch(key, _pendingRequests[key], params);
   },
 
   logout(id: number): void {
@@ -121,18 +100,15 @@ var AppWebAPIUtils: Object = {
   getUsers(): void {
     var key: string = ActionTypes.GET_USERS;
     var url: string = makeUrl('users');
-    var params: Object = {};
 
     abortPendingRequests(key);
-    dispatch(key, _pendingRequests[key]);
+    dispatch(key, ApiStates.PENDING);
 
-    _pendingRequests[key] = new Promise(function(resolve, reject) {
-        params.resolve = resolve;
-        params.reject = reject;
-        getQuery(url).end(digestResponse(key, params));
-    });
-
-    return _pendingRequests[key];
+    _pendingRequests[key] = getQuery(url)
+      .then(digestResponse(key))
+      .catch(function(err) {
+        console.log(err);
+      });
   },
 
   getUserById(id: number): void {

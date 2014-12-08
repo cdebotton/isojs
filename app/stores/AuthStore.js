@@ -1,14 +1,10 @@
 /** @flow */
 
 var Immutable                 = require('immutable');
+var assign                    = require('react/lib/Object.assign');
 var {ActionTypes, ApiStates}  = require('../constants/AppConstants');
 var Store                     = require('./Store');
 var AppDispatcher             = require('../dispatchers/AppDispatcher');
-
-if (! Object.assign) {
-  Object.assign = require('react/lib/Object.assign');
-};
-
 /**
  * Get the locally stored auth info
  * @param  {string} sessionName
@@ -31,7 +27,7 @@ var _status: string = ApiStates.READY;
 var SESSION_NAME: string = 'cdb.session';
 var _auth: Immutable = getAuthData(SESSION_NAME);
 
-var AuthStore = Object.assign(Store, {
+var AuthStore = assign({}, Store, {
   /**
    * Return the state of the AuthStore
    * @return {object}

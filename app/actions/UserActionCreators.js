@@ -6,7 +6,7 @@ var AppWebAPIUtils  = require('../utils/AppWebAPIUtils');
 
 var AuthActionCreators: Object = {
   getUsers(): void {
-    return AppWebAPIUtils.getUsers();
+    AppWebAPIUtils.getUsers();
   },
 
   getUserById(id: number): void {
