@@ -6,6 +6,8 @@ var Store                     = require('./Store');
 var AppDispatcher             = require('../dispatchers/AppDispatcher');
 var {Request}                 = require('superagent');
 
+var UserActionCreators        = require('../actions/UserActionCreators');
+
 if (! Object.assign) {
   Object.assign = require('react/lib/Object.assign');
 };
@@ -13,7 +15,7 @@ if (! Object.assign) {
 var _pending: ?Request = null;
 var _users: Immutable = Immutable.List();
 
-var UsersStore = Object.assign(Store, {
+var UsersStore = Object.assign({}, Store, {
   /**
    * Return the state of the UsersStore
    * @return {object}

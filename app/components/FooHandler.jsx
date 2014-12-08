@@ -8,7 +8,8 @@ var UsersStore          = require('../stores/UsersStore');
 var FooHandler = React.createClass({
   statics: {
     willTransitionTo(transition: Object, params: Object) {
-      // transition.wait(UsersStore.getPending());
+      var users = UserActionCreators.getUsers();
+      transition.wait(users);
     }
   },
 
@@ -29,11 +30,20 @@ var FooHandler = React.createClass({
   },
 
   render(): any {
-    console.log(this.state.users);
-
     return (
       <div className="foo-handler">
         <h2>Foo Handler</h2>
+        {this.state.users.map((user, i) => {
+          return (
+            <div className="user" key={i}>
+              <h3>
+                <a href={'mailto:'+user.email}>
+                  {user.name.first} {user.name.last}
+                </a>
+              </h3>
+            </div>
+          );
+        })}
       </div>
     );
   }

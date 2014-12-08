@@ -6,7 +6,7 @@ module.exports = function(opts) {
   return function *(next) {
     if (env === 'development') {
       for (var i in require.cache) {
-        if (/\.jsx$/.test(i)) {
+        if (/\/app\/.+\.jsx?$/.test(i)) {
           delete require.cache[i];
         }
       }

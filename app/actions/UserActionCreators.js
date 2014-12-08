@@ -2,11 +2,11 @@
 
 var AppDispatcher   = require('../dispatchers/AppDispatcher');
 var {ActionTypes}   = require('../constants/AppConstants');
-var AppWebAPIUtils = require('../utils/AppWebAPIUtils');
+var AppWebAPIUtils  = require('../utils/AppWebAPIUtils');
 
 var AuthActionCreators: Object = {
   getUsers(): void {
-    AppWebAPIUtils.getUsers();
+    return AppWebAPIUtils.getUsers();
   },
 
   getUserById(id: number): void {

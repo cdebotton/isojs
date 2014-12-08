@@ -53,17 +53,30 @@ function dispatch(key: string, response: any, params?: ?Object): void {
 }
 
 function digestResponse(key: string, params?: ?Object) {
+  params || (params = {});
   return function(err: ?Object, res: any) {
     if (err && err.timeout === TIMEOUT) {
+      if ('function' === typeof params.reject) {
+        params.reject(ApiStates.TIMEOUT);
+      }
       dispatch(key, ApiStates.TIMEOUT, params);
     }
     else if (res.status === 400) {
+      if ('function' === typeof params.reject) {
+        params.reject(ApiStates.BAD_REQUEST);
+      }
       dispatch(key, ApiStates.BAD_REQUEST, params);
     }
     else if (! res.ok) {
+      if ('function' === typeof params.reject) {
+        params.reject(ApiStates.ERROR);
+      }
       dispatch(key, ApiStates.ERROR, params);
     }
     else {
+      if ('function' === typeof params.resolve) {
+        params.resolve(res.body);
+      }
       dispatch(key, res.body, params);
     }
   };
@@ -79,7 +92,6 @@ var AppWebAPIUtils: Object = {
 
     _pendingRequests[key] = postQuery(url, params)
       .end(digestResponse(key, params));
-
 
     dispatch(key, _pendingRequests[key], params);
   },
@@ -111,12 +123,18 @@ var AppWebAPIUtils: Object = {
   getUsers(): void {
     var key: string = ActionTypes.GET_USERS;
     var url: string = makeUrl('users');
+    var params: Object = {};
 
     abortPendingRequests(key);
     dispatch(key, _pendingRequests[key]);
 
-    _pendingRequests[key] = getQuery(url)
-      .end(digestResponse(key));
+    _pendingRequests[key] = new Promise(function(resolve, reject) {
+        params.resolve = resolve;
+        params.reject = reject;
+        getQuery(url).end(digestResponse(key, params));
+    });
+
+    return _pendingRequests[key];
   },
 
   getUserById(id: number): void {

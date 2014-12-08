@@ -59,6 +59,7 @@
   },
   "devDependencies": {
     "async": "^0.9.0",
+    "bluebird": "^2.3.11",
     "browserify": "^7.0.0",
     "coffee-script": "^1.8.0",
     "connect-livereload": "^0.5.1",
