@@ -23,6 +23,7 @@ function digestResponse(key: string, params: Object): Function {
 function abortPendingRequests(key: string): void {
   if (_pendingRequests[key]) {
     _pendingRequests[key].cancel();
+    _pendingRequests[key] = null;
   }
 }
 
@@ -70,7 +71,7 @@ var AppWebAPIUtils: Object = {
     dispatch(key, ApiStates.PENDING, params);
 
     _pendingRequests[key] = postQuery(url, params)
-      .end(digestResponse(key, params));
+      .then(digestResponse(key, params));
   },
 
   logout(id: number): void {
@@ -82,7 +83,7 @@ var AppWebAPIUtils: Object = {
     dispatch(key, ApiStates.PENDING);
 
     _pendingRequests[key] = postQuery(url, params)
-      .end(digestResponse(key));
+      .then(digestResponse(key));
   },
 
   verifySession(token: string): void {
@@ -94,7 +95,7 @@ var AppWebAPIUtils: Object = {
     dispatch(key, ApiStates.PENDING);
 
     _pendingRequests[key] = postQuery(url, params)
-      .end(digestResponse(key));
+      .then(digestResponse(key));
   },
 
   getUsers(): void {
@@ -119,7 +120,7 @@ var AppWebAPIUtils: Object = {
     dispatch(key, ApiStates.PENDING);
 
     _pendingRequests[key] = getQuery(url)
-      .end(digestResponse(key));
+      .then(digestResponse(key));
   },
 
   postUsers(username: string, password: string): void {
@@ -131,7 +132,7 @@ var AppWebAPIUtils: Object = {
     dispatch(key, ApiStates.PENDING, params);
 
     _pendingRequests[key] = postQuery(url, params)
-      .end(digestResponse(key, params));
+      .then(digestResponse(key, params));
   },
 
   destroyUsers(id: number): void {
@@ -142,7 +143,7 @@ var AppWebAPIUtils: Object = {
     dispatch(key, ApiStates.PENDING);
 
     _pendingRequests[key] = delQuery(url)
-      .end(digestResponse(key));
+      .then(digestResponse(key));
   },
 
   putUsers(id: number, params: Object): void {
@@ -153,7 +154,7 @@ var AppWebAPIUtils: Object = {
     dispatch(key, ApiStates.PENDING);
 
     _pendingRequests[key] = putQuery(url, params)
-      .end(digestResponse(key));
+      .then(digestResponse(key));
   }
 };
 
