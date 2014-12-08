@@ -4,29 +4,15 @@ var React = require('react');
 
 var UserActionCreators  = require('../actions/UserActionCreators');
 var UsersStore          = require('../stores/UsersStore');
+var StoreMixin          = require('../mixins/StoreMixin');
 
 var FooHandler = React.createClass({
+  mixins: [StoreMixin(getState)],
+
   statics: {
     willTransitionTo(transition: Object, params: Object) {
-      var users = UserActionCreators.getUsers();
-      transition.wait(users);
+      transition.wait(UserActionCreators.getUsers());
     }
-  },
-
-  getInitialState(): Object {
-    return getState();
-  },
-
-  componentDidMount(): void {
-    UsersStore.addChangeListener(this.handleChange);
-  },
-
-  componentWillUnmount(): void {
-    UsersStore.removeChangeListener(this.handleChange);
-  },
-
-  handleChange(): void {
-    this.setState(getState());
   },
 
   render(): any {
@@ -34,13 +20,12 @@ var FooHandler = React.createClass({
       <div className="foo-handler">
         <h2>Foo Handler</h2>
         {this.state.users.map((user, i) => {
+          var fullName = user.name.first + ' ' + user.name.last;
+          var email = 'mailto:' + user.email;
+
           return (
             <div className="user" key={i}>
-              <h3>
-                <a href={'mailto:'+user.email}>
-                  {user.name.first} {user.name.last}
-                </a>
-              </h3>
+              <h3><a href={email}>{fullName}</a></h3>
             </div>
           );
         })}

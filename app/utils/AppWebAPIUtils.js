@@ -16,8 +16,6 @@ var _pendingRequests: Object = {};
  */
 function abortPendingRequests(key: string): void {
   if (_pendingRequests[key]) {
-    _pendingRequests[key]._callback = function() {};
-    _pendingRequests[key].abort();
     _pendingRequests[key] = null;
   }
 }
