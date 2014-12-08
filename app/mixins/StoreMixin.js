@@ -12,7 +12,7 @@ var StoreMixin = function(cb: Function): Object {
       Store.addChangeListener(this.__onChange);
     },
 
-    componentDidUnmount(): void {
+    componentWillUnmount(): void {
       Store.removeChangeListener(this.__onChange);
     },
 
