@@ -19,16 +19,22 @@ var FooHandler = React.createClass({
     return (
       <div className="foo-handler">
         <h2>Foo Handler</h2>
-        {this.state.users.map((user, i) => {
-          var fullName = user.name.first + ' ' + user.name.last;
-          var email = 'mailto:' + user.email;
+        <ul>
+          {this.state.users.map((user, i) => {
+            var fullName = user.name.first + ' ' + user.name.last;
+            var email = 'mailto:' + user.email;
+            var url = '/users/' + user._id;
 
-          return (
-            <div className="user" key={i}>
-              <h3><a href={email}>{fullName}</a></h3>
-            </div>
-          );
-        })}
+            return (
+              <li className="user" key={i}>
+                <h3>
+                  <a href={url}>{fullName}</a>
+                  <a href={email}><i className="fa fa-email" /></a>
+                </h3>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     );
   }

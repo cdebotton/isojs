@@ -7,5 +7,19 @@
       "first": "Optimus",
       "last": "Prime"
     }
+  }, {
+    "email": "jeff@cdb.dev",
+    "password": "dinosaurs",
+    "name": {
+      "first": "Jeff",
+      "last": "Goldblum"
+    }
+  }, {
+    "email": "julia@cdb.dev",
+    "password": "eqwe",
+    "name": {
+      "first": "Julia",
+      "last": "Child"
+    }
   }]
 }
