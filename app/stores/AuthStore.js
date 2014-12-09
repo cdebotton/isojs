@@ -13,8 +13,8 @@ var AppDispatcher             = require('../dispatchers/AppDispatcher');
 function getAuthData(sessionName: string): Immutable {
   try {
     var auth: string = localStorage.getItem(sessionName);
-
     var data: Object = JSON.parse(auth);
+
     return Immutable.Map(data);
   }
   catch(e) {

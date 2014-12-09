@@ -1,5 +1,7 @@
 /** @flow */
 
+var Promise = require('bluebird');
+
 var {ApiStates, ActionTypes}  = require('../constants/AppConstants');
 var AppDispatcher             = require('../dispatchers/AppDispatcher');
 
@@ -58,8 +60,9 @@ function dispatch(key: string, response: any, params?: ?Object): void {
 }
 
 var AppWebAPIUtils: Object = {
-  getPendingRequest(key: string) {
-    return _pendingRequests[key];
+  getPendingRequests(keys: Array<string>) {
+    var promises = keys.map(key => _pendingRequests[key]);
+    return Promise.all(promises);
   },
 
   login(email: string, password: string): void {

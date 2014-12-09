@@ -15,7 +15,7 @@ var FooHandler = React.createClass({
   statics: {
     willTransitionTo(transition: Object, params: Object): void {
       UserActionCreators.getUsers();
-      transition.wait(AppWebAPIUtils.getPendingRequest([
+      transition.wait(AppWebAPIUtils.getPendingRequests([
         ActionTypes.GET_USERS
       ]));
     }
