@@ -2,7 +2,7 @@
 
 var AuthStore = require('../stores/AuthStore');
 
-var ProtectedRoute = {
+var ProtectedRoute: any = {
   statics: {
     willTransitionTo(transition: Object, params: Object): void {
       if (! AuthStore.authed()) {

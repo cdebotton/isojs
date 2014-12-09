@@ -2,11 +2,11 @@
 
 var AppDispatcher   = require('../dispatchers/AppDispatcher');
 var {ActionTypes}   = require('../constants/AppConstants');
-var AppWebAPIUtils  = require('../utils/AppWebAPIUtils');
+var AuthAPI         = require('../utils/AuthAPI');
 
 var AuthActionCreators: Object = {
   login(email: string, password: string): void {
-    AppWebAPIUtils.login(email, password);
+    AuthAPI.login(email, password);
   },
 
   logout(id: number): void {
@@ -14,7 +14,7 @@ var AuthActionCreators: Object = {
       type: ActionTypes.AUTH_LOGOUT
     });
 
-    AppWebAPIUtils.logout(id);
+    AuthAPI.logout(id);
   }
 };
 

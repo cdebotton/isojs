@@ -1,7 +1,8 @@
 {
-  "name": "gen-test",
+  "name": "koajs-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "An isomorphic server written in koa and react.",
+  "repository": "git@github.com:cdebotton/koajs-server.git",
   "main": "server.js",
   "scripts": {
     "test": "jest",
