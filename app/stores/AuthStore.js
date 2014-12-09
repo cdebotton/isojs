@@ -5,6 +5,7 @@ var assign                    = require('react/lib/Object.assign');
 var {ActionTypes, ApiStates}  = require('../constants/AppConstants');
 var Store                     = require('./Store');
 var AppDispatcher             = require('../dispatchers/AppDispatcher');
+
 /**
  * Get the locally stored auth info
  * @param  {string} sessionName

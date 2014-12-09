@@ -3,7 +3,7 @@
 var React = require('react');
 
 var Head = React.createClass({
-  getStylesheets(env: string) {
+  getStylesheets(env: string): any {
     var min = env === 'production' ? '.min' : '';
 
     return (

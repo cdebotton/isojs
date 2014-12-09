@@ -1,3 +1,5 @@
+/** @flow */
+
 var React       = require('react');
 var App         = require('./App.jsx');
 var HomeHandler = require('./HomeHandler.jsx');

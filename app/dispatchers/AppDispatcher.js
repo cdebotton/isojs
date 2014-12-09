@@ -1,3 +1,5 @@
+/** @flow */
+
 var {Dispatcher}      = require('flux');
 var {PayloadSources}  = require('../constants/AppConstants');
 

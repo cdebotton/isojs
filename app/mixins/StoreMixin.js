@@ -2,7 +2,7 @@
 
 var Store = require('../stores/Store');
 
-var StoreMixin = function(cb: Function): Object {
+var StoreMixin = function(cb: Function): any {
   return {
     getInitialState(): Object {
       return cb();

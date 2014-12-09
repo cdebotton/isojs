@@ -1,3 +1,5 @@
+/** @flow */
+
 var React           = require('react');
 var {RouteHandler}  = require('react-router');
 var StoreMixin      = require('../mixins/StoreMixin');

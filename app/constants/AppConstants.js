@@ -1,3 +1,5 @@
+/** @flow */
+
 var keyMirror = require('react/lib/keyMirror');
 
 var AppConstants = {
