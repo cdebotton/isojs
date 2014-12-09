@@ -2,15 +2,15 @@
 
 var AppDispatcher   = require('../dispatchers/AppDispatcher');
 var {ActionTypes}   = require('../constants/AppConstants');
-var AppWebAPIUtils  = require('../utils/AppWebAPIUtils');
+var UserAPI         = require('../utils/UserAPI');
 
 var AuthActionCreators: Object = {
   getUsers(): void {
-    AppWebAPIUtils.getUsers();
+    UserAPI.getUsers();
   },
 
   getUserById(id: number): void {
-    AppWebAPIUtils.getUserById(id);
+    UserAPI.getUserById(id);
   },
 
   findByIdAndUpdate(id: number, params: Object): void {
@@ -20,7 +20,7 @@ var AuthActionCreators: Object = {
       response: params
     });
 
-    AppWebAPIUtils.putUsers(id, params);
+    UserAPI.putUsers(id, params);
   },
 
   createUser(username: string, password: string): void {
@@ -29,7 +29,7 @@ var AuthActionCreators: Object = {
       username: username
     });
 
-    AppWebAPIUtils.postUsers(username, password);
+    UserAPI.postUsers(username, password);
   },
 
   destroyUser(id: number): void {
@@ -38,7 +38,7 @@ var AuthActionCreators: Object = {
       id: id
     });
 
-    AppWebAPIUtils.destroyUsers(id);
+    UserAPI.destroyUsers(id);
   }
 };
 

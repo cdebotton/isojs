@@ -3,11 +3,11 @@
 var React   = require('react');
 var Promise = require('bluebird');
 
-var UserActionCreators        = require('../actions/UserActionCreators');
-var {ActionTypes}             = require('../constants/AppConstants');
-var UsersStore                = require('../stores/UsersStore');
-var StoreMixin                = require('../mixins/StoreMixin');
-var AppWebAPIUtils            = require('../utils/AppWebAPIUtils');
+var UserActionCreators  = require('../actions/UserActionCreators');
+var {ActionTypes}       = require('../constants/AppConstants');
+var UsersStore          = require('../stores/UsersStore');
+var StoreMixin          = require('../mixins/StoreMixin');
+var UserAPI             = require('../utils/UserAPI');
 
 var FooHandler = React.createClass({
   mixins: [StoreMixin(getState)],
@@ -15,7 +15,7 @@ var FooHandler = React.createClass({
   statics: {
     willTransitionTo(transition: Object, params: Object): void {
       UserActionCreators.getUsers();
-      transition.wait(AppWebAPIUtils.getPendingRequests([
+      transition.wait(UserAPI.getPendingRequests([
         ActionTypes.GET_USERS
       ]));
     }
