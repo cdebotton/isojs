@@ -18,6 +18,7 @@ var FooHandler = React.createClass({
   statics: {
     willTransitionTo(transition: Object, params: Object): void {
       var {min, max} = params;
+
       min || (min = 0);
       max || (max = ITEMS_PER_PAGE);
 
