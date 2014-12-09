@@ -12,7 +12,7 @@ var UserActionCreators        = require('../actions/UserActionCreators');
 
 var _users: Immutable = Immutable.List();
 
-var UsersStore = Object.assign({}, Store, {
+var UsersStore = assign({}, Store, {
   /**
    * Return the state of the UsersStore
    * @return {object}
