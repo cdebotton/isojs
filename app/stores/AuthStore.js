@@ -1,11 +1,11 @@
 /** @flow */
 
-var Immutable       = require('immutable');
-var assign          = require('react/lib/Object.assign');
-var {ActionTypes}   = require('../constants/AppConstants');
-var Store           = require('./Store');
-var AppDispatcher   = require('../dispatchers/AppDispatcher');
-var {isUnresolved}  = require('../utils/helpers');
+var Immutable                 = require('immutable');
+var assign                    = require('react/lib/Object.assign');
+var {ApiStates, ActionTypes}  = require('../constants/AppConstants');
+var Store                     = require('./Store');
+var AppDispatcher             = require('../dispatchers/AppDispatcher');
+var {isUnresolved}            = require('../utils/helpers');
 
 /**
  * Get the locally stored auth info
