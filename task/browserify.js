@@ -9,6 +9,7 @@ var gRename     = require('gulp-rename');
 var gStreamify  = require('gulp-streamify');
 var browserify  = require('browserify');
 var watchify    = require('watchify');
+var reactify    = require('reactify');
 var envify      = require('envify/custom');
 var source      = require('vinyl-source-stream');
 
@@ -21,6 +22,7 @@ function Bundler(watch, build) {
   watchify.args.debug     = !build ? true : false;
 
   var bundler = browserify('./app/index.js', watchify.args);
+  bundler.transform('reactify', {es6: true, stripTypes: true});
   bundler.transform(envify({NODE_ENV: build ? 'production' : 'development'}));
 
   if (watch) {
