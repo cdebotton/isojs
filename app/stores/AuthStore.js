@@ -1,10 +1,11 @@
 /** @flow */
 
-var Immutable                 = require('immutable');
-var assign                    = require('react/lib/Object.assign');
-var {ActionTypes, ApiStates}  = require('../constants/AppConstants');
-var Store                     = require('./Store');
-var AppDispatcher             = require('../dispatchers/AppDispatcher');
+var Immutable       = require('immutable');
+var assign          = require('react/lib/Object.assign');
+var {ActionTypes}   = require('../constants/AppConstants');
+var Store           = require('./Store');
+var AppDispatcher   = require('../dispatchers/AppDispatcher');
+var {isUnresolved}  = require('../utils/helpers');
 
 /**
  * Get the locally stored auth info
@@ -84,20 +85,6 @@ AuthStore.dispatchToken = AppDispatcher.register(function(payload: Payload): boo
 });
 
 /**
- * Return true if state is in ApiStates.
- * @param  {any} state
- * @return {bool}
- */
-function haltAsync(state: any): bool {
-  if (Object.keys(ApiStates).indexOf(state) > -1) {
-    _status = state;
-    return true;
-  }
-  _status = ApiStates.OK;
-  return false;
-}
-
-/**
  * Save _auth state to localStorage
  */
 function setLocalStorage(): void {
@@ -111,7 +98,7 @@ function setLocalStorage(): void {
  * @param  {object} session
  */
 function login(session: any): ?bool {
-  if (haltAsync(session)) return true;
+  if (isUnresolved(session)) return true;
   _auth = Immutable.fromJS(session);
   setLocalStorage();
   AuthStore.emitChange();
