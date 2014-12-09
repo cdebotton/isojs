@@ -24,7 +24,9 @@ function digestPromise(resolve, reject) {
 
 function makePromise(action) {
   return new Promise(function(resolve, reject) {
-    action.end(digestPromise(resolve, reject));
+    action.end(function(err, data) {
+      return digestPromise(resolve, reject)(err, data);
+    });
   })
   .cancellable()
   .catch(Promise.CancellationError, function(e) {

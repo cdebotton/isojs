@@ -11,7 +11,7 @@ var usersService = {
   },
 
   findById: function *(id) {
-    var user = User.findById(id)
+    var user = yield User.findById(id)
       .select('-password -__v')
       .exec();
 
@@ -24,13 +24,13 @@ var usersService = {
       password: body.password
     };
 
-    var user = User.create(params);
+    var user = yield User.create(params);
 
     return user;
   },
 
   destroy: function *(id) {
-    return User.remove({_id: id}).exec();
+    return yield User.remove({_id: id}).exec();
   }
 };
 

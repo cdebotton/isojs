@@ -11,20 +11,21 @@ Api.get('/users'/*, bearer*/, function *() {
   this.body = users;
 });
 
-Api.get('/users/:userId', bearer, function *() {
-  var userId = this.req.params.userId;
+Api.get('/users/:userId'/*, bearer*/, function *() {
+  var userId = this.params.userId;
   var user = yield usersService.findById(userId);
+
   this.body = user;
 });
 
 Api.post('/users', bearer, function *() {
-  var body = this.req.body;
+  var body = this.body;
   var user = yield usersService.create(body);
   this.body = user;
 });
 
 Api.delete('/users/:userId', bearer, function *() {
-  var userId = this.req.params.userId;
+  var userId = this.params.userId;
   yield usersService.destroy(userId);
 });
 
@@ -40,7 +41,7 @@ Api.get('/login', function *(next) {
 });
 
 Api.post('/logout', function *(next) {
-  var key = this.req.body.key;
+  var key = this.body.key;
   yield authService.logout(key);
 });
 

@@ -76,7 +76,7 @@ var AppWebAPIUtils: Object = {
 
     _pendingRequests[key] = getQuery(url, params)
       .then(digestResponse(key, params))
-      .catch(digestError(key));
+      .catch(digestError(key, params));
   },
 
   put: function() {
@@ -87,7 +87,7 @@ var AppWebAPIUtils: Object = {
 
     _pendingRequests[key] = putQuery(url, params)
       .then(digestResponse(key, params))
-      .catch(digestError(key));
+      .catch(digestError(key, params));
   },
 
   del: function() {
@@ -98,7 +98,7 @@ var AppWebAPIUtils: Object = {
 
     _pendingRequests[key] = delQuery(url, params)
       .then(digestResponse(key, params))
-      .catch(digestError(key));
+      .catch(digestError(key, params));
   },
 
   post: function() {
@@ -109,7 +109,7 @@ var AppWebAPIUtils: Object = {
 
     _pendingRequests[key] = postQuery(url, params)
       .then(digestResponse(key, params))
-      .catch(digestError(key));
+      .catch(digestError(key, params));
   }
 };
 

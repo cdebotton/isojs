@@ -1,10 +1,11 @@
 /** @flow */
 
-var Immutable                 = require('immutable');
-var {ActionTypes, ApiStates}  = require('../constants/AppConstants');
-var Store                     = require('./Store');
-var AppDispatcher             = require('../dispatchers/AppDispatcher');
-var {Request}                 = require('superagent');
+var Immutable       = require('immutable');
+var {ActionTypes}   = require('../constants/AppConstants');
+var Store           = require('./Store');
+var AppDispatcher   = require('../dispatchers/AppDispatcher');
+var {Request}       = require('superagent');
+var {isUnresolved}  = require('../utils/helpers');
 
 var UserActionCreators        = require('../actions/UserActionCreators');
 
@@ -22,10 +23,6 @@ var UsersStore = Object.assign({}, Store, {
    */
   getState(): Object {
     return _users.toArray();
-  },
-
-  getPending(): ?Request {
-    return _pending;
   }
 });
 
@@ -34,18 +31,21 @@ UsersStore.dispatchToken = AppDispatcher.register(function(payload: Payload): bo
 
   switch (action.type) {
     case ActionTypes.GET_USERS:
-      if (action.response instanceof Request) {
-        _pending = action.response;
-      }
-      else {
-        _pending = null;
-        _users = Immutable.List(action.response);
-      }
+      if (isUnresolved(action.response)) return true;
 
+      _users = Immutable.List(action.response);
+      UsersStore.emitChange();
+      break;
+
+    case ActionTypes.GET_USER_BY_ID:
+      if (isUnresolved(action.response)) return true;
+
+      _users = _users.concat([action.response]);
       UsersStore.emitChange();
       break;
   }
 
   return true;
 });
+
 module.exports = UsersStore;

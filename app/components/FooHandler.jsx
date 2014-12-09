@@ -2,6 +2,7 @@
 
 var React   = require('react');
 var Promise = require('bluebird');
+var {Link}  = require('react-router');
 
 var UserActionCreators  = require('../actions/UserActionCreators');
 var {ActionTypes}       = require('../constants/AppConstants');
@@ -9,12 +10,21 @@ var UsersStore          = require('../stores/UsersStore');
 var StoreMixin          = require('../mixins/StoreMixin');
 var UserAPI             = require('../utils/UserAPI');
 
+var ITEMS_PER_PAGE = 20;
+
 var FooHandler = React.createClass({
   mixins: [StoreMixin(getState)],
 
   statics: {
     willTransitionTo(transition: Object, params: Object): void {
-      UserActionCreators.getUsers();
+      var {min, max} = params;
+      min || (min = 0);
+      max || (max = ITEMS_PER_PAGE);
+
+      if (! this.hasQueried('users', {min: min, max: max})) {
+        UserActionCreators.getUsers();
+      }
+
       transition.wait(UserAPI.getPendingRequests([
         ActionTypes.GET_USERS
       ]));
@@ -29,12 +39,11 @@ var FooHandler = React.createClass({
           {this.state.users.map((user, i) => {
             var fullName = user.name.first + ' ' + user.name.last;
             var email = 'mailto:' + user.email;
-            var url = '/users/' + user._id;
 
             return (
               <li className="user" key={i}>
                 <h3>
-                  <a href={url}>{fullName}</a>
+                  <Link to="bar" params={{userId: user._id}}>{fullName}</Link>
                   <span>&nbsp;</span>
                   <a href={email}><i className="fa fa-envelope-o" /></a>
                 </h3>
