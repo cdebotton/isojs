@@ -1,3 +1,5 @@
+/** @flow */
+
 var {PENDING, BAD_REQUEST, TIMEOUT, ERROR} = require('../constants/AppConstants').ApiStates;
 
 exports.isUnresolved = function unresolved(state) {

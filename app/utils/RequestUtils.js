@@ -1,3 +1,5 @@
+/** @flow */
+
 var Promise     = require('bluebird');
 var request     = require('superagent');
 var {ApiStates} = require('../constants/AppConstants');
