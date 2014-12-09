@@ -1,6 +1,7 @@
 /** @flow */
 
 var Immutable       = require('immutable');
+var assign          = require('react/lib/Object.assign');
 var {ActionTypes}   = require('../constants/AppConstants');
 var Store           = require('./Store');
 var AppDispatcher   = require('../dispatchers/AppDispatcher');
@@ -9,11 +10,6 @@ var {isUnresolved}  = require('../utils/helpers');
 
 var UserActionCreators        = require('../actions/UserActionCreators');
 
-if (! Object.assign) {
-  Object.assign = require('react/lib/Object.assign');
-};
-
-var _pending: ?Request = null;
 var _users: Immutable = Immutable.List();
 
 var UsersStore = Object.assign({}, Store, {

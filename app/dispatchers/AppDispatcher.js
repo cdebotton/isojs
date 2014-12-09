@@ -2,12 +2,9 @@
 
 var {Dispatcher}      = require('flux');
 var {PayloadSources}  = require('../constants/AppConstants');
+var assign            = require('react/lib/Object.assign');
 
-if (! Object.assign) {
-  Object.assign = require('react/lib/Object.assign');
-};
-
-var AppDispatcher = Object.assign(new Dispatcher(), {
+var AppDispatcher = assign({}, new Dispatcher(), {
   handleViewAction(action: ?Object): void {
     var payload: Object = {
       source: PayloadSources.VIEW_ACTION,
