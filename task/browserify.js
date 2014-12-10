@@ -58,7 +58,7 @@ function Bundler(watch, build) {
       .bundle()
       .on('error', gUtil.log.bind(gUtil, 'Browserify error'))
       .pipe(source('bundle.js'))
-      .pipe(gIf(build, gStreamify(gUglify())))
+      .pipe(gIf(build, gStreamify(gUglify({compress: false}))))
       .pipe(gIf(build, gRename({suffix: '.min'})))
       .pipe(gulp.dest('./dist'));
   }

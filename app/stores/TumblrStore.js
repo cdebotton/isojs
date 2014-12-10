@@ -8,7 +8,8 @@ var {TumblrActions} = require('../constants/AppConstants');
 var {isUnresolved} = require('../utils/helpers');
 
 var _tumblr = Immutable.Map({
-
+  blog: Immutable.Map(),
+  posts: Immutable.List()
 });
 
 var TumblrStore = assign({}, Store, {
@@ -37,8 +38,17 @@ TumblrStore.dispatchToken = AppDispatcher.register(function(payload: Payload): b
   return true;
 });
 
-function storePosts(posts) {
-  _tumblr = Immutable.fromJS(posts);
+function doesntExist(post) {
+  var keys = _tumblr.get('posts').map(post => post.id);
+
+  return keys.indexOf(post.id) === -1;
+};
+
+function storePosts(data) {
+  var newPosts = data.posts.filter(doesntExist);
+
+  _tumblr = _tumblr.updateIn(['blog'], (blog) => data.blog);
+  _tumblr = _tumblr.updateIn(['posts'], (list) => list.concat(newPosts));
 };
 
 module.exports = TumblrStore;
