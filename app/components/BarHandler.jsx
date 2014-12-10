@@ -27,22 +27,16 @@ var FooHandler = React.createClass({
   },
 
   handleNameChange(first, last): Function {
-    this.setState(update(this.state, {
-      user: {
-        name: {
-          first: { $set: first },
-          last: { $set: last }
-        }
-      }
-    }));
+    var user = this.state.user
+      .updateIn(['name', 'first'], value => first)
+      .updateIn(['name', 'last'], value => last);
+
+    this.setState({user: user});
   },
 
   handleEmailChange(event: Object): Function {
-    this.setState(update(this.state, {
-      user: {
-        email: { $set: event.target.value }
-      }
-    }));
+    var user = this.state.user.set('email', event.target.value);
+    this.setState({user: user});
   },
 
   handleSubmit(event: Object): void {
@@ -52,20 +46,22 @@ var FooHandler = React.createClass({
   },
 
   render(): any {
+    var user = this.state.user.toJS();
+
     return (
       <div className="bar-handler">
         <h2>Bar Handler</h2>
         <form
           className="bar-form"
           onSubmit={this.handleSubmit}>
-          <legend>var userId = {this.state.user.get('_id')}</legend>
+          <legend>var userId = {user._id}</legend>
           <NameInput
-            name={this.state.user.get('name')}
+            name={user.name}
             onHandleChange={this.handleNameChange} />
           <input
             type="email"
             placeholder="Email"
-            defaultValue={this.state.user.get('email')}
+            defaultValue={user.email}
             onChange={this.handleEmailChange} />
           <button type="submit">Save</button>
         </form>
