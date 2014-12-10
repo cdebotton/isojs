@@ -11,7 +11,8 @@ function makeUrl(url: string, params?: Object) {
   if (params) {
     return url + '?' + Object.keys(params).reduce((memo, param) => {
       memo += `${param}=${encodeURIComponent(params[param])}`;
-    });
+      return memo;
+    }, '');
   }
   else {
     return url;
