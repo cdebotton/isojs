@@ -24,7 +24,7 @@ var FooHandler = React.createClass({
     },
   },
 
-  handleNameChange(first, last): Function {
+  handleNameChange(first: string, last: string): void {
     var user = this.state.user
       .updateIn(['name', 'first'], value => first)
       .updateIn(['name', 'last'], value => last);
@@ -32,7 +32,7 @@ var FooHandler = React.createClass({
     this.setState({user: user});
   },
 
-  handleEmailChange(event: Object): Function {
+  handleEmailChange(event: Object): void {
     var user = this.state.user.set('email', event.target.value);
     this.setState({user: user});
   },
@@ -68,7 +68,7 @@ var FooHandler = React.createClass({
   }
 });
 
-function getState(params: Object, query: Object): Object {
+function getState(params: Object, query?: Object): Object {
   return {user: UsersStore.getById(params.userId)};
 }
 

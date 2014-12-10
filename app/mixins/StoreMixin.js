@@ -13,7 +13,7 @@ var StoreMixin = function(cb: Function): any {
         return collection.map(doc => doc._id).indexOf(id) > -1;
       },
 
-      hasQueried(model: string, query: Object) {
+      hasQueried(model: string, query: Object): bool {
         var queryStr = `${model}:${JSON.stringify(query)}`;
 
         if (! queryCache[queryStr]) {

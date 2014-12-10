@@ -17,7 +17,7 @@ function digestResponse(key: string, params?: Object): Function {
 }
 
 function digestError(key: string, params?: Object): Function {
-  return function(err: string): void {
+  return function(err: any): void {
     dispatch(key, err, params);
   }
 }
@@ -70,7 +70,7 @@ var AppWebAPIUtils: Object = {
     return Promise.all(promises);
   },
 
-  get: function(resource: string, key: string, params: ?Object) {
+  get: function(resource: string, key: string, params: Object) {
     var url = makeUrl(resource);
 
     abortPendingRequests(key);
@@ -81,7 +81,7 @@ var AppWebAPIUtils: Object = {
       .catch(digestError(key, params));
   },
 
-  put: function() {
+  put: function(resource: string, key: string, params: Object) {
     var url = makeUrl(resource);
 
     abortPendingRequests(key);
@@ -92,7 +92,7 @@ var AppWebAPIUtils: Object = {
       .catch(digestError(key, params));
   },
 
-  del: function() {
+  del: function(resource: string, key: string, params: Object) {
     var url = makeUrl(resource);
 
     abortPendingRequests(key);
@@ -103,7 +103,7 @@ var AppWebAPIUtils: Object = {
       .catch(digestError(key, params));
   },
 
-  post: function() {
+  post: function(resource: string, key: string, params: Object) {
     var url = makeUrl(resource);
 
     abortPendingRequests(key);
