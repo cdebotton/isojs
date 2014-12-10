@@ -1,12 +1,11 @@
 /** @flow */
 
-var co      = require('co');
 var Promise = require('bluebird');
 
 var {ApiStates, ActionTypes}  = require('../constants/AppConstants');
 var AppDispatcher             = require('../dispatchers/AppDispatcher');
 
-var {getQuery, putQuery, delQuery, postQuery, TIMEOUT} = require('./RequestUtils');
+var {getQuery, putQuery, delQuery, postQuery} = require('./RequestUtils');
 
 var API_URL: string = 'http://localhost:3000/api/v1';
 var _pendingRequests: Object = {};
@@ -68,6 +67,7 @@ function dispatch(key: string, response: any, params?: ?Object): void {
 var AppWebAPIUtils: Object = {
   getPendingRequests(keys: Array<string>) {
     var promises = keys.map(key => _pendingRequests[key]);
+
     return Promise.all(promises);
   },
 
