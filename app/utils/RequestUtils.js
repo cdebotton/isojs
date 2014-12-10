@@ -6,15 +6,6 @@ var request     = require('superagent');
 var {ApiStates} = require('../constants/AppConstants');
 var AuthStore   = require('../stores/AuthStore');
 
-var jsonp = require('./jsonp');
-
-jsonp('http://api.tumblr.com/v2/blog/pitchersandpoets.tumblr.com/posts/photo', {
-  api_key: 'fuiKNFp9vQFvjLNvx4sUwti4Yb5yGutBN4Xh10LXZhhRKjWlV4'
-})
-  .then(function(data) {
-    console.log(data);
-  });
-
 var TIMEOUT: number = exports.TIMEOUT = 10000;
 
 function digestPromise(resolve, reject) {

@@ -25,6 +25,13 @@ var AppConstants = {
     GET_SUBREDDIT: null
   }),
 
+  TumblrActions: keyMirror({
+    GET_POSTS: null,
+    GET_BLOG_INFO: null,
+    GET_AVATAR: null,
+    GET_PHOTOS: null
+  }),
+
   ApiStates: keyMirror({
     READY         : null,
     ERROR         : null,
