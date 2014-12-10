@@ -33,33 +33,35 @@ var FooHandler = React.createClass({
   },
 
   render(): any {
-    var users = this.state.users.toArray();
-
     return (
       <div className="foo-handler">
         <h2>Foo Handler</h2>
         <ul>
-          {users.map((user, i) => {
-            var fullName = user.name.first + ' ' + user.name.last;
-            var email = 'mailto:' + user.email;
-
-            return (
-              <li className="user" key={i}>
-                <h3>
-                  <Link to="bar" params={{userId: user._id}}>{fullName}</Link>
-                  <span>&nbsp;</span>
-                  <a href={email}><i className="fa fa-envelope-o" /></a>
-                </h3>
-              </li>
-            );
-          })}
+          {getUsersList(this.state.users)}
         </ul>
       </div>
     );
   }
 });
 
-function getState(params, query): Object {
+function getUsersList(users: Object): any {
+  return users.toArray().map(function(user: Object, i: number) {
+    var fullName = user.name.first + ' ' + user.name.last;
+    var email = 'mailto:' + user.email;
+
+    return (
+      <li className="user" key={i}>
+        <h3>
+          <Link to="bar" params={{userId: user._id}}>{fullName}</Link>
+          <span>&nbsp;</span>
+          <a href={email}><i className="fa fa-envelope-o" /></a>
+        </h3>
+      </li>
+    );
+  });
+};
+
+function getState(params: Object, query: Object): Object {
   return {users: UsersStore.getState()};
 }
 

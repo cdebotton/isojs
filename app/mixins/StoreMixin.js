@@ -6,7 +6,7 @@ var {State: RouterState} = require('react-router');
 
 var queryCache = {};
 
-var StoreMixin = function(cb: Function): any {
+var StoreMixin = function(cb: any): any {
   return assign({}, RouterState, {
     statics: {
       has(collection: Array<Object>, id: string): bool {
