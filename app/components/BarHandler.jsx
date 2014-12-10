@@ -7,8 +7,6 @@ var UserAPI               = require('../utils/UserAPI');
 var UsersStore            = require('../stores/UsersStore');
 var UserActionCreators    = require('../actions/UserActionCreators');
 
-var {update} = React.addons;
-
 var NameInput = require('./NameInput.jsx');
 
 var FooHandler = React.createClass({

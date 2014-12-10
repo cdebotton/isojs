@@ -26,6 +26,7 @@ function Bundler(watch, build) {
     .transform(envify({NODE_ENV: build ? 'production' : 'development'}))
     .transform(function(file) {
       var data = '';
+      var header = 'var wrapGenerator = require("regenerator/runtime").wrapGenerator;';
       var stream = through(write, end);
 
       function write(buf) {
@@ -34,6 +35,9 @@ function Bundler(watch, build) {
 
       function end() {
         var rdata = regenerator.compile(data).code;
+        if (rdata !== data) {
+          rdata = header + rdata;
+        }
         stream.queue(rdata);
         stream.queue(null);
       }
