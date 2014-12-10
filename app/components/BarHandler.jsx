@@ -14,13 +14,7 @@ var FooHandler = React.createClass({
 
   statics: {
     willTransitionTo(transition: Object, params: Object): void {
-      if (! UsersStore.getById(params.userId)) {
-        UserActionCreators.getUserById(params.userId);
-      }
-
-      transition.wait(UserAPI.getPendingRequests([
-        ActionTypes.GET_USER_BY_ID
-      ]));
+      waitFor(transition, params);
     },
   },
 
@@ -70,6 +64,16 @@ var FooHandler = React.createClass({
 
 function getState(params: Object, query?: Object): Object {
   return {user: UsersStore.getById(params.userId)};
+}
+
+function waitFor(transition: Object, params: Object): void {
+  if (! UsersStore.getById(params.userId)) {
+    UserActionCreators.getUserById(params.userId);
+
+    transition.wait(UserAPI.getPendingRequests([
+      ActionTypes.GET_USER_BY_ID
+    ]));
+  }
 }
 
 module.exports = FooHandler;

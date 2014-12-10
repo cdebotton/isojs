@@ -1,5 +1,6 @@
 /** @flow */
 
+var co      = require('co');
 var Promise = require('bluebird');
 
 var {ApiStates, ActionTypes}  = require('../constants/AppConstants');
