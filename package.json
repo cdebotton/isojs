@@ -8,6 +8,11 @@
     "test": "jest",
     "start": "gulp serve"
   },
+  "browserify": {
+    "transform": [
+      ["reactify", {"es6": true, "stripTypes": true}]
+    ]
+  },
   "jest": {
     "scriptPreprocessor": "../preprocessor.js",
     "testFileExtensions": [
@@ -85,6 +90,7 @@
     "regenerator": "^0.8.0",
     "streamqueue": "^0.1.1",
     "superagent": "^0.21.0",
+    "through": "^2.3.6",
     "tiny-lr": "^0.1.4",
     "vinyl-source-stream": "^1.0.0",
     "watchify": "^2.1.1"

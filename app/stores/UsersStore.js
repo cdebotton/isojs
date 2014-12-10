@@ -18,7 +18,17 @@ var UsersStore = assign({}, Store, {
    * @return {object}
    */
   getState(): Object {
-    return _users.toArray();
+    return _users;
+  },
+
+  getById(id: string): ?Object {
+    try {
+      var user = _users.filter(user => user._id === id).first();
+      return Immutable.fromJS(user);
+    }
+    catch (e) {
+      return null;
+    }
   }
 });
 

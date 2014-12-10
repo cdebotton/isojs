@@ -4,10 +4,7 @@ var React = require('react');
 
 var NameInput = React.createClass({
   propTypes: {
-    name: React.PropTypes.shape({
-      first: React.PropTypes.string.isRequired,
-      last: React.PropTypes.string.isRequired
-    }).isRequired,
+    name: React.PropTypes.object.isRequired,
     onHandleChange: React.PropTypes.func.isRequired
   },
 
@@ -29,13 +26,13 @@ var NameInput = React.createClass({
           type="text"
           ref="firstName"
           placeholder="First name"
-          defaultValue={this.props.name.first}
+          defaultValue={this.props.name.get('first')}
           onChange={this.handleChange} />
         <input
           type="text"
           ref="lastName"
           placeholder="Last name"
-          defaultValue={this.props.name.last}
+          defaultValue={this.props.name.get('last')}
           onChange={this.handleChange} />
       </fieldset>
     );

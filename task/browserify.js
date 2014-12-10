@@ -9,9 +9,10 @@ var gRename     = require('gulp-rename');
 var gStreamify  = require('gulp-streamify');
 var browserify  = require('browserify');
 var watchify    = require('watchify');
-var reactify    = require('reactify');
 var envify      = require('envify/custom');
 var source      = require('vinyl-source-stream');
+var regenerator = require('regenerator');
+var through     = require('through');
 
 function Bundler(watch, build) {
   watch || (watch = false);
@@ -21,9 +22,24 @@ function Bundler(watch, build) {
   watchify.args.fullPaths = watch ? true : false;
   watchify.args.debug     = !build ? true : false;
 
-  var bundler = browserify('./app/index.js', watchify.args);
-  bundler.transform('reactify', {es6: true, stripTypes: true});
-  bundler.transform(envify({NODE_ENV: build ? 'production' : 'development'}));
+  var bundler = browserify('./app/index.js', watchify.args)
+    .transform(envify({NODE_ENV: build ? 'production' : 'development'}))
+    .transform(function(file) {
+      var data = '';
+      var stream = through(write, end);
+
+      function write(buf) {
+        data += buf;
+      }
+
+      function end() {
+        var rdata = regenerator.compile(data).code;
+        stream.queue(rdata);
+        stream.queue(null);
+      }
+
+      return stream;
+    });
 
   if (watch) {
     bundler = watchify(bundler);

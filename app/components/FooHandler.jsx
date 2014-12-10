@@ -33,11 +33,13 @@ var FooHandler = React.createClass({
   },
 
   render(): any {
+    var users = this.state.users.toArray();
+
     return (
       <div className="foo-handler">
         <h2>Foo Handler</h2>
         <ul>
-          {this.state.users.map((user, i) => {
+          {users.map((user, i) => {
             var fullName = user.name.first + ' ' + user.name.last;
             var email = 'mailto:' + user.email;
 
@@ -57,8 +59,8 @@ var FooHandler = React.createClass({
   }
 });
 
-function getState(): Object {
-    return {users: UsersStore.getState()};
+function getState(params, query): Object {
+  return {users: UsersStore.getState()};
 }
 
 module.exports = FooHandler;
