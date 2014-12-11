@@ -3,16 +3,9 @@
 var React                 = require('react');
 var Cache                 = require('../utils/Cache');
 var {RouteHandler, Link}  = require('react-router');
+var TumblrPost            = require('./TumblrPost.jsx');
 var StoreMixin            = require('../mixins/StoreMixin');
 var TumblrStore           = require('../stores/TumblrStore');
-var TumblrPhoto           = require('./TumblrPhoto.jsx');
-var TumblrText            = require('./TumblrText.jsx');
-var TumblrAnswer          = require('./TumblrAnswer.jsx');
-var TumblrAudio           = require('./TumblrAudio.jsx');
-var TumblrChat            = require('./TumblrChat.jsx');
-var TumblrLink            = require('./TumblrLink.jsx');
-var TumblrQuote           = require('./TumblrQuote.jsx');
-var TumblrVideo           = require('./TumblrVideo.jsx');
 var TumblrAPI             = require('../utils/TumblrAPI');
 
 function getState(params, query): Object {
@@ -27,30 +20,28 @@ var HomeHandler = React.createClass({
 
   statics: {
     willTransitionTo(transition: Object, params: Object) {
-      var {postType} = params;
-      var tumblrAction: string = postType ? postType : 'posts';
-      transition.wait(TumblrAPI[tumblrAction]());
+      var tumblrAction: string = params.postType ? params.postType : 'posts';
+      var CACHE_KEY = `home:tumblr:${params.postType}`;
+
+      if (! Cache.has(CACHE_KEY)) {
+        transition.wait(
+          TumblrAPI[tumblrAction]().then(function(data: any): void {
+            Cache.set(CACHE_KEY, data);
+          })
+        );
+      }
     }
   },
 
-  renderPostData(post: any): any {
-    return (function(post) {
-      var key: string = `${post.type}:${post.id}`;
-      switch(post.type) {
-        case 'photo': return <TumblrPhoto key={key} post={post} />
-        case 'text': return <TumblrText key={key} post={post} />
-        case 'answer': return <TumblrAnswer key={key} post={post} />
-        case 'audio': return <TumblrAudio key={key} post={post} />
-        case 'chat': return <TumblrChat key={key} post={post} />
-        case 'link': return <TumblrLink key={key} post={post} />
-        case 'quote': return <TumblrQuote key={key} post={post} />
-        case 'video': return <TumblrVideo key={key} post={post} />
-      }
-    })(post);
+  renderPostData(post: any, key: number): any {
+    return (
+      <TumblrPost key={key} post={post} />
+    );
   },
 
   render(): any {
     var tumblr = this.state.tumblr.toJS();
+    var posts = tumblr.posts.map(this.renderPostData);
 
     return (
       <div className="home-handler">
@@ -75,7 +66,7 @@ var HomeHandler = React.createClass({
           </nav>
         </header>
         <div className="posts">
-          {tumblr.posts.map(this.renderPostData)}
+          {posts}
         </div>
       </div>
     );

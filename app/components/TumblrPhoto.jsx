@@ -13,7 +13,7 @@ var TumblrPhoto = React.createClass({
   renderImage(image: Object, key: number): any {
     return (
       <img
-        key={`photo:${key}`}
+        key={key}
         src={image.original_size.url}
         width={image.original_size.width}
         height={image.original_size.height} />
