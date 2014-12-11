@@ -7,4 +7,4 @@ dist
 
 app/config/*
 !app/config/index.js
-!app/config/env-sample.json
+!app/config/app.js

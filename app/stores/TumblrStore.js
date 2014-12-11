@@ -22,6 +22,7 @@ TumblrStore.dispatchToken = AppDispatcher.register(function(payload: Payload): b
   var action: Action = payload.action;
 
   switch (action.type) {
+    case TumblrActions.GET_TEXT:
     case TumblrActions.GET_PHOTOS:
     case TumblrActions.GET_POSTS:
       if (! isUnresolved(action.response)) {

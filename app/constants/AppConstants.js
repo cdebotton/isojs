@@ -29,7 +29,8 @@ var AppConstants = {
     GET_POSTS: null,
     GET_BLOG_INFO: null,
     GET_AVATAR: null,
-    GET_PHOTOS: null
+    GET_PHOTOS: null,
+    GET_TEXT: null
   }),
 
   ApiStates: keyMirror({

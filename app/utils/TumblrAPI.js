@@ -55,7 +55,70 @@ var TumblrAPI = {
     });
   },
 
-  photos(params: Object): any {
+  text(params: Object): any {
+    return co(function* () {
+      var key = TumblrActions.GET_TEXT;
+      var res = yield makeRequest(`${API_URL}/posts/text`, key, params);
+
+      return res;
+    });
+  },
+
+  quote(params: Object): any {
+    return co(function* () {
+      var key = TumblrActions.GET_TEXT;
+      var res = yield makeRequest(`${API_URL}/posts/quote`, key, params);
+
+      return res;
+    });
+  },
+
+  link(params: Object): any {
+    return co(function* () {
+      var key = TumblrActions.GET_TEXT;
+      var res = yield makeRequest(`${API_URL}/posts/link`, key, params);
+
+      return res;
+    });
+  },
+
+  chat(params: Object): any {
+    return co(function* () {
+      var key = TumblrActions.GET_TEXT;
+      var res = yield makeRequest(`${API_URL}/posts/chat`, key, params);
+
+      return res;
+    });
+  },
+
+  audio(params: Object): any {
+    return co(function* () {
+      var key = TumblrActions.GET_TEXT;
+      var res = yield makeRequest(`${API_URL}/posts/audio`, key, params);
+
+      return res;
+    });
+  },
+
+  video(params: Object): any {
+    return co(function* () {
+      var key = TumblrActions.GET_TEXT;
+      var res = yield makeRequest(`${API_URL}/posts/video`, key, params);
+
+      return res;
+    });
+  },
+
+  answer(params: Object): any {
+    return co(function* () {
+      var key = TumblrActions.GET_TEXT;
+      var res = yield makeRequest(`${API_URL}/posts/answer`, key, params);
+
+      return res;
+    });
+  },
+
+  photo(params: Object): any {
     return co(function* () {
       var key = TumblrActions.GET_PHOTOS;
       var res = yield makeRequest(`${API_URL}/posts/photo`, key, params);
@@ -63,7 +126,6 @@ var TumblrAPI = {
       return res;
     });
   },
-
 
   avatar(params: Object): any {
     return co(function* () {

@@ -5,6 +5,14 @@ var Cache           = require('../utils/Cache');
 var {RouteHandler}  = require('react-router');
 var StoreMixin      = require('../mixins/StoreMixin');
 var TumblrStore     = require('../stores/TumblrStore');
+var TumblrPhoto     = require('./TumblrPhoto.jsx');
+var TumblrText      = require('./TumblrText.jsx');
+var TumblrAnswer    = require('./TumblrAnswer.jsx');
+var TumblrAudio     = require('./TumblrAudio.jsx');
+var TumblrChat      = require('./TumblrChat.jsx');
+var TumblrLink      = require('./TumblrLink.jsx');
+var TumblrQuote     = require('./TumblrQuote.jsx');
+var TumblrVideo     = require('./TumblrVideo.jsx');
 var TumblrAPI       = require('../utils/TumblrAPI');
 
 var CACHE_KEY = 'home:tumblr';
@@ -18,27 +26,33 @@ var HomeHandler = React.createClass({
 
   statics: {
     willTransitionTo(transition: Object, params: Object) {
-      // if (! Cache.has(CACHE_KEY)) {
+      if (! Cache.has(CACHE_KEY)) {
         transition.wait(
-          TumblrAPI.photos().then(function() {
-            // Cache.set(CACHE_KEY, TumblrStore.getState());
+          TumblrAPI.link().then(function() {
+            Cache.set(CACHE_KEY, TumblrStore.getState());
           })
         );
-      // }
+      }
     }
   },
 
   renderPostData(post: any, key: number): any {
+    var template = (function() {
+      switch(post.type) {
+        case 'photo': return <TumblrPhoto post={post} />
+        case 'text': return <TumblrText post={post} />
+        case 'answer': return <TumblrAnswer post={post} />
+        case 'audio': return <TumblrAudio post={post} />
+        case 'chat': return <TumblrChat post={post} />
+        case 'link': return <TumblrLink post={post} />
+        case 'quote': return <TumblrQuote post={post} />
+        case 'video': return <TumblrVideo post={post} />
+      }
+    })();
+
     return (
       <li key={key}>
-        {post.photos.map((photo, i) => (
-          <img
-            key={i}
-            src={photo.original_size.url}
-            width={photo.original_size.width}
-            height={photo.original_size.height} />
-        ))}
-        <div className="caption" dangerouslySetInnerHTML={{__html: post.caption}} />
+        {template}
       </li>
     );
   },
