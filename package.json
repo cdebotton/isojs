@@ -53,6 +53,7 @@
     "koa-static": "^1.4.7",
     "mongoose": "^3.8.20",
     "node-jsx": "^0.12.4",
+    "oauth": "^0.9.12",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "react": "^0.12.1",

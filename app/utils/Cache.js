@@ -3,7 +3,6 @@
 var Immutable         = require('immutable');
 var {PayloadSources}  = require('../constants/AppConstants');
 
-var EMPTY_CACHE = Immutable.Map();
 var _cache = Immutable.Map();
 
 var Cache = {

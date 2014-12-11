@@ -18,13 +18,13 @@ var HomeHandler = React.createClass({
 
   statics: {
     willTransitionTo(transition: Object, params: Object) {
-      if (! Cache.has(CACHE_KEY)) {
+      // if (! Cache.has(CACHE_KEY)) {
         transition.wait(
           TumblrAPI.photos().then(function() {
-            Cache.set(CACHE_KEY, TumblrStore.getState());
+            // Cache.set(CACHE_KEY, TumblrStore.getState());
           })
         );
-      }
+      // }
     }
   },
 
