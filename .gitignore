@@ -4,3 +4,7 @@ thumbs.db
 
 node_modules
 dist
+
+app/config/*
+!app/config/index.js
+!app/config/env-sample.json
