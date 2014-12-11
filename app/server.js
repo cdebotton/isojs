@@ -19,6 +19,7 @@ var json            = require('koa-json');
 var favicon         = require('koa-favicon');
 var mongoose        = require('mongoose');
 var serveStatic     = require('koa-static');
+var config          = require('./config/app');
 var responseTime    = require('./middleware/responseTime');
 var Api             = require('./api/routes/Api');
 var app             = koa();
@@ -58,7 +59,7 @@ var renderComponent = require('./middleware/renderComponent.jsx');
 
 app.use(renderComponent());
 
-mongoose.connect('mongodb://localhost/debotton', function() {
+mongoose.connect(config.db, function() {
   console.log('Connected to `mongodb://localhost/debotton`.');
 
   var port = process.env.PORT || 3000;

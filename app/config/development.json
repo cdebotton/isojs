@@ -1,0 +1,45 @@
+{
+  /**
+   * Database configuration
+   */
+  "db": 'mongodb://localhost/debotton',
+
+  /**
+   * OAuth services
+   */
+  "tumblr": {
+    "clientID": "TUMBLR CLIENTID",
+    "clientSecret": "TUMBLR SECRET",
+    "callbackURL": 'http://localhost:3000/auth/tumblr/callback'
+  },
+
+  "twitter": {
+    "clientID": "TWITTER CLIENTID",
+    "clientSecret": "TWITTER SECRET",
+    "callbackURL": 'http://localhost:3000/auth/twitter/callback'
+  },
+
+  "facebook": {
+    "clientID": "FACEBOOK CLIENTID",
+    "clientSecret": "FACEBOOK SECRET",
+    "callbackURL": 'http://localhost:3000/auth/facebook/callback'
+  },
+
+  "github": {
+    "clientID": "GITHUB CLIENTID",
+    "clientSecret": "GITHUB SECRET",
+    "callbackURL": 'http://localhost:3000/auth/github/callback'
+  },
+
+  "google": {
+    "clientID": "GOOGLE CLIENTID",
+    "clientSecret": "GOOGLE SECRET",
+    "callbackURL": 'http://localhost:3000/auth/google/callback'
+  },
+
+  "linkedin": {
+    "clientID": "LINKEDIN CLIENTID",
+    "clientSecret": "LINKEDIN SECRET",
+    "callbackURL": 'http://localhost:3000/auth/linkedin/callback'
+  }
+};
