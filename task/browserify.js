@@ -23,27 +23,7 @@ function Bundler(watch, build) {
   watchify.args.debug     = !build ? true : false;
 
   var bundler = browserify('./app/index.js', watchify.args)
-    .transform(envify({NODE_ENV: build ? 'production' : 'development'}))
-    .transform(function(file) {
-      var data = '';
-      var header = 'var wrapGenerator = require("regenerator/runtime").wrapGenerator;';
-      var stream = through(write, end);
-
-      function write(buf) {
-        data += buf;
-      }
-
-      function end() {
-        var rdata = regenerator.compile(data).code;
-        if (rdata !== data) {
-          rdata = header + rdata;
-        }
-        stream.queue(rdata);
-        stream.queue(null);
-      }
-
-      return stream;
-    });
+    .transform(envify({NODE_ENV: build ? 'production' : 'development'}));
 
   if (watch) {
     bundler = watchify(bundler);
@@ -58,6 +38,20 @@ function Bundler(watch, build) {
       .bundle()
       .on('error', gUtil.log.bind(gUtil, 'Browserify error'))
       .pipe(source('bundle.js'))
+      .pipe(gStreamify(through.obj(function(file, enc, cb) {
+        if (file.isNull()) {
+          cb(null, file);
+          return;
+        }
+
+        try {
+          file.contents = new Buffer(regenerator.compile(file.contents.toString(), {includeRuntime: true}).code);
+          this.push(file);
+        }
+        catch (err) {
+          this.emit('error', new gUtil.PluginError('Regenerator', err, {fileName: file.path}));
+        }
+      })))
       .pipe(gIf(build, gStreamify(gUglify({compress: false}))))
       .pipe(gIf(build, gRename({suffix: '.min'})))
       .pipe(gulp.dest('./dist'));

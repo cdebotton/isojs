@@ -28,7 +28,7 @@ var HomeHandler = React.createClass({
     willTransitionTo(transition: Object, params: Object) {
       if (! Cache.has(CACHE_KEY)) {
         transition.wait(
-          TumblrAPI.link().then(function() {
+          TumblrAPI.text().then(function() {
             Cache.set(CACHE_KEY, TumblrStore.getState());
           })
         );
