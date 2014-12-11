@@ -30,7 +30,13 @@ var AppConstants = {
     GET_BLOG_INFO: null,
     GET_AVATAR: null,
     GET_PHOTOS: null,
-    GET_TEXT: null
+    GET_TEXT: null,
+    GET_AUDIO: null,
+    GET_VIDEO: null,
+    GET_CHAT: null,
+    GET_LINK: null,
+    GET_ANSWER: null,
+    GET_QUOTE: null
   }),
 
   ApiStates: keyMirror({

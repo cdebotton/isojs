@@ -8,7 +8,7 @@ var TumblrChat = React.createClass({
   },
 
   render(): any {
-    console.log(this.props.post);
+    // console.log(this.props.post);
     return (
       <div className="chat">
 

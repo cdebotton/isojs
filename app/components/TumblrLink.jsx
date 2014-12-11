@@ -13,11 +13,10 @@ var TumblrLink = React.createClass({
   render(): any {
     return (
       <div className="quote">
-        <a href={this.props.post.url} dangerouslySetInnerHTML={{__html: this.props.post.title}} />
+        <a href={this.props.post.url}>{this.props.post.title}</a>
       </div>
     );
   }
-
 });
 
 module.exports = TumblrLink;

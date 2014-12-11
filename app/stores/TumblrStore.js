@@ -15,6 +15,12 @@ var _tumblr = Immutable.Map({
 var TumblrStore = assign({}, Store, {
   getState(): any {
     return _tumblr;
+  },
+
+  getPostType(type: string): any {
+    return _tumblr.updateIn(['posts'], posts => {
+      return posts.filter(post => post.type === type)
+    });
   }
 });
 
@@ -22,7 +28,12 @@ TumblrStore.dispatchToken = AppDispatcher.register(function(payload: Payload): b
   var action: Action = payload.action;
 
   switch (action.type) {
-    case TumblrActions.GET_TEXT:
+    case TumblrActions.GET_AUDIO:
+    case TumblrActions.GET_ANSWER:
+    case TumblrActions.GET_VIDEO:
+    case TumblrActions.GET_QUOTE:
+    case TumblrActions.GET_LINK:
+    case TumblrActions.GET_CHAT:
     case TumblrActions.GET_PHOTOS:
     case TumblrActions.GET_POSTS:
       if (! isUnresolved(action.response)) {

@@ -66,7 +66,7 @@ var TumblrAPI = {
 
   quote(params: Object): any {
     return co(function* () {
-      var key = TumblrActions.GET_TEXT;
+      var key = TumblrActions.GET_QUOTE;
       var res = yield makeRequest(`${API_URL}/posts/quote`, key, params);
 
       return res;
@@ -75,7 +75,7 @@ var TumblrAPI = {
 
   link(params: Object): any {
     return co(function* () {
-      var key = TumblrActions.GET_TEXT;
+      var key = TumblrActions.GET_LINK;
       var res = yield makeRequest(`${API_URL}/posts/link`, key, params);
 
       return res;
@@ -84,7 +84,7 @@ var TumblrAPI = {
 
   chat(params: Object): any {
     return co(function* () {
-      var key = TumblrActions.GET_TEXT;
+      var key = TumblrActions.GET_CHAT;
       var res = yield makeRequest(`${API_URL}/posts/chat`, key, params);
 
       return res;
@@ -93,7 +93,7 @@ var TumblrAPI = {
 
   audio(params: Object): any {
     return co(function* () {
-      var key = TumblrActions.GET_TEXT;
+      var key = TumblrActions.GET_AUDIO;
       var res = yield makeRequest(`${API_URL}/posts/audio`, key, params);
 
       return res;
@@ -102,7 +102,7 @@ var TumblrAPI = {
 
   video(params: Object): any {
     return co(function* () {
-      var key = TumblrActions.GET_TEXT;
+      var key = TumblrActions.GET_VIDEO;
       var res = yield makeRequest(`${API_URL}/posts/video`, key, params);
 
       return res;
@@ -111,7 +111,7 @@ var TumblrAPI = {
 
   answer(params: Object): any {
     return co(function* () {
-      var key = TumblrActions.GET_TEXT;
+      var key = TumblrActions.GET_ANSWER;
       var res = yield makeRequest(`${API_URL}/posts/answer`, key, params);
 
       return res;

@@ -1,24 +1,25 @@
 /** @flow */
 
-var React           = require('react');
-var Cache           = require('../utils/Cache');
-var {RouteHandler}  = require('react-router');
-var StoreMixin      = require('../mixins/StoreMixin');
-var TumblrStore     = require('../stores/TumblrStore');
-var TumblrPhoto     = require('./TumblrPhoto.jsx');
-var TumblrText      = require('./TumblrText.jsx');
-var TumblrAnswer    = require('./TumblrAnswer.jsx');
-var TumblrAudio     = require('./TumblrAudio.jsx');
-var TumblrChat      = require('./TumblrChat.jsx');
-var TumblrLink      = require('./TumblrLink.jsx');
-var TumblrQuote     = require('./TumblrQuote.jsx');
-var TumblrVideo     = require('./TumblrVideo.jsx');
-var TumblrAPI       = require('../utils/TumblrAPI');
+var React                 = require('react');
+var Cache                 = require('../utils/Cache');
+var {RouteHandler, Link}  = require('react-router');
+var StoreMixin            = require('../mixins/StoreMixin');
+var TumblrStore           = require('../stores/TumblrStore');
+var TumblrPhoto           = require('./TumblrPhoto.jsx');
+var TumblrText            = require('./TumblrText.jsx');
+var TumblrAnswer          = require('./TumblrAnswer.jsx');
+var TumblrAudio           = require('./TumblrAudio.jsx');
+var TumblrChat            = require('./TumblrChat.jsx');
+var TumblrLink            = require('./TumblrLink.jsx');
+var TumblrQuote           = require('./TumblrQuote.jsx');
+var TumblrVideo           = require('./TumblrVideo.jsx');
+var TumblrAPI             = require('../utils/TumblrAPI');
 
-var CACHE_KEY = 'home:tumblr';
+function getState(params, query): Object {
+  var {postType} = params;
+  var tumblr = postType ? TumblrStore.getPostType(postType) : TumblrStore.getState();
 
-function getState(): Object {
-  return { tumblr: TumblrStore.getState() };
+  return { tumblr: tumblr };
 }
 
 var HomeHandler = React.createClass({
@@ -26,35 +27,26 @@ var HomeHandler = React.createClass({
 
   statics: {
     willTransitionTo(transition: Object, params: Object) {
-      if (! Cache.has(CACHE_KEY)) {
-        transition.wait(
-          TumblrAPI.text().then(function() {
-            Cache.set(CACHE_KEY, TumblrStore.getState());
-          })
-        );
-      }
+      var {postType} = params;
+      var tumblrAction: string = postType ? postType : 'posts';
+      transition.wait(TumblrAPI[tumblrAction]());
     }
   },
 
-  renderPostData(post: any, key: number): any {
-    var template = (function() {
+  renderPostData(post: any): any {
+    return (function(post) {
+      var key: string = `${post.type}:${post.id}`;
       switch(post.type) {
-        case 'photo': return <TumblrPhoto post={post} />
-        case 'text': return <TumblrText post={post} />
-        case 'answer': return <TumblrAnswer post={post} />
-        case 'audio': return <TumblrAudio post={post} />
-        case 'chat': return <TumblrChat post={post} />
-        case 'link': return <TumblrLink post={post} />
-        case 'quote': return <TumblrQuote post={post} />
-        case 'video': return <TumblrVideo post={post} />
+        case 'photo': return <TumblrPhoto key={key} post={post} />
+        case 'text': return <TumblrText key={key} post={post} />
+        case 'answer': return <TumblrAnswer key={key} post={post} />
+        case 'audio': return <TumblrAudio key={key} post={post} />
+        case 'chat': return <TumblrChat key={key} post={post} />
+        case 'link': return <TumblrLink key={key} post={post} />
+        case 'quote': return <TumblrQuote key={key} post={post} />
+        case 'video': return <TumblrVideo key={key} post={post} />
       }
-    })();
-
-    return (
-      <li key={key}>
-        {template}
-      </li>
-    );
+    })(post);
   },
 
   render(): any {
@@ -71,10 +63,20 @@ var HomeHandler = React.createClass({
             <dt>Likes</dt>
             <dd>{tumblr.blog.likes}</dd>
           </dl>
+          <nav>
+            <Link to="index">All</Link>
+            <Link to="posts" params={{postType: 'photo'}}>Photo</Link>
+            <Link to="posts" params={{postType: 'audio'}}>Audio</Link>
+            <Link to="posts" params={{postType: 'video'}}>Video</Link>
+            <Link to="posts" params={{postType: 'quote'}}>Quote</Link>
+            <Link to="posts" params={{postType: 'link'}}>Link</Link>
+            <Link to="posts" params={{postType: 'chat'}}>Chat</Link>
+            <Link to="posts" params={{postType: 'answer'}}>Answer</Link>
+          </nav>
         </header>
-        <ul>
+        <div className="posts">
           {tumblr.posts.map(this.renderPostData)}
-        </ul>
+        </div>
       </div>
     );
   }

@@ -37,6 +37,10 @@ var StoreMixin = function(cb: any): any {
       Store.removeChangeListener(this.__onChange);
     },
 
+    componentWillReceiveProps(nextProps: Object): void {
+      this.__onChange();
+    },
+
     __onChange(): void {
       this.setState(cb(this.getParams(), this.getQuery()));
     }
