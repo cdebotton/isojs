@@ -1,10 +1,13 @@
 /** @flow */
 
 var React           = require('react');
+var Cache           = require('../utils/Cache');
 var {RouteHandler}  = require('react-router');
 var StoreMixin      = require('../mixins/StoreMixin');
 var TumblrStore     = require('../stores/TumblrStore');
 var TumblrAPI       = require('../utils/TumblrAPI');
+
+var CACHE_KEY = 'home:tumblr';
 
 function getState(): Object {
   return { tumblr: TumblrStore.getState() };
@@ -15,7 +18,13 @@ var HomeHandler = React.createClass({
 
   statics: {
     willTransitionTo(transition: Object, params: Object) {
-      transition.wait(TumblrAPI.photos());
+      if (! Cache.has(CACHE_KEY)) {
+        transition.wait(
+          TumblrAPI.photos().then(function() {
+            Cache.set(CACHE_KEY, TumblrStore.getState());
+          })
+        );
+      }
     }
   },
 
