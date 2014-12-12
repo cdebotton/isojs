@@ -24,6 +24,7 @@ function makeRequest(url, key, params) {
     dispatch(key, ApiStates.PENDING, params);
 
     var res = yield jsonp(url, params);
+
     try {
       return res.response;
     }
@@ -50,7 +51,6 @@ var TumblrAPI = {
     return co(function* () {
       var key = TumblrActions.GET_POSTS;
       var res = yield makeRequest(`${API_URL}/posts`, key, params);
-
       return res;
     });
   },

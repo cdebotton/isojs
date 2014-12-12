@@ -8,10 +8,13 @@ var StoreMixin            = require('../mixins/StoreMixin');
 var TumblrStore           = require('../stores/TumblrStore');
 var TumblrAPI             = require('../utils/TumblrAPI');
 
+var found = [];
+
 function getState(params, query): Object {
   var {postType} = params;
   var tumblr = postType ? TumblrStore.getPostType(postType) : TumblrStore.getState();
 
+  console.log(TumblrStore.getPostType(params.postType).toJS());
   return { tumblr: tumblr };
 }
 
@@ -20,22 +23,17 @@ var HomeHandler = React.createClass({
 
   statics: {
     willTransitionTo(transition: Object, params: Object) {
-      var tumblrAction: string = params.postType ? params.postType : 'posts';
-      var CACHE_KEY = `home:tumblr:${params.postType}`;
-
-      if (! Cache.has(CACHE_KEY)) {
-        transition.wait(
-          TumblrAPI[tumblrAction]().then(function(data: any): void {
-            Cache.set(CACHE_KEY, data);
-          })
-        );
-      }
+      transition.wait(TumblrAPI[params.postType || 'posts']());
     }
+  },
+
+  componentWillReceiveProps() {
+    TumblrAPI[this.getParams().postType || 'posts']();
   },
 
   renderPostData(post: any, key: number): any {
     return (
-      <TumblrPost key={key} post={post} />
+      <TumblrPost key={`post-${post.id}`} post={post} />
     );
   },
 
@@ -56,13 +54,13 @@ var HomeHandler = React.createClass({
           </dl>
           <nav>
             <Link to="index">All</Link>
-            <Link to="posts" params={{postType: 'photo'}}>Photo</Link>
-            <Link to="posts" params={{postType: 'audio'}}>Audio</Link>
-            <Link to="posts" params={{postType: 'video'}}>Video</Link>
-            <Link to="posts" params={{postType: 'quote'}}>Quote</Link>
-            <Link to="posts" params={{postType: 'link'}}>Link</Link>
-            <Link to="posts" params={{postType: 'chat'}}>Chat</Link>
-            <Link to="posts" params={{postType: 'answer'}}>Answer</Link>
+            <Link to="post" params={{postType: 'photo'}}>Photo</Link>
+            <Link to="post" params={{postType: 'audio'}}>Audio</Link>
+            <Link to="post" params={{postType: 'video'}}>Video</Link>
+            <Link to="post" params={{postType: 'quote'}}>Quote</Link>
+            <Link to="post" params={{postType: 'link'}}>Link</Link>
+            <Link to="post" params={{postType: 'chat'}}>Chat</Link>
+            <Link to="post" params={{postType: 'answer'}}>Answer</Link>
           </nav>
         </header>
         <div className="posts">

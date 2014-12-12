@@ -10,7 +10,9 @@ var {Route, DefaultRoute, NotFoundRoute} = require('react-router');
 module.exports = (
   <Route handler={App}>
     <DefaultRoute name="index" handler={HomeHandler} />
-    <Route name="posts" path="/posts/:postType" handler={HomeHandler} />
+    <Route name="posts" path="/posts" handler={HomeHandler}>
+      <Route name="post" path="/posts/:postType" handler={HomeHandler} />
+    </Route>
     <Route name="foo" handler={FooHandler} />
     <Route name="bar" path="/users/:userId" handler={BarHandler} />
   </Route>

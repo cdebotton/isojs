@@ -18,9 +18,15 @@ var TumblrPost = React.createClass({
 
   getPostTemplate(post: any): any {
     switch(post.type) {
-      case 'photo': return <TumblrPhoto key={`post:${post.type}`} post={post} />;
-      case 'link': return <TumblrLink key={`post:${post.type}`} post={post} />;
-      default: return 'nope';
+      case 'photo': return <TumblrPhoto key={post.id} post={post} />;
+      case 'link': return <TumblrLink key={post.id} post={post} />;
+      case 'answer': return <TumblrAnswer key={post.id} post={post} />;
+      case 'audio': return <TumblrAudio key={post.id} post={post} />;
+      case 'chat': return <TumblrChat key={post.id} post={post} />;
+      case 'quote': return <TumblrQuote key={post.id} post={post} />;
+      case 'text': return <TumblrText key={post.id} post={post} />;
+      case 'video': return <TumblrVideo key={post.id} post={post} />;
+      default: return false;
     }
   },
 
