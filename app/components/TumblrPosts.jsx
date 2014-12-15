@@ -13,29 +13,31 @@ var TumblrVideo   = require('./TumblrVideo.jsx');
 
 var TumblrPost = React.createClass({
   propTypes: {
-    post: React.PropTypes.object.isRequired
+    posts: React.PropTypes.object.isRequired
   },
 
   getPostTemplate(post: any): any {
+    var key = 'tumblr-posts-single-' + post.type + '/' + post.id;
+
     switch(post.type) {
-      case 'photo': return <TumblrPhoto key={post.id} post={post} />;
-      case 'link': return <TumblrLink key={post.id} post={post} />;
-      case 'answer': return <TumblrAnswer key={post.id} post={post} />;
-      case 'audio': return <TumblrAudio key={post.id} post={post} />;
-      case 'chat': return <TumblrChat key={post.id} post={post} />;
-      case 'quote': return <TumblrQuote key={post.id} post={post} />;
-      case 'text': return <TumblrText key={post.id} post={post} />;
-      case 'video': return <TumblrVideo key={post.id} post={post} />;
+      case 'photo': return <TumblrPhoto key={key} post={post} />;
+      case 'link': return <TumblrLink key={key} post={post} />;
+      case 'answer': return <TumblrAnswer key={key} post={post} />;
+      case 'audio': return <TumblrAudio key={key} post={post} />;
+      case 'chat': return <TumblrChat key={key} post={post} />;
+      case 'quote': return <TumblrQuote key={key} post={post} />;
+      case 'text': return <TumblrText key={key} post={post} />;
+      case 'video': return <TumblrVideo key={key} post={post} />;
       default: return false;
     }
   },
 
   render(): any {
-    var {post} = this.props;
-    var template: any = this.getPostTemplate(post);
+    var {posts} = this.props;
+
     return (
       <div className="tumblr-post">
-        {template}
+        {posts.toJS().map(this.getPostTemplate)}
       </div>
     );
   }

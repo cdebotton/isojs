@@ -3,7 +3,7 @@
 var React                 = require('react');
 var Cache                 = require('../utils/Cache');
 var {RouteHandler, Link}  = require('react-router');
-var TumblrPost            = require('./TumblrPost.jsx');
+var TumblrPosts           = require('./TumblrPosts.jsx');
 var StoreMixin            = require('../mixins/StoreMixin');
 var TumblrStore           = require('../stores/TumblrStore');
 var TumblrAPI             = require('../utils/TumblrAPI');
@@ -14,7 +14,6 @@ function getState(params, query): Object {
   var {postType} = params;
   var tumblr = postType ? TumblrStore.getPostType(postType) : TumblrStore.getState();
 
-  console.log(TumblrStore.getPostType(params.postType).toJS());
   return { tumblr: tumblr };
 }
 
@@ -27,19 +26,8 @@ var HomeHandler = React.createClass({
     }
   },
 
-  componentWillReceiveProps() {
-    TumblrAPI[this.getParams().postType || 'posts']();
-  },
-
-  renderPostData(post: any, key: number): any {
-    return (
-      <TumblrPost key={`post-${post.id}`} post={post} />
-    );
-  },
-
   render(): any {
     var tumblr = this.state.tumblr.toJS();
-    var posts = tumblr.posts.map(this.renderPostData);
 
     return (
       <div className="home-handler">
@@ -64,7 +52,7 @@ var HomeHandler = React.createClass({
           </nav>
         </header>
         <div className="posts">
-          {posts}
+          <TumblrPosts posts={this.state.tumblr.get('posts')} />
         </div>
       </div>
     );
