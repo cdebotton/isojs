@@ -15,16 +15,33 @@ function getRoutedComponent(url) {
     catch (err) {
       reject(err);
     }
-  })
+  });
 }
+
+function fetchData(routes, params, query) {
+  var calls: Array<Function> = routes.filter(route => route.handler.fetchData);
+  var promiseArray: Array<any> = calls.map(route => {
+    return new Promise((resolve, reject) => {
+      route.handler.fetchData(routes, params)
+        .then(data => resolve(data))
+        .catch(err => reject(err));
+    });
+  });
+
+  return Promise.all(promiseArray);
+};
 
 function renderComponent() {
   return function *(next) {
     var {Handler, state} = yield getRoutedComponent(this.req.url);
+    var data = yield fetchData(state.routes, state.params, state.query);
 
     try {
       var markup = React.renderToString(
-        <Handler params={state.params} query={state.query} env={process.env.NODE_ENV} />
+        <Handler
+          params={state.params}
+          query={state.query}
+          env={process.env.NODE_ENV} />
       );
       var body = `<!doctype html>\n${markup}`;
 
