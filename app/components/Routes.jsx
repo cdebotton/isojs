@@ -1,7 +1,7 @@
 /** @flow */
 
 var React       = require('react');
-var App         = require('./Handlers/App.jsx');
+var App         = require('./App.jsx');
 var HomeHandler = require('./Handlers/HomeHandler.jsx');
 var FooHandler  = require('./Handlers/FooHandler.jsx');
 var BarHandler  = require('./Handlers/BarHandler.jsx');
