@@ -1,7 +1,8 @@
 /** @flow */
 
-var React = require('react');
-var co    = require('co');
+var React       = require('react/addons');
+var {classSet}  = React.addons;
+var co          = require('co');
 
 var TumblrPosts           = require('../TumblrPosts/TumblrPosts.jsx');
 var StoreMixin            = require('../../mixins/StoreMixin');
@@ -10,6 +11,7 @@ var PageStore             = require('../../stores/PageStore');
 var TumblrStore           = require('../../stores/TumblrStore');
 var PageActionCreators    = require('../../actions/PageActionCreators');
 var TumblrAPI             = require('../../utils/TumblrAPI');
+var {ApiStates}           = require('../../constants/AppConstants');
 var {RouteHandler, Link}  = require('react-router');
 
 var PostsHandler = React.createClass({
@@ -17,9 +19,13 @@ var PostsHandler = React.createClass({
 
   render(): any {
     var tumblr = this.state.tumblr.toJS();
+    var cx = classSet({
+      'posts-handler': true,
+      'loading': tumblr.status === ApiStates.PENDING
+    });
 
     return (
-      <div className="posts-handler">
+      <div className={cx}>
         <header className="header">
           <div className="info">
             <h2>{tumblr.blog.title}</h2>
@@ -43,12 +49,20 @@ var PostsHandler = React.createClass({
           </nav>
         </header>
         <div className="posts">
+
+          {getLoader(tumblr.status)}
           <TumblrPosts posts={this.state.tumblr.get('posts')} />
         </div>
       </div>
     );
   }
 });
+
+function getLoader(status) {
+  return (status === ApiStates.PENDING) ? (
+    <span>Loading...</span>
+  ) : false;
+}
 
 function getState(params, query): Object {
   var {postType} = params;

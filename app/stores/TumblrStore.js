@@ -4,12 +4,13 @@ var Immutable = require('immutable');
 var assign  = require('react/lib/Object.assign');
 var Store   = require('./Store');
 var AppDispatcher = require('../dispatchers/AppDispatcher');
-var {TumblrActions} = require('../constants/AppConstants');
+var {TumblrActions, ApiStates} = require('../constants/AppConstants');
 var {isUnresolved} = require('../utils/helpers');
 
 var _tumblr = Immutable.Map({
   blog: Immutable.Map(),
-  posts: Immutable.List()
+  posts: Immutable.List(),
+  status: ApiStates.PENDING
 });
 
 var TumblrStore = assign({}, Store, {
@@ -38,8 +39,11 @@ TumblrStore.dispatchToken = AppDispatcher.register(function(payload: Payload): b
     case TumblrActions.GET_POSTS:
       if (! isUnresolved(action.response)) {
         storePosts(action.response);
-        TumblrStore.emitChange();
       }
+      else {
+        setApiState(action.response);
+      }
+      TumblrStore.emitChange();
       break;
     case TumblrActions.GET_BLOG_INFO:
       break;
@@ -50,17 +54,22 @@ TumblrStore.dispatchToken = AppDispatcher.register(function(payload: Payload): b
   return true;
 });
 
+function setApiState(status){
+  _tumblr = _tumblr.updateIn(['status'], value => status);
+}
+
 function doesntExist(post) {
   var keys = _tumblr.get('posts').map(post => post.id);
 
   return keys.indexOf(post.id) === -1;
-};
+}
 
 function storePosts(data) {
   var newPosts = data.posts.filter(doesntExist);
 
-  _tumblr = _tumblr.updateIn(['blog'], (blog) => data.blog);
-  _tumblr = _tumblr.updateIn(['posts'], (list) => list.concat(newPosts));
-};
+  _tumblr = _tumblr.updateIn(['blog'], blog => data.blog);
+  _tumblr = _tumblr.updateIn(['posts'], list => list.concat(newPosts));
+  _tumblr = _tumblr.updateIn(['status'], status => ApiStates.READY);
+}
 
 module.exports = TumblrStore;
