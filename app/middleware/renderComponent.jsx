@@ -1,7 +1,6 @@
 var React         = require('react');
 var assign        = require('react/lib/Object.assign');
 var ReactRouter   = require('react-router');
-var htmlBeautify  = require('js-beautify').html;
 
 var PRODUCTION    = process.env.NODE_ENV === 'production';
 
