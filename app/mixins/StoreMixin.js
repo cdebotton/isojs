@@ -8,23 +8,6 @@ var queryCache = {};
 
 var StoreMixin = function(cb: any): any {
   return assign({}, RouterState, {
-    statics: {
-      has(collection: Array<Object>, id: string): bool {
-        return collection.map(doc => doc._id).indexOf(id) > -1;
-      },
-
-      hasQueried(model: string, query: Object): bool {
-        var queryStr = `${model}:${JSON.stringify(query)}`;
-
-        if (! queryCache[queryStr]) {
-          queryCache[queryStr] = true;
-          return false;
-        }
-
-        return true;
-      }
-    },
-
     getInitialState(): Object {
       return cb(this.getParams(), this.getQuery());
     },

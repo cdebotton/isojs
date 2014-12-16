@@ -7,17 +7,12 @@ var {Link}  = require('react-router');
 var UserActionCreators  = require('../../actions/UserActionCreators');
 var {ActionTypes}       = require('../../constants/AppConstants');
 var UsersStore          = require('../../stores/UsersStore');
+var AsyncDataMixin      = require('../../mixins/AsyncDataMixin');
 var StoreMixin          = require('../../mixins/StoreMixin');
 var UserAPI             = require('../../utils/UserAPI');
 
 var FooHandler = React.createClass({
-  mixins: [StoreMixin(getState)],
-
-  statics: {
-    fetchData(params: Object, query: Object): any {
-      return UserAPI.getUsers();
-    }
-  },
+  mixins: [StoreMixin(getState), AsyncDataMixin(fetchData)],
 
   render(): any {
     return (
@@ -50,6 +45,10 @@ function getUsersList(users: Object): any {
 
 function getState(params: Object, query: Object): Object {
   return {users: UsersStore.getState()};
+}
+
+function fetchData(params: Object, query: Object): any {
+  return UserAPI.getUsers();
 }
 
 module.exports = FooHandler;

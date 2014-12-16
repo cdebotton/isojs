@@ -1,6 +1,7 @@
 /** @flow */
 
 var React                 = require('react/addons');
+var AsyncDataMixin        = require('../../mixins/AsyncDataMixin');
 var StoreMixin            = require('../../mixins/StoreMixin');
 var {ActionTypes}         = require('../../constants/AppConstants');
 var UserAPI               = require('../../utils/UserAPI');
@@ -10,13 +11,7 @@ var UserActionCreators    = require('../../actions/UserActionCreators');
 var NameInput = require('../Common/NameInput.jsx');
 
 var FooHandler = React.createClass({
-  mixins: [StoreMixin(getState)],
-
-  statics: {
-    fetchData(params: Object, query: Object): any {
-      return UserAPI.getUserById(params.userId);
-    }
-  },
+  mixins: [StoreMixin(getState), AsyncDataMixin(fetchData)],
 
   handleNameChange(first: string, last: string): void {
     var user = this.state.user
@@ -64,6 +59,10 @@ var FooHandler = React.createClass({
 
 function getState(params: Object, query?: Object): Object {
   return {user: UsersStore.getById(params.userId)};
+}
+
+function fetchData(params: Object, query: Object): any {
+  return UserAPI.getUserById(params.userId);
 }
 
 module.exports = FooHandler;

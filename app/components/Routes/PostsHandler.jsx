@@ -9,17 +9,6 @@ var TumblrStore           = require('../../stores/TumblrStore');
 var TumblrAPI             = require('../../utils/TumblrAPI');
 var {RouteHandler, Link}  = require('react-router');
 
-function getState(params, query): Object {
-  var {postType} = params;
-  var tumblr = postType ? TumblrStore.getPostType(postType) : TumblrStore.getState();
-
-  return { tumblr: tumblr };
-}
-
-function fetchData(params, query): Object {
-  return TumblrAPI[params.postType || 'posts']();
-}
-
 var PostsHandler = React.createClass({
   mixins: [StoreMixin(getState), AsyncDataMixin(fetchData)],
 
@@ -57,5 +46,16 @@ var PostsHandler = React.createClass({
     );
   }
 });
+
+function getState(params, query): Object {
+  var {postType} = params;
+  var tumblr = postType ? TumblrStore.getPostType(postType) : TumblrStore.getState();
+
+  return { tumblr: tumblr };
+}
+
+function fetchData(params, query): Object {
+  return TumblrAPI[params.postType || 'posts']();
+}
 
 module.exports = PostsHandler;
