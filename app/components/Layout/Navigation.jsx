@@ -8,6 +8,7 @@ var Navigation = React.createClass({
     return (
       <nav className="navigation">
         <Link to="index"><i className="fa fa-home" /></Link>
+        <Link to="posts"><i className="fa fa-tumblr" /></Link>
         <Link to="foo"><i className="fa fa-users" /></Link>
       </nav>
     );

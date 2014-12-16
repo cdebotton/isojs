@@ -38,7 +38,7 @@ function fetchData(routes, params, query) {
 function renderComponent() {
   return function *(next) {
     var {Handler, state} = yield getRoutedComponent(this.req.url);
-    var data = yield fetchData(state.routes, state.params, state.query);
+    yield fetchData(state.routes, state.params, state.query);
 
     try {
       var markup = React.renderToString(

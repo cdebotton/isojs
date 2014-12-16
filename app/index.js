@@ -3,6 +3,8 @@
 var React   = require('react');
 var assign  = require('react/lib/Object.assign');
 var Router  = require('react-router');
+var Promise = require('bluebird');
+var co      = require('co');
 var Routes  = require('./components/Routes.jsx');
 
 var config = require('./config');
@@ -17,13 +19,14 @@ function fetchData(routes, params, query) {
     });
   });
 
+
+
   return Promise.all(promiseArray)
     .then(data => data.reduce((memo, item) => {
       memo = assign({}, memo, item);
       return memo;
-    }));
+    }, {}));
 }
-
 
 if ('undefined' !== typeof window) {
   document.addEventListener('DOMContentLoaded', function() {
