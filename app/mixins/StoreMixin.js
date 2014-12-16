@@ -6,18 +6,24 @@ var {State: RouterState} = require('react-router');
 
 var queryCache = {};
 
-var StoreMixin = function(cb: Function): any {
+var StoreMixin = function(cb: Function, ...stores): any {
   return assign({}, RouterState, {
     getInitialState(): Object {
       return cb(this.getParams(), this.getQuery());
     },
 
     componentDidMount(): void {
-      Store.addChangeListener(this.__onChange);
+      var self = this;
+      if (stores) {
+        stores.forEach(store => store.addChangeListener(self.__onChange));
+      }
     },
 
     componentWillUnmount(): void {
-      Store.removeChangeListener(this.__onChange);
+      var self = this;
+      if (stores) {
+        stores.forEach(store => store.removeChangeListener(self.__onChange));
+      }
     },
 
     componentWillReceiveProps(nextProps: Object): void {

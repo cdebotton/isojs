@@ -1,11 +1,14 @@
 /** @flow */
 
 var React = require('react');
+var co    = require('co');
 
 var TumblrPosts           = require('../TumblrPosts/TumblrPosts.jsx');
 var StoreMixin            = require('../../mixins/StoreMixin');
 var AsyncDataMixin        = require('../../mixins/AsyncDataMixin');
+var PageStore             = require('../../stores/PageStore');
 var TumblrStore           = require('../../stores/TumblrStore');
+var PageActionCreators    = require('../../actions/PageActionCreators');
 var TumblrAPI             = require('../../utils/TumblrAPI');
 var {RouteHandler, Link}  = require('react-router');
 
@@ -54,8 +57,22 @@ function getState(params, query): Object {
   return { tumblr: tumblr };
 }
 
+function getTitle(title) {
+  return new Promise(function(resolve, reject) {
+    var handleChange = function() {
+      PageStore.removeChangeListener(handleChange);
+      resolve(PageStore.getState().get('title'));
+    };
+    PageStore.addChangeListener(handleChange);
+    PageActionCreators.setTitle(title);
+  });
+}
+
 function fetchData(params, query): Object {
-  return TumblrAPI[params.postType || 'posts']();
+  return co(function *() {
+    yield getTitle('posts from tumblr');
+    yield TumblrAPI[params.postType || 'posts']();
+  });
 }
 
 module.exports = PostsHandler;

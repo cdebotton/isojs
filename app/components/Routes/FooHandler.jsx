@@ -1,12 +1,15 @@
 /** @flow */
 
 var React   = require('react');
+var co      = require('co');
 var Promise = require('bluebird');
 var {Link}  = require('react-router');
 
 var UserActionCreators  = require('../../actions/UserActionCreators');
+var PageActionCreators  = require('../../actions/PageActionCreators');
 var {ActionTypes}       = require('../../constants/AppConstants');
 var UsersStore          = require('../../stores/UsersStore');
+var PageStore           = require('../../stores/PageStore');
 var AsyncDataMixin      = require('../../mixins/AsyncDataMixin');
 var StoreMixin          = require('../../mixins/StoreMixin');
 var UserAPI             = require('../../utils/UserAPI');
@@ -43,12 +46,26 @@ function getUsersList(users: Object): any {
   });
 };
 
+function getTitle(title) {
+  return new Promise(function(resolve, reject) {
+    var handleChange = function() {
+      PageStore.removeChangeListener(handleChange);
+      resolve(PageStore.getState().get('title'));
+    };
+    PageStore.addChangeListener(handleChange);
+    PageActionCreators.setTitle(title);
+  });
+}
+
 function getState(params: Object, query: Object): Object {
   return {users: UsersStore.getState()};
 }
 
 function fetchData(params: Object, query: Object): any {
-  return UserAPI.getUsers();
+  return co(function *() {
+    yield UserAPI.getUsers();
+    yield getTitle('foo')
+  });
 }
 
 module.exports = FooHandler;

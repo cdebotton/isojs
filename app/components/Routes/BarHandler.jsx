@@ -1,11 +1,15 @@
 /** @flow */
 
 var React                 = require('react/addons');
+var co                    = require('co');
+
 var AsyncDataMixin        = require('../../mixins/AsyncDataMixin');
 var StoreMixin            = require('../../mixins/StoreMixin');
 var {ActionTypes}         = require('../../constants/AppConstants');
 var UserAPI               = require('../../utils/UserAPI');
 var UsersStore            = require('../../stores/UsersStore');
+var PageStore             = require('../../stores/PageStore');
+var PageActionCreators    = require('../../actions/PageActionCreators');
 var UserActionCreators    = require('../../actions/UserActionCreators');
 
 var NameInput = require('../Common/NameInput.jsx');
@@ -57,12 +61,29 @@ var FooHandler = React.createClass({
   }
 });
 
+function getTitle(title) {
+  return new Promise(function(resolve, reject) {
+    var handleChange = function() {
+      PageStore.removeChangeListener(handleChange);
+      resolve(PageStore.getState().get('title'));
+    };
+    PageStore.addChangeListener(handleChange);
+    PageActionCreators.setTitle(title);
+  });
+}
+
 function getState(params: Object, query?: Object): Object {
   return {user: UsersStore.getById(params.userId)};
 }
 
 function fetchData(params: Object, query: Object): any {
-  return UserAPI.getUserById(params.userId);
+  return co(function* () {
+    yield UserAPI.getUserById(params.userId);
+
+    var name = UsersStore.getById(params.userId).get('name').toObject();
+
+    yield getTitle(name.first);
+  });
 }
 
 module.exports = FooHandler;

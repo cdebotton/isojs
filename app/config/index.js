@@ -1,4 +1,5 @@
 module.exports = {
+  title: 'koajs isomorphic server',
   db: "mongodb://localhost/debotton",
 
   tumblr: {

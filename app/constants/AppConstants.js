@@ -12,7 +12,6 @@ var AppConstants = {
     AUTH_LOGOUT: null,
     AUTH_POST_LOGIN: null,
     AUTH_VERIFY_SESSION: null,
-
     GET_USERS: null,
     GET_USER_BY_ID: null,
     POST_USERS: null,
@@ -21,8 +20,8 @@ var AppConstants = {
     CREATE_USER: null,
     DESTROY_USERS: null,
     UPDATE_USER: null,
-
-    GET_SUBREDDIT: null
+    GET_SUBREDDIT: null,
+    SET_TITLE: null
   }),
 
   TumblrActions: keyMirror({
