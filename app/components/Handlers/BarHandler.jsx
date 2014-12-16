@@ -1,13 +1,13 @@
 /** @flow */
 
 var React                 = require('react/addons');
-var StoreMixin            = require('../mixins/StoreMixin');
-var {ActionTypes}         = require('../constants/AppConstants');
-var UserAPI               = require('../utils/UserAPI');
-var UsersStore            = require('../stores/UsersStore');
-var UserActionCreators    = require('../actions/UserActionCreators');
+var StoreMixin            = require('../../mixins/StoreMixin');
+var {ActionTypes}         = require('../../constants/AppConstants');
+var UserAPI               = require('../../utils/UserAPI');
+var UsersStore            = require('../../stores/UsersStore');
+var UserActionCreators    = require('../../actions/UserActionCreators');
 
-var NameInput = require('./NameInput.jsx');
+var NameInput = require('../Common/NameInput.jsx');
 
 var FooHandler = React.createClass({
   mixins: [StoreMixin(getState)],

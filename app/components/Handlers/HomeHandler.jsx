@@ -3,11 +3,11 @@
 var React                 = require('react');
 var {RouteHandler, Link}  = require('react-router');
 
-var TumblrPosts           = require('./TumblrPosts.jsx');
-var StoreMixin            = require('../mixins/StoreMixin');
-var AsyncDataMixin        = require('../mixins/AsyncDataMixin');
-var TumblrStore           = require('../stores/TumblrStore');
-var TumblrAPI             = require('../utils/TumblrAPI');
+var TumblrPosts           = require('../TumblrPosts/TumblrPosts.jsx');
+var StoreMixin            = require('../../mixins/StoreMixin');
+var AsyncDataMixin        = require('../../mixins/AsyncDataMixin');
+var TumblrStore           = require('../../stores/TumblrStore');
+var TumblrAPI             = require('../../utils/TumblrAPI');
 
 var firstLoad = false;
 

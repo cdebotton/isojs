@@ -4,11 +4,11 @@ var React   = require('react');
 var Promise = require('bluebird');
 var {Link}  = require('react-router');
 
-var UserActionCreators  = require('../actions/UserActionCreators');
-var {ActionTypes}       = require('../constants/AppConstants');
-var UsersStore          = require('../stores/UsersStore');
-var StoreMixin          = require('../mixins/StoreMixin');
-var UserAPI             = require('../utils/UserAPI');
+var UserActionCreators  = require('../../actions/UserActionCreators');
+var {ActionTypes}       = require('../../constants/AppConstants');
+var UsersStore          = require('../../stores/UsersStore');
+var StoreMixin          = require('../../mixins/StoreMixin');
+var UserAPI             = require('../../utils/UserAPI');
 
 var FooHandler = React.createClass({
   mixins: [StoreMixin(getState)],

@@ -1,10 +1,10 @@
 /** @flow */
 
 var React       = require('react');
-var App         = require('./App.jsx');
-var HomeHandler = require('./HomeHandler.jsx');
-var FooHandler  = require('./FooHandler.jsx');
-var BarHandler  = require('./BarHandler.jsx');
+var App         = require('./Handlers/App.jsx');
+var HomeHandler = require('./Handlers/HomeHandler.jsx');
+var FooHandler  = require('./Handlers/FooHandler.jsx');
+var BarHandler  = require('./Handlers/BarHandler.jsx');
 var {Route, DefaultRoute, NotFoundRoute} = require('react-router');
 
 module.exports = (

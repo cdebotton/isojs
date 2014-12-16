@@ -4,8 +4,8 @@ var React                 = require('react/addons');
 var request               = require('superagent');
 var {CSSTransitionGroup}  = React.addons;
 
-var Head                = require('./Head.jsx');
-var Navigation          = require('./Navigation.jsx');
+var Head                = require('../Layout/Head.jsx');
+var Navigation          = require('../Layout/Navigation.jsx');
 
 var {RouteHandler, State: StateMixin} = require('react-router');
 
