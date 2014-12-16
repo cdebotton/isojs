@@ -22,7 +22,7 @@ var TumblrPhoto = React.createClass({
 
   render(): any {
     return (
-      <div className="photos">
+      <div className="tumblr-post photo">
         {this.props.post.photos.map(this.renderImage)}
       </div>
     );

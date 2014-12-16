@@ -12,7 +12,7 @@ var TumblrLink = React.createClass({
 
   render(): any {
     return (
-      <div className="quote">
+      <div className="tumblr-post link">
         <a href={this.props.post.url}>{this.props.post.title}</a>
       </div>
     );

@@ -9,6 +9,8 @@ var gMinifyCss  = require('gulp-minify-css');
 var gSourcemaps = require('gulp-sourcemaps');
 var koaServer   = require('./lib/koa-server');
 var nib         = require('nib');
+var jeet        = require('jeet');
+var rupture     = require('rupture');
 var streamqueue = require('streamqueue');
 
 function StylusCompiler(watch, build) {
@@ -34,7 +36,7 @@ function StylusCompiler(watch, build) {
     stream.queue(
       gulp.src(PATHS.SRC)
         .pipe(gStylus({
-          use: [nib()],
+          use: [nib(), jeet(), rupture()],
           debug: !build,
           sourcemap: {
             inline: true,

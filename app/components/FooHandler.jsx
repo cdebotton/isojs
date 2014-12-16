@@ -10,8 +10,6 @@ var UsersStore          = require('../stores/UsersStore');
 var StoreMixin          = require('../mixins/StoreMixin');
 var UserAPI             = require('../utils/UserAPI');
 
-var ITEMS_PER_PAGE = 20;
-
 var FooHandler = React.createClass({
   mixins: [StoreMixin(getState)],
 

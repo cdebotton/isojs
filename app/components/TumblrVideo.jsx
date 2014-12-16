@@ -15,7 +15,7 @@ var TumblrVideo = React.createClass({
 
   render(): any {
     return (
-      <div className="audio">
+      <div className="tumblr-post audio">
         <div dangerouslySetInnerHTML={{__html: this.props.post.player[2].embed_code}} />
       </div>
     );

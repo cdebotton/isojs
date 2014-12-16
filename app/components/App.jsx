@@ -1,13 +1,17 @@
 /** @flow */
 
-var React            = require('react');
-var {RouteHandler}   = require('react-router');
-var request          = require('superagent');
+var React                 = require('react/addons');
+var request               = require('superagent');
+var {CSSTransitionGroup}  = React.addons;
 
 var Head                = require('./Head.jsx');
 var Navigation          = require('./Navigation.jsx');
 
+var {RouteHandler, State: StateMixin} = require('react-router');
+
 var App = React.createClass({
+  mixins: [StateMixin],
+
   propTypes: {
     query: React.PropTypes.object.isRequired,
     params: React.PropTypes.object.isRequired,
@@ -24,15 +28,17 @@ var App = React.createClass({
 
   render(): any {
     var {env} = this.props;
-    var Bundle = this.getBundle(env);
+    var name = this.getRoutes().reverse()[0].name;
 
     return (
       <html lang="us">
       <Head env={env} />
       <body>
         <Navigation />
-        <RouteHandler {...this.props} />
-        {Bundle}
+        <CSSTransitionGroup transitionName="page-change">
+          <RouteHandler key={name} {...this.props} />
+        </CSSTransitionGroup>
+        {this.getBundle(env)}
       </body>
       </html>
     );

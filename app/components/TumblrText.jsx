@@ -15,7 +15,7 @@ var TumblrText = React.createClass({
       <h3>{this.props.post.title}</h3>
     ) : false;
     return (
-      <div className="text">
+      <div className="tumblr-post text">
         <h3>{this.props.post.title}</h3>
         <div dangerouslySetInnerHTML={{__html: this.props.post.body}} />
       </div>

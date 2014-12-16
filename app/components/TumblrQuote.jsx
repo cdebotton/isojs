@@ -11,7 +11,7 @@ var TumblrQuote = React.createClass({
 
   render(): any {
     return (
-      <div className="quote">
+      <div className="tumblr-post quote">
         <h4 dangerouslySetInnerHTML={{__html: this.props.post.text}} />
       </div>
     );

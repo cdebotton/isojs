@@ -36,7 +36,7 @@ var TumblrPost = React.createClass({
     var {posts} = this.props;
 
     return (
-      <div className="tumblr-post">
+      <div className="tumblr-posts">
         {posts.toJS().map(this.getPostTemplate)}
       </div>
     );

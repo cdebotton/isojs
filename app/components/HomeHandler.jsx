@@ -1,10 +1,11 @@
 /** @flow */
 
 var React                 = require('react');
-var Cache                 = require('../utils/Cache');
 var {RouteHandler, Link}  = require('react-router');
+
 var TumblrPosts           = require('./TumblrPosts.jsx');
 var StoreMixin            = require('../mixins/StoreMixin');
+var AsyncDataMixin        = require('../mixins/AsyncDataMixin');
 var TumblrStore           = require('../stores/TumblrStore');
 var TumblrAPI             = require('../utils/TumblrAPI');
 
@@ -17,38 +18,37 @@ function getState(params, query): Object {
   return { tumblr: tumblr };
 }
 
-var HomeHandler = React.createClass({
-  mixins: [StoreMixin(getState)],
+function fetchData(params, query): Object {
+  return TumblrAPI[params.postType || 'posts']();
+}
 
-  statics: {
-    fetchData(params: Object, query: Object) {
-      return TumblrAPI[params.postType || 'posts']();
-    }
-  },
+var HomeHandler = React.createClass({
+  mixins: [StoreMixin(getState), AsyncDataMixin(fetchData)],
 
   render(): any {
     var tumblr = this.state.tumblr.toJS();
-
     return (
       <div className="home-handler">
-        <header>
-          <h2>{tumblr.blog.title}</h2>
-          <p>{tumblr.blog.description}</p>
-          <dl>
-            <dt>Posts</dt>
-            <dd>{tumblr.blog.posts}</dd>
-            <dt>Likes</dt>
-            <dd>{tumblr.blog.likes}</dd>
-          </dl>
+        <header className="header">
+          <div className="info">
+            <h2>{tumblr.blog.title}</h2>
+            <p>{tumblr.blog.description}</p>
+            <dl>
+              <dt>Posts</dt>
+              <dd>{tumblr.blog.posts}</dd>
+              <dt>Likes</dt>
+              <dd>{tumblr.blog.likes}</dd>
+            </dl>
+          </div>
           <nav>
-            <Link to="index">All</Link>
-            <Link to="post" params={{postType: 'photo'}}>Photo</Link>
-            <Link to="post" params={{postType: 'audio'}}>Audio</Link>
-            <Link to="post" params={{postType: 'video'}}>Video</Link>
-            <Link to="post" params={{postType: 'quote'}}>Quote</Link>
-            <Link to="post" params={{postType: 'link'}}>Link</Link>
-            <Link to="post" params={{postType: 'chat'}}>Chat</Link>
-            <Link to="post" params={{postType: 'answer'}}>Answer</Link>
+            <Link to="index"><i className="fa fa-asterisk" /></Link>
+            <Link to="post" params={{postType: 'photo'}}><i className="fa fa-camera" /></Link>
+            <Link to="post" params={{postType: 'audio'}}><i className="fa fa-headphones" /></Link>
+            <Link to="post" params={{postType: 'video'}}><i className="fa fa-video-camera" /></Link>
+            <Link to="post" params={{postType: 'quote'}}><i className="fa fa-quote-left" /></Link>
+            <Link to="post" params={{postType: 'link'}}><i className="fa fa-link" /></Link>
+            <Link to="post" params={{postType: 'chat'}}><i className="fa fa-wechat" /></Link>
+            <Link to="post" params={{postType: 'answer'}}><i className="fa fa-question" /></Link>
           </nav>
         </header>
         <div className="posts">

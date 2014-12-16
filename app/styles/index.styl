@@ -1,6 +1,119 @@
 @import nib
+@import jeet
+@import 'rupture'
+@import 'base'
+@import 'variables'
+@import 'mixins'
+@import 'animations'
+@import 'typography'
 
-html,
 body {
-  margin 0
+  font-size 1.4rem
+}
+
+.navigation {
+  position relative
+  center(960px)
+  height 10rem
+  text-align center
+  a {
+    position relative
+    display table
+    line-height normal
+    text-decoration none
+    text-transform uppercase
+    font-weight bold
+    font-size 2.4rem
+    color #000
+    col(1/2)
+    height 100%
+    .fa {
+      display table-cell
+      vertical-align middle
+    }
+  }
+}
+
+.header {
+  base()
+  // edit()
+  cf()
+
+  .info {
+    col(10/12)
+    shift(2/12)
+
+    +below(MEDIA_MD) {
+      col(10/12)
+      shift(2/12)
+    }
+
+    +below(MEDIA_SM) {
+      stack()
+      unshift()
+    }
+
+    h2 {
+      padding 0
+      margin 0
+    }
+  }
+
+  nav {
+    col(2/12)
+    shift(-10/12)
+
+    +below(MEDIA_MD) {
+      col(2/12)
+      shift(-10/12)
+    }
+
+    +below(MEDIA_SM) {
+      stack()
+      unshift()
+    }
+
+    a {
+      position relative
+      diplay block
+      height 4rem
+      text-align center
+      text-decoration none
+      color #000
+      span(1/2)
+
+      +below(MEDIA_SM) {
+        span(1/8)
+      }
+
+      +below(MEDIA_XS) {
+        span(1/4)
+      }
+
+      i {
+        align both
+
+        +below(MEDIA_SM) {
+          align none
+        }
+      }
+    }
+  }
+}
+
+.tumblr-posts {
+  display flex
+  flex-flow row wrap
+  justify-content flex-start
+}
+
+.tumblr-post {
+  width 100% * (1/3)
+
+  &.photo {
+    img {
+      width 100%
+      height auto
+    }
+  }
 }

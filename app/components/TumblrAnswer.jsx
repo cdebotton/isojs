@@ -13,7 +13,7 @@ var TumblrAnswer = React.createClass({
 
   render(): any {
     return (
-      <div className="answer">
+      <div className="tumblr-post answer">
         <h3>{this.props.post.question} &mdash; {this.props.post.asking_name}</h3>
         <div dangerouslySetInnerHTML={{__html: this.props.post.answer}} />
       </div>

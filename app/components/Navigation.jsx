@@ -7,8 +7,8 @@ var Navigation = React.createClass({
   render(): any {
     return (
       <nav className="navigation">
-        <Link to="index">Home</Link>
-        <Link to="foo">Foo</Link>
+        <Link to="index"><i className="fa fa-home" /></Link>
+        <Link to="foo"><i className="fa fa-users" /></Link>
       </nav>
     );
   }

@@ -22,7 +22,7 @@ var TumblrChat = React.createClass({
 
   render(): any {
     return (
-      <div className="chat">
+      <div className="tumblr-post chat">
         {this.props.post.dialogue.map(this.renderDialogue)}
       </div>
     );
