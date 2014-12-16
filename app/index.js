@@ -55,6 +55,9 @@ if ('undefined' !== typeof window) {
           yield fetchData(state.routes, state.params, state.query);
           // initialLoad = true;
         }
+        else {
+          fetchData(state.routes, state.params, state.query);
+        }
 
         React.render(
           <Handler

@@ -6,7 +6,7 @@ var {State: RouterState} = require('react-router');
 
 var queryCache = {};
 
-var StoreMixin = function(cb: any): any {
+var StoreMixin = function(cb: Function): any {
   return assign({}, RouterState, {
     getInitialState(): Object {
       return cb(this.getParams(), this.getQuery());
