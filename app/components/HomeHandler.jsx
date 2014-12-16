@@ -8,7 +8,7 @@ var StoreMixin            = require('../mixins/StoreMixin');
 var TumblrStore           = require('../stores/TumblrStore');
 var TumblrAPI             = require('../utils/TumblrAPI');
 
-var found = [];
+var firstLoad = false;
 
 function getState(params, query): Object {
   var {postType} = params;
@@ -21,8 +21,8 @@ var HomeHandler = React.createClass({
   mixins: [StoreMixin(getState)],
 
   statics: {
-    willTransitionTo(transition: Object, params: Object) {
-      transition.wait(TumblrAPI[params.postType || 'posts']());
+    fetchData(params: Object, query: Object) {
+      return TumblrAPI[params.postType || 'posts']();
     }
   },
 
