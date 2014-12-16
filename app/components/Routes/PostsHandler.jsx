@@ -32,7 +32,7 @@ var PostsHandler = React.createClass({
             </dl>
           </div>
           <nav>
-            <Link to="index"><i className="fa fa-asterisk" /></Link>
+            <Link to="posts"><i className="fa fa-asterisk" /></Link>
             <Link to="post" params={{postType: 'photo'}}><i className="fa fa-camera" /></Link>
             <Link to="post" params={{postType: 'audio'}}><i className="fa fa-headphones" /></Link>
             <Link to="post" params={{postType: 'video'}}><i className="fa fa-video-camera" /></Link>
