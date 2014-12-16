@@ -1,12 +1,9 @@
 /** @flow */
 
 var assign = require('react/lib/Object.assign');
-var Store = require('../stores/Store');
 var {State: RouterState} = require('react-router');
 
-var queryCache = {};
-
-var StoreMixin = function(cb: Function, ...stores): any {
+var StoreMixin: any = function(cb: Function, ...stores: Array<Object>): any {
   return assign({}, RouterState, {
     getInitialState(): Object {
       return cb(this.getParams(), this.getQuery());
@@ -31,6 +28,7 @@ var StoreMixin = function(cb: Function, ...stores): any {
     },
 
     __onChange(): void {
+      console.log(stores[0].getState().toObject());
       this.setState(cb(this.getParams(), this.getQuery()));
     }
   });

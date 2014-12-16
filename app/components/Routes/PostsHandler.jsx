@@ -13,7 +13,7 @@ var TumblrAPI             = require('../../utils/TumblrAPI');
 var {RouteHandler, Link}  = require('react-router');
 
 var PostsHandler = React.createClass({
-  mixins: [StoreMixin(getState), AsyncDataMixin(fetchData)],
+  mixins: [StoreMixin(getState, TumblrStore), AsyncDataMixin(fetchData)],
 
   render(): any {
     var tumblr = this.state.tumblr.toJS();

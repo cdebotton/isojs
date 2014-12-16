@@ -15,7 +15,7 @@ var UserActionCreators    = require('../../actions/UserActionCreators');
 var NameInput = require('../Common/NameInput.jsx');
 
 var FooHandler = React.createClass({
-  mixins: [StoreMixin(getState), AsyncDataMixin(fetchData)],
+  mixins: [StoreMixin(getState, UsersStore), AsyncDataMixin(fetchData)],
 
   handleNameChange(first: string, last: string): void {
     var user = this.state.user

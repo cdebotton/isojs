@@ -15,7 +15,7 @@ var StoreMixin          = require('../../mixins/StoreMixin');
 var UserAPI             = require('../../utils/UserAPI');
 
 var FooHandler = React.createClass({
-  mixins: [StoreMixin(getState), AsyncDataMixin(fetchData)],
+  mixins: [StoreMixin(getState, UsersStore), AsyncDataMixin(fetchData)],
 
   render(): any {
     return (

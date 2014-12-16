@@ -53,7 +53,7 @@ if ('undefined' !== typeof window) {
 
         if (! initialLoad) {
           yield fetchData(state.routes, state.params, state.query);
-          // initialLoad = true;
+          initialLoad = true;
         }
         else {
           fetchData(state.routes, state.params, state.query);

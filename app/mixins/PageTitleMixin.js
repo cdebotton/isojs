@@ -2,7 +2,7 @@
 
 var PageActionCreators = require('../actions/PageActionCreators');
 
-var PageTitleMixin = function(title: string): any {
+var PageTitleMixin: any = function(title: string): any {
   return {
     componentDidMount(): void {
       PageActionCreators.setTitle(title);
