@@ -29,13 +29,13 @@ var NameInput = React.createClass({
           type="text"
           ref="firstName"
           placeholder="First name"
-          defaultValue={this.props.name.first}
+          value={this.props.name.first}
           onChange={this.handleChange} />
         <input
           type="text"
           ref="lastName"
           placeholder="Last name"
-          defaultValue={this.props.name.last}
+          value={this.props.name.last}
           onChange={this.handleChange} />
       </fieldset>
     );

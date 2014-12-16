@@ -3,24 +3,25 @@
 var React   = require('react');
 var co      = require('co');
 var Promise = require('bluebird');
-var {Link}  = require('react-router');
+var {Link, RouteHandler}  = require('react-router');
 
 var UserActionCreators  = require('../../actions/UserActionCreators');
 var PageActionCreators  = require('../../actions/PageActionCreators');
 var {ActionTypes}       = require('../../constants/AppConstants');
-var UsersStore          = require('../../stores/UsersStore');
+var UserListStore          = require('../../stores/UserListStore');
 var PageStore           = require('../../stores/PageStore');
 var AsyncDataMixin      = require('../../mixins/AsyncDataMixin');
 var StoreMixin          = require('../../mixins/StoreMixin');
 var UserAPI             = require('../../utils/UserAPI');
 
 var FooHandler = React.createClass({
-  mixins: [StoreMixin(getState, UsersStore), AsyncDataMixin(fetchData)],
+  mixins: [StoreMixin(getState, UserListStore), AsyncDataMixin(fetchData)],
 
   render(): any {
     return (
       <div className="foo-handler">
         <h2>Foo Handler</h2>
+        <RouteHandler {...this.props} />
         <ul>
           {getUsersList(this.state.users)}
         </ul>
@@ -58,7 +59,7 @@ function getTitle(title) {
 }
 
 function getState(params: Object, query: Object): Object {
-  return {users: UsersStore.getState()};
+  return {users: UserListStore.getState()};
 }
 
 function fetchData(params: Object, query: Object): any {

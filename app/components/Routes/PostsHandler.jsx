@@ -39,13 +39,13 @@ var PostsHandler = React.createClass({
           </div>
           <nav>
             <Link to="posts"><i className="fa fa-asterisk" /></Link>
-            <Link to="post" params={{postType: 'photo'}}><i className="fa fa-camera" /></Link>
-            <Link to="post" params={{postType: 'audio'}}><i className="fa fa-headphones" /></Link>
-            <Link to="post" params={{postType: 'video'}}><i className="fa fa-video-camera" /></Link>
-            <Link to="post" params={{postType: 'quote'}}><i className="fa fa-quote-left" /></Link>
-            <Link to="post" params={{postType: 'link'}}><i className="fa fa-link" /></Link>
-            <Link to="post" params={{postType: 'chat'}}><i className="fa fa-wechat" /></Link>
-            <Link to="post" params={{postType: 'answer'}}><i className="fa fa-question" /></Link>
+            <Link to="posts" params={{postType: 'photo'}}><i className="fa fa-camera" /></Link>
+            <Link to="posts" params={{postType: 'audio'}}><i className="fa fa-headphones" /></Link>
+            <Link to="posts" params={{postType: 'video'}}><i className="fa fa-video-camera" /></Link>
+            <Link to="posts" params={{postType: 'quote'}}><i className="fa fa-quote-left" /></Link>
+            <Link to="posts" params={{postType: 'link'}}><i className="fa fa-link" /></Link>
+            <Link to="posts" params={{postType: 'chat'}}><i className="fa fa-wechat" /></Link>
+            <Link to="posts" params={{postType: 'answer'}}><i className="fa fa-question" /></Link>
           </nav>
         </header>
         <div className="posts">

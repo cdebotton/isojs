@@ -13,9 +13,10 @@ module.exports = (
   <Route handler={App}>
     <DefaultRoute name="index" handler={HomeHandler} />
     <Route name="posts" path="/posts" handler={PostsHandler}>
-      <Route name="post" path="/posts/:postType" handler={HomeHandler} />
+      <Route name="post" path=":postType" handler={PostsHandler} />
     </Route>
-    <Route name="foo" handler={FooHandler} />
-    <Route name="bar" path="/users/:userId" handler={BarHandler} />
+    <Route name="foo" handler={FooHandler}>
+      <Route name="bar" path=":userId" handler={BarHandler} />
+    </Route>
   </Route>
 );

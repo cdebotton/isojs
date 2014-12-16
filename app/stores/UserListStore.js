@@ -12,9 +12,9 @@ var UserActionCreators        = require('../actions/UserActionCreators');
 
 var _users: Immutable = Immutable.List();
 
-var UsersStore = assign({}, Store, {
+var UserListStore = assign({}, Store, {
   /**
-   * Return the state of the UsersStore
+   * Return the state of the UserListStore
    * @return {object}
    */
   getState(): Object {
@@ -32,7 +32,7 @@ var UsersStore = assign({}, Store, {
   }
 });
 
-UsersStore.dispatchToken = AppDispatcher.register(function(payload: Payload): bool {
+UserListStore.dispatcherToken = AppDispatcher.register(function(payload: Payload): bool {
   var action: Action = payload.action;
 
   switch (action.type) {
@@ -40,18 +40,23 @@ UsersStore.dispatchToken = AppDispatcher.register(function(payload: Payload): bo
       if (isUnresolved(action.response)) return true;
 
       _users = Immutable.List(action.response);
-      UsersStore.emitChange();
+      UserListStore.emitChange();
       break;
 
     case ActionTypes.GET_USER_BY_ID:
       if (isUnresolved(action.response)) return true;
-
-      _users = _users.concat([action.response]);
-      UsersStore.emitChange();
+      addUser(action.response);
+      UserListStore.emitChange();
       break;
   }
 
   return true;
 });
 
-module.exports = UsersStore;
+function addUser(user) {
+  if (_users.map(user => user._id).indexOf(user._id) === -1) {
+    _users = _users.concat([user]);
+  }
+}
+
+module.exports = UserListStore;
