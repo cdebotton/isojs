@@ -35,7 +35,10 @@ var App = React.createClass({
       <Head env={env} />
       <body>
         <Navigation />
-        <CSSTransitionGroup transitionName="page-change">
+        <CSSTransitionGroup
+          className="page-change-wrapper"
+          transitionName="page-change"
+          component="div">
           <RouteHandler key={name} {...this.props} />
         </CSSTransitionGroup>
         {this.getBundle(env)}
