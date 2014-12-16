@@ -49,7 +49,6 @@ var PostsHandler = React.createClass({
           </nav>
         </header>
         <div className="posts">
-
           {getLoader(tumblr.status)}
           <TumblrPosts posts={this.state.tumblr.get('posts')} />
         </div>
