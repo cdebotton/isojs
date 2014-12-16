@@ -2,9 +2,9 @@
 
 var React       = require('react');
 var App         = require('./App.jsx');
-var HomeHandler = require('./Handlers/HomeHandler.jsx');
-var FooHandler  = require('./Handlers/FooHandler.jsx');
-var BarHandler  = require('./Handlers/BarHandler.jsx');
+var HomeHandler = require('./Routes/HomeHandler.jsx');
+var FooHandler  = require('./Routes/FooHandler.jsx');
+var BarHandler  = require('./Routes/BarHandler.jsx');
 var {Route, DefaultRoute, NotFoundRoute} = require('react-router');
 
 module.exports = (
