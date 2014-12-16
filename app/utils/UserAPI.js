@@ -8,13 +8,13 @@ var UserAPI = assign({}, AppWebAPIUtils, {
   getUsers(): void {
     var key: string = ActionTypes.GET_USERS;
 
-    this.get('users', key);
+    return this.get('users', key);
   },
 
   getUserById(id: number): void {
     var key: string = ActionTypes.GET_USER_BY_ID;
 
-    this.get(`users/${id}`, key);
+    return this.get(`users/${id}`, key);
   },
 
   postUsers(username: string, password: string): void {

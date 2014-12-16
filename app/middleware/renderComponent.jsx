@@ -32,7 +32,7 @@ function fetchData(routes, params, query) {
     .then(data => data.reduce((memo, item) => {
       memo = assign({}, memo, item);
       return memo;
-    }));
+    }, {}));
 }
 
 function renderComponent() {

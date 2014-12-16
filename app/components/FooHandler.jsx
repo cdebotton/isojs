@@ -16,19 +16,8 @@ var FooHandler = React.createClass({
   mixins: [StoreMixin(getState)],
 
   statics: {
-    willTransitionTo(transition: Object, params: Object): void {
-      var {min, max} = params;
-
-      min || (min = 0);
-      max || (max = ITEMS_PER_PAGE);
-
-      if (! this.hasQueried('users', {min: min, max: max})) {
-        UserActionCreators.getUsers();
-      }
-
-      transition.wait(UserAPI.getPendingRequests([
-        ActionTypes.GET_USERS
-      ]));
+    fetchData(params: Object, query: Object): any {
+      return UserAPI.getUsers();
     }
   },
 

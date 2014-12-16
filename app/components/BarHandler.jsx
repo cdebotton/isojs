@@ -13,9 +13,9 @@ var FooHandler = React.createClass({
   mixins: [StoreMixin(getState)],
 
   statics: {
-    willTransitionTo(transition: Object, params: Object): void {
-      waitFor(transition, params);
-    },
+    fetchData(params: Object, query: Object): any {
+      return UserAPI.getUserById(params.userId);
+    }
   },
 
   handleNameChange(first: string, last: string): void {
@@ -64,16 +64,6 @@ var FooHandler = React.createClass({
 
 function getState(params: Object, query?: Object): Object {
   return {user: UsersStore.getById(params.userId)};
-}
-
-function waitFor(transition: Object, params: Object): void {
-  if (! UsersStore.getById(params.userId)) {
-    UserActionCreators.getUserById(params.userId);
-
-    transition.wait(UserAPI.getPendingRequests([
-      ActionTypes.GET_USER_BY_ID
-    ]));
-  }
 }
 
 module.exports = FooHandler;
