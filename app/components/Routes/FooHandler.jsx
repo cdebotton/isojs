@@ -22,9 +22,7 @@ var FooHandler = React.createClass({
       <div className="foo-handler">
         <h2>Foo Handler</h2>
         <RouteHandler {...this.props} />
-        <ul>
-          {getUsersList(this.state.users)}
-        </ul>
+        <ul>{getUsersList(this.state.users)}</ul>
       </div>
     );
   }

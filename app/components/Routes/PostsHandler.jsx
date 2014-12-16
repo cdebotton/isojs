@@ -20,8 +20,7 @@ var PostsHandler = React.createClass({
   render(): any {
     var tumblr = this.state.tumblr.toJS();
     var cx = classSet({
-      'posts-handler': true,
-      'loading': tumblr.status === ApiStates.PENDING
+      'posts-handler': true
     });
 
     return (

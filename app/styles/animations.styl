@@ -1,4 +1,4 @@
-.page-change-enter, .page-change-leave {
+.route-enter, .route-leave {
   display block
   position absolute
   top 0
@@ -7,20 +7,19 @@
   transition opacity 175ms ease-in-out, transform 175ms ease-in-out
 }
 
-.page-change-enter {
+.route-enter {
   opacity 0
   transform translate3d(-50%, 0, 0)
-  z-index 100
-  &.page-change-enter-active {
+  &.route-enter-active {
     opacity 1
     transform translate3d(0%, 0, 0)
   }
 }
 
-.page-change-leave {
+.route-leave {
   opacity 1
   transform translate3d(0, 0, 0)
-  &.page-change-leave-active {
+  &.route-leave-active {
     opacity 0
     transform translate3d(50%, 0, 0)
   }

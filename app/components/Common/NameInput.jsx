@@ -8,6 +8,7 @@ var NameInput = React.createClass({
       first: React.PropTypes.string.isRequired,
       last: React.PropTypes.string.isRequired
     }).isRequired,
+
     onHandleChange: React.PropTypes.func.isRequired
   },
 
