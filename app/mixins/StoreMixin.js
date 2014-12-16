@@ -28,7 +28,6 @@ var StoreMixin: any = function(cb: Function, ...stores: Array<Object>): any {
     },
 
     __onChange(): void {
-      console.log(stores[0].getState().toObject());
       this.setState(cb(this.getParams(), this.getQuery()));
     }
   });
