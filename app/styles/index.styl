@@ -114,10 +114,13 @@ body {
 .tumblr-post {
   width 100% * (1/3)
   animation drop-in 175ms ease-in-out
+  animation-fill-mode both
   display block
   position relative
-  for n in (0...40) {
-    animation-delay 375ms + (n * 50)
+  for n in (0..40) {
+    &:nth-child({n}) {
+      animation-delay 125ms + (n * 75)
+    }
   }
 
   &.photo {
