@@ -51,13 +51,13 @@ UserStore.dispatcherToken = AppDispatcher.register(function(payload: Payload): b
       UserStore.emitChange();
       break;
 
-    case ActionTypes.UPDATE_USER:
-      updateUser(action.userId, action.params);
+    case ActionTypes.POST_USERS:
+      postUsers(action.response);
       UserStore.emitChange();
       break;
 
-    case ActionTypes.POST_USERS:
-      postUsers(action.response);
+    case ActionTypes.UPDATE_USER:
+      updateUser(action.userId, action.params);
       UserStore.emitChange();
       break;
   }
