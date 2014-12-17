@@ -8,14 +8,14 @@ var Store = require('./Store');
 var {ApiStates, ActionTypes} = require('../constants/AppConstants');
 var {isUnresolved} = require('../utils/helpers');
 
-var _data = Immutable.Map({
-  _user: {},
-  _status: ApiStates.READY
+var _payload = Immutable.Map({
+  user: null,
+  status: ApiStates.READY
 });
 
 var UserEditStore = assign({}, Store, {
   getState(): any {
-    return _data;
+    return _payload;
   }
 });
 
@@ -35,12 +35,12 @@ UserEditStore.dispatcherToken = AppDispatcher.register(function(payload: Object)
 
 function setUser(data) {
   if (! isUnresolved(data)) {
-    _data = Immutable.Map({
+    _payload = Immutable.Map({
       user: Immutable.fromJS(data),
       status: ApiStates.READY
     });
   } else {
-    _data = _data.setIn(['user', 'status'], value => data);
+    _payload = _payload.setIn(['status'], value => data);
   }
 }
 

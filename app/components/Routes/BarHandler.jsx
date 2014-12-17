@@ -28,13 +28,12 @@ var FooHandler = React.createClass({
 
   handleEmailChange(event: Object): void {
     var user = this.state.user.set('email', event.target.value);
+
     this.setState({user: user});
   },
 
   handleSubmit(event: Object): void {
     event.preventDefault();
-    // var user = getById(this.state.users, this.getParams().userId);
-    // console.log(user);
   },
 
   shouldComponentUpdate(): bool {
@@ -44,25 +43,31 @@ var FooHandler = React.createClass({
     );
   },
 
+  getForm() {
+    return this.state.user ? (
+      <form
+        className="bar-form"
+        onSubmit={this.handleSubmit}>
+        <legend>var userId = {this.state.user.get('_id')}</legend>
+        <NameInput
+          name={this.state.user.get('name').toObject()}
+          onHandleChange={this.handleNameChange} />
+        <input
+          type="email"
+          placeholder="Email"
+          value={this.state.user.get('email')}
+          onChange={this.handleEmailChange} />
+        <button type="submit">Save</button>
+      </form>
+    ) : <p>Loading...</p>;
+  },
+
   render(): any {
     return (
       <div className="bar-handler">
         <h2>Bar Handler</h2>
 
-        <form
-          className="bar-form"
-          onSubmit={this.handleSubmit}>
-          <legend>var userId = {this.state.user.get('_id')}</legend>
-          <NameInput
-            name={this.state.user.get('name').toObject()}
-            onHandleChange={this.handleNameChange} />
-          <input
-            type="email"
-            placeholder="Email"
-            value={this.state.user.get('email')}
-            onChange={this.handleEmailChange} />
-          <button type="submit">Save</button>
-        </form>
+        {this.getForm()}
       </div>
     );
   }
@@ -88,7 +93,7 @@ function getState(params: Object, query?: Object): Object {
 }
 
 function fetchData(params: Object, query: Object): any {
-  return co(function* () {
+  return co(function *() {
     yield UserAPI.getUserById(params.userId);
     var name = UserEditStore.getState().getIn(['user', 'name']);
     yield getTitle(name.get('first') + ' ' + name.get('last'));

@@ -50,7 +50,6 @@ if ('undefined' !== typeof window) {
 
     Router.run(Routes, Router.HistoryLocation, function(Handler, state) {
       co(function *() {
-
         if (! initialLoad) {
           yield fetchData(state.routes, state.params, state.query);
           initialLoad = true;

@@ -71,7 +71,7 @@ var AppWebAPIUtils: Object = {
     return Promise.all(promises);
   },
 
-  get: function(resource: string, key: string, params: Object) {
+  get: function(resource: string, key: string, params: ?Object) {
     var url = makeUrl(resource);
 
     abortPendingRequests(key);
