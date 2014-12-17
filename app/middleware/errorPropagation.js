@@ -9,10 +9,12 @@ function errorPropagation() {
     }
     catch(err) {
       err.status = err.status || 500;
-      err.message = err.expose ? err.message : 'Internal server error.';
+      err.message = process.env.NODE_ENV === 'development' ?
+        err.stack :
+        'Internal server error.';
 
       this.status = err.status;
-      this.body = {code: err.status, message: err.message};
+      this.body = err.message;
       this.app.emit('error', err, this);
     }
   }

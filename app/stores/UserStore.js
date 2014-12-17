@@ -2,7 +2,7 @@
 
 var Immutable = require('immutable');
 var assign = require('react/lib/Object.assign');
-var Store = require('./Store');
+var CollectionStore = require('./CollectionStore');
 var AppDispatcher = require('../dispatchers/AppDispatcher');
 var {Request} = require('superagent');
 var {isUnresolved} = require('../utils/helpers');
@@ -15,7 +15,7 @@ var _payload: Immutable = Immutable.Map({
   entities: Immutable.List()
 });
 
-var UserStore = assign({}, Store, {
+var UserStore = assign({}, CollectionStore, {
   /**
    * Return the state of the UserStore
    * @return {object}

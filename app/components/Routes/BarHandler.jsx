@@ -86,15 +86,13 @@ function getTitle(title) {
 }
 
 function getState(params: Object, query?: Object): Object {
-  return {
-    user: UserStore.find(params.userId)
-  };
+  return {user: UserStore.find(params.userId)};
 }
 
 function fetchData(params: Object, query: Object): any {
   return co(function *() {
     yield UserAPI.getUserById(params.userId);
-    var name = UserStore.find(params.userId);
+    var name = UserStore.find(params.userId).get('name');
     yield getTitle(name.get('first') + ' ' + name.get('last'));
   });
 }
