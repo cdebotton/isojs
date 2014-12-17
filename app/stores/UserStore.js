@@ -66,12 +66,16 @@ UserStore.dispatcherToken = AppDispatcher.register(function(payload: Payload): b
 });
 
 function setUsers(users) {
-  _payload = _payload.set('entities', Immutable.List(users));
+  _payload = _payload.set('entities', Immutable.fromJS(users));
 }
 
 function addUser(user) {
-  if (_payload.get('entities').map(user => user._id).indexOf(user._id) === -1) {
-    _payload = _payload.setIn(['entities'], value => value.concat(user));
+  var found = _payload.get('entities')
+    .findIndex(entity => entity.get('_id') === user._id) > -1;
+
+  if (found === -1) {
+    var entities = _payload.get('entities').concat([user]);
+    _payload = _payload.set('entities', entities);
   }
 }
 
@@ -83,22 +87,24 @@ function updateUser(id, user) {
 }
 
 function destroyUser(id) {
-  var index = _users.map(record => record._id)
-    .toArray()
-    .indexOf(id);
+  var index = _payload.get('entities')
+    .findIndex(entity => entity._id === id);
 
-  _users = _users.delete(index);
+  var entities = _payload.get('entities')
+    .delete(index);
+
+  _payload = _payload.set('entities', entities);
 };
 
 function createUser(user) {
-  if (! isUnresolved(user)) {
-    _users = _users.concat(user);
-  }
+  var entities = _payload.get('entities').concat([user]);
+  _payload = _payload.set('entities', entities);
 }
 
 function postUsers(user) {
   if (! isUnresolved(user)) {
-    _users = _users.concat([user]);
+    var entities = _payload.get('entities').concat([user]);
+    _payload = _payload.set('entities', entities);
   }
 }
 

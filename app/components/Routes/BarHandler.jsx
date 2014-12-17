@@ -43,13 +43,6 @@ var FooHandler = React.createClass({
     this.transitionTo('foo');
   },
 
-  shouldComponentUpdate(): bool {
-    return !Immutable.is(
-      this.state.user,
-      UserStore.find(this.state.user.get('_id'))
-    );
-  },
-
   getForm() {
     return this.state.user ? (
       <form
@@ -101,7 +94,7 @@ function getState(params: Object, query?: Object): Object {
 function fetchData(params: Object, query: Object): any {
   return co(function *() {
     yield UserAPI.getUserById(params.userId);
-    var name = UserStore.find(params.userId).get('name');
+    var name = UserStore.find(params.userId);
     yield getTitle(name.get('first') + ' ' + name.get('last'));
   });
 }

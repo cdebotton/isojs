@@ -10,7 +10,7 @@ var CHANGE_EVENT = 'change';
 var Store = assign({}, EventEmitter.prototype, {
   find(id): Object {
     try {
-      var payload = this.getState().get('entities').find(payload => payload._id === id);
+      var payload = this.getState().get('entities').find(payload => payload.get('_id') === id);
 
       return Immutable.fromJS(payload);
     }

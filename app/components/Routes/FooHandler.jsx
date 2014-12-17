@@ -32,7 +32,7 @@ var FooHandler = React.createClass({
 });
 
 function getUsersList(users: Object): any {
-  return users.toArray().map(function(user: Object, i: number) {
+  return users.toJS().map(function(user: Object, i: number) {
     var fullName = user.name.first + ' ' + user.name.last;
     var email = 'mailto:' + user.email;
     return (
