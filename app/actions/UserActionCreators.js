@@ -13,16 +13,6 @@ var AuthActionCreators: Object = {
     UserAPI.getUserById(id);
   },
 
-  findByIdAndUpdate(id: number, params: Object): void {
-    AppDispatcher.handleViewAction({
-      type: ActionTypes.UPDATE_USER,
-      id: id,
-      response: params
-    });
-
-    UserAPI.putUsers(id, params);
-  },
-
   createUser(username: string, password: string): void {
     AppDispatcher.handleViewAction({
       type: ActionTypes.CREATE_USER,
@@ -30,6 +20,16 @@ var AuthActionCreators: Object = {
     });
 
     UserAPI.postUsers(username, password);
+  },
+
+  updateUser(userId: number, params: Object): void {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.UPDATE_USER,
+      userId: userId,
+      params: params
+    });
+
+    UserAPI.putUsers(userId, params);
   },
 
   destroyUser(id: number): void {

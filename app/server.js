@@ -9,20 +9,21 @@ files.forEach(function(file) {
   }
 });
 
-var koa             = require('koa');
-var bodyParser      = require('koa-bodyparser');
-var session         = require('koa-session');
-var compress        = require('koa-compress');
-var mount           = require('koa-mount');
-var passport        = require('koa-passport');
-var json            = require('koa-json');
-var favicon         = require('koa-favicon');
-var mongoose        = require('mongoose');
-var serveStatic     = require('koa-static');
-var config          = require('./config');
-var responseTime    = require('./middleware/responseTime');
-var Api             = require('./api/routes/Api');
-var app             = koa();
+var koa               = require('koa');
+var bodyParser        = require('koa-bodyparser');
+var session           = require('koa-session');
+var compress          = require('koa-compress');
+var mount             = require('koa-mount');
+var passport          = require('koa-passport');
+var json              = require('koa-json');
+var favicon           = require('koa-favicon');
+var mongoose          = require('mongoose');
+var serveStatic       = require('koa-static');
+var config            = require('./config');
+var responseTime      = require('./middleware/responseTime');
+var errorPropagation  = require('./middleware/errorPropagation');
+var Api               = require('./api/routes/Api');
+var app               = koa();
 
 var env = process.env.NODE_ENV === 'production'
   ? 'production'
@@ -42,6 +43,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(serveStatic(path.join(__dirname, '../dist')));
 app.use(mount('/api/v1', Api.middleware()));
+app.use(errorPropagation());
 
 if (! production) {
   var koaLr = require('koa-livereload');
@@ -58,7 +60,6 @@ require('node-jsx').install({
 var renderComponent = require('./middleware/renderComponent.jsx');
 
 app.use(renderComponent());
-
 mongoose.connect(config.db, function() {
   console.log('Connected to `mongodb://localhost/debotton`.');
 

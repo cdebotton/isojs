@@ -19,6 +19,19 @@ Api.get('/users/:userId'/*, bearer*/, function *() {
   this.body = user;
 });
 
+Api.put('/users/:userId'/*, bearer */, function *() {
+  var id = this.params.userId;
+  var body = this.request.body;
+
+  try {
+    var user = yield usersService.findByIdAndUpdate(id, body);
+    this.body = user;
+  }
+  catch (err) {
+    this.app.emit('error', err.stack, this);
+  }
+});
+
 Api.post('/users', bearer, function *() {
   var body = this.body;
   var user = yield usersService.create(body);

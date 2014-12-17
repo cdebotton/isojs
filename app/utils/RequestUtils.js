@@ -64,7 +64,7 @@ exports.delQuery = function(url: string): request {
   });
 };
 
-exports.postQuery = function(url: string, params: Object): request {
+exports.putQuery = function(url: string, params: Object): request {
   return co(function *() {
     var response = yield makePromise(request.put(url).send(params));
 

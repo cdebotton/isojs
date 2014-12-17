@@ -3,6 +3,7 @@
 var React                 = require('react/addons');
 var co                    = require('co');
 var Immutable             = require('immutable');
+var {Navigation}          = require('react-router');
 
 var AsyncDataMixin        = require('../../mixins/AsyncDataMixin');
 var StoreMixin            = require('../../mixins/StoreMixin');
@@ -16,7 +17,7 @@ var UserActionCreators    = require('../../actions/UserActionCreators');
 var NameInput = require('../Common/NameInput.jsx');
 
 var FooHandler = React.createClass({
-  mixins: [StoreMixin(getState, UserEditStore), AsyncDataMixin(fetchData)],
+  mixins: [StoreMixin(getState, UserEditStore), AsyncDataMixin(fetchData), Navigation],
 
   handleNameChange(first: string, last: string): void {
     var user = this.state.user
@@ -34,6 +35,12 @@ var FooHandler = React.createClass({
 
   handleSubmit(event: Object): void {
     event.preventDefault();
+    var id = this.state.user.get('_id');
+    var params = this.state.user.toJS();
+    delete params._id;
+
+    UserActionCreators.updateUser(id, params);
+    this.transitionTo('foo');
   },
 
   shouldComponentUpdate(): bool {

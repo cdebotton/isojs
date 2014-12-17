@@ -55,6 +55,7 @@ function renderComponent() {
     catch (e) {
       this.status = 500;
       this.body = PRODUCTION ? 'Internal Server Error' : e.toString();
+      this.app.emit('error', e, this);
     }
   };
 }

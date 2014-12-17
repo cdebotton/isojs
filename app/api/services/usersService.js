@@ -18,6 +18,14 @@ var usersService = {
     return user;
   },
 
+  findByIdAndUpdate: function *(id, params) {
+    var user = yield User.findByIdAndUpdate(id, params)
+      .select('-password -__v')
+      .exec();
+
+    return user;
+  },
+
   create: function *(body) {
     var params = {
       userName: body.userName,

@@ -3,12 +3,13 @@
 var Immutable       = require('immutable');
 var assign          = require('react/lib/Object.assign');
 var {ActionTypes}   = require('../constants/AppConstants');
+var UserEditStore   = require('./UserEditStore');
 var Store           = require('./Store');
 var AppDispatcher   = require('../dispatchers/AppDispatcher');
 var {Request}       = require('superagent');
 var {isUnresolved}  = require('../utils/helpers');
 
-var UserActionCreators        = require('../actions/UserActionCreators');
+var UserActionCreators = require('../actions/UserActionCreators');
 
 var _users: Immutable = Immutable.List();
 
@@ -38,7 +39,7 @@ UserListStore.dispatcherToken = AppDispatcher.register(function(payload: Payload
   switch (action.type) {
     case ActionTypes.GET_USERS:
       if (isUnresolved(action.response)) return true;
-
+      AppDispatcher.waitFor([UserEditStore.dispatcherToken]);
       _users = Immutable.List(action.response);
       UserListStore.emitChange();
       break;
@@ -46,6 +47,12 @@ UserListStore.dispatcherToken = AppDispatcher.register(function(payload: Payload
     case ActionTypes.GET_USER_BY_ID:
       if (isUnresolved(action.response)) return true;
       addUser(action.response);
+      UserListStore.emitChange();
+      break;
+
+    case ActionTypes.UPDATE_USER:
+      AppDispatcher.waitFor([UserEditStore.dispatcherToken]);
+      updateUser(UserEditStore.getState().get('user'));
       UserListStore.emitChange();
       break;
   }
@@ -57,6 +64,14 @@ function addUser(user) {
   if (_users.map(user => user._id).indexOf(user._id) === -1) {
     _users = _users.concat([user]);
   }
+}
+
+function updateUser(user) {
+  var index = _users.map(record => record._id)
+    .toArray()
+    .indexOf(user.get('_id'));
+
+  _users = _users.set(index, user.toJS());
 }
 
 module.exports = UserListStore;

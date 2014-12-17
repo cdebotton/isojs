@@ -33,7 +33,7 @@ var UserAPI = assign({}, AppWebAPIUtils, {
   putUsers(id: number, params: Object): void {
     var key: string = ActionTypes.PUT_USERS;
 
-    this.put(`users/${id}`, key);
+    this.put(`users/${id}`, key, params);
   }
 });
 

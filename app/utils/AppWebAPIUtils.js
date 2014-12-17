@@ -93,6 +93,8 @@ var AppWebAPIUtils: Object = {
     _pendingRequests[key] = putQuery(url, params)
       .then(digestResponse(key, params))
       .catch(digestError(key, params));
+
+    return _pendingRequests[key];
   },
 
   del: function(resource: string, key: string, params: Object) {
