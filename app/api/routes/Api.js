@@ -53,14 +53,19 @@ Api.delete('/users/:userId'/*, bearer*/, function *() {
 });
 
 Api.post('/login', function *(next) {
-  try {
-    var user = yield authService.login(this.req, this.res);
-    this.body = user;
-  }
-  catch (err) {
-    this.status = 500;
-    this.body = err;
-  }
+  var ctx = this;
+
+  yield* passport.authenticate('local', function* (err, user, info) {
+    if (err) throw err;
+    if (! user) {
+      ctx.status = 404;
+      ctx.body = {success: false};
+    }
+    else {
+      yield ctx.login(user);
+      ctx.body = user;
+    }
+  }).call(this, next);
 });
 
 Api.post('/logout', function *(next) {

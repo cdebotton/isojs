@@ -4,6 +4,7 @@ var LocalStrategy   = require('passport-local').Strategy;
 var BearerStrategy  = require('passport-http-bearer').Strategy;
 
 var User = mongoose.model('User');
+var Token = mongoose.model('Token');
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
