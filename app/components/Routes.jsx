@@ -6,6 +6,7 @@ var HomeHandler       = require('./Routes/HomeHandler.jsx');
 var PostsHandler      = require('./Routes/PostsHandler.jsx');
 var FooHandler        = require('./Routes/FooHandler.jsx');
 var BarHandler        = require('./Routes/BarHandler.jsx');
+var LoginHandler      = require('./Routes/LoginHandler.jsx');
 var CreateUserHandler = require('./Routes/CreateUserHandler.jsx');
 
 var {Route, DefaultRoute, NotFoundRoute} = require('react-router');
@@ -20,5 +21,6 @@ module.exports = (
       <Route name="createUser" path="create" handler={CreateUserHandler} addHandlerKey={true} />
       <Route name="bar" path=":userId" handler={BarHandler} addHandlerKey={true} />
     </Route>
+    <Route name="login" handler={LoginHandler} addHandlerKey={true} />
   </Route>
 );
