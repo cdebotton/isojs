@@ -55,6 +55,11 @@ UserListStore.dispatcherToken = AppDispatcher.register(function(payload: Payload
       updateUser(UserEditStore.getState().get('user'));
       UserListStore.emitChange();
       break;
+
+    case ActionTypes.DESTROY_USER:
+      destroyUser(action.id);
+      UserListStore.emitChange();
+      break;
   }
 
   return true;
@@ -73,5 +78,13 @@ function updateUser(user) {
 
   _users = _users.set(index, user.toJS());
 }
+
+function destroyUser(id) {
+  var index = _users.map(record => record._id)
+    .toArray()
+    .indexOf(id);
+
+  _users = _users.splice(index, 1);
+};
 
 module.exports = UserListStore;

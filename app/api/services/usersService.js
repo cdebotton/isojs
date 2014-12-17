@@ -38,7 +38,7 @@ var usersService = {
   },
 
   destroy: function *(id) {
-    return yield User.remove({_id: id}).exec();
+    return yield User.findByIdAndRemove(id).exec();
   }
 };
 

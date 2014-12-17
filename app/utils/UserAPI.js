@@ -27,13 +27,13 @@ var UserAPI = assign({}, AppWebAPIUtils, {
   destroyUsers(id: number): void {
     var key: string = ActionTypes.DELETE_USERS;
 
-    this.del(`users/${id}`, key);
+    return this.del(`users/${id}`, key);
   },
 
   putUsers(id: number, params: Object): void {
     var key: string = ActionTypes.PUT_USERS;
 
-    this.put(`users/${id}`, key, params);
+    return this.put(`users/${id}`, key, params);
   }
 });
 

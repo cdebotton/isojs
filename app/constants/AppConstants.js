@@ -18,7 +18,7 @@ var AppConstants = {
     PUT_USERS: null,
     DELETE_USERS: null,
     CREATE_USER: null,
-    DESTROY_USERS: null,
+    DESTROY_USER: null,
     UPDATE_USER: null,
     GET_SUBREDDIT: null,
     SET_TITLE: null

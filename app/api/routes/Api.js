@@ -38,9 +38,18 @@ Api.post('/users', bearer, function *() {
   this.body = user;
 });
 
-Api.delete('/users/:userId', bearer, function *() {
+Api.delete('/users/:userId'/*, bearer*/, function *() {
   var userId = this.params.userId;
-  yield usersService.destroy(userId);
+
+  try {
+    yield usersService.destroy(userId);
+    this.status = 200;
+    this.body = 'OK';
+  }
+  catch (err) {
+    this.app.emit('error', err, this);
+  }
+
 });
 
 Api.get('/login', function *(next) {

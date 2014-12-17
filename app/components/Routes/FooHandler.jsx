@@ -5,14 +5,16 @@ var co      = require('co');
 var Promise = require('bluebird');
 var {Link, RouteHandler}  = require('react-router');
 
+var DeleteUser          = require('../common/DeleteUser.jsx');
 var UserActionCreators  = require('../../actions/UserActionCreators');
 var PageActionCreators  = require('../../actions/PageActionCreators');
 var {ActionTypes}       = require('../../constants/AppConstants');
-var UserListStore          = require('../../stores/UserListStore');
+var UserListStore       = require('../../stores/UserListStore');
 var PageStore           = require('../../stores/PageStore');
 var AsyncDataMixin      = require('../../mixins/AsyncDataMixin');
 var StoreMixin          = require('../../mixins/StoreMixin');
 var UserAPI             = require('../../utils/UserAPI');
+
 
 var FooHandler = React.createClass({
   mixins: [StoreMixin(getState, UserListStore), AsyncDataMixin(fetchData)],
@@ -39,6 +41,7 @@ function getUsersList(users: Object): any {
           <Link to="bar" params={{userId: user._id}}>{fullName}</Link>
           <span>&nbsp;</span>
           <a href={email}><i className="fa fa-envelope-o" /></a>
+          <DeleteUser userId={user._id}>x</DeleteUser>
         </h3>
       </li>
     );
