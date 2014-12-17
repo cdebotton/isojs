@@ -9,7 +9,7 @@ var DeleteUser          = require('../common/DeleteUser.jsx');
 var UserActionCreators  = require('../../actions/UserActionCreators');
 var PageActionCreators  = require('../../actions/PageActionCreators');
 var {ActionTypes}       = require('../../constants/AppConstants');
-var UserListStore       = require('../../stores/UserListStore');
+var UserStore       = require('../../stores/UserStore');
 var PageStore           = require('../../stores/PageStore');
 var AsyncDataMixin      = require('../../mixins/AsyncDataMixin');
 var StoreMixin          = require('../../mixins/StoreMixin');
@@ -17,7 +17,7 @@ var UserAPI             = require('../../utils/UserAPI');
 
 
 var FooHandler = React.createClass({
-  mixins: [StoreMixin(getState, UserListStore), AsyncDataMixin(fetchData)],
+  mixins: [StoreMixin(getState, UserStore), AsyncDataMixin(fetchData)],
 
   render(): any {
     return (
@@ -62,7 +62,7 @@ function getTitle(title) {
 }
 
 function getState(params: Object, query: Object): Object {
-  return {users: UserListStore.getState()};
+  return {users: UserStore.getState().get('entities')};
 }
 
 function fetchData(params: Object, query: Object): any {

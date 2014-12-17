@@ -19,6 +19,8 @@ var usersService = {
   },
 
   findByIdAndUpdate: function *(id, params) {
+    delete params._id;
+
     var user = yield User.findByIdAndUpdate(id, params)
       .select('-password -__v')
       .exec();

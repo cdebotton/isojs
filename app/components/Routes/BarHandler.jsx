@@ -9,7 +9,7 @@ var AsyncDataMixin        = require('../../mixins/AsyncDataMixin');
 var StoreMixin            = require('../../mixins/StoreMixin');
 var {ActionTypes}         = require('../../constants/AppConstants');
 var UserAPI               = require('../../utils/UserAPI');
-var UserEditStore         = require('../../stores/UserEditStore');
+var UserStore             = require('../../stores/UserStore');
 var PageStore             = require('../../stores/PageStore');
 var PageActionCreators    = require('../../actions/PageActionCreators');
 var UserActionCreators    = require('../../actions/UserActionCreators');
@@ -17,7 +17,7 @@ var UserActionCreators    = require('../../actions/UserActionCreators');
 var NameInput = require('../Common/NameInput.jsx');
 
 var FooHandler = React.createClass({
-  mixins: [StoreMixin(getState, UserEditStore), AsyncDataMixin(fetchData), Navigation],
+  mixins: [StoreMixin(getState, UserStore), AsyncDataMixin(fetchData), Navigation],
 
   handleNameChange(first: string, last: string): void {
     var user = this.state.user
@@ -46,7 +46,7 @@ var FooHandler = React.createClass({
   shouldComponentUpdate(): bool {
     return !Immutable.is(
       this.state.user,
-      UserEditStore.getState().get('user')
+      UserStore.find(this.state.user.get('_id'))
     );
   },
 
@@ -93,17 +93,15 @@ function getTitle(title) {
 }
 
 function getState(params: Object, query?: Object): Object {
-  var state = UserEditStore.getState();
   return {
-    user: state.get('user'),
-    status: state.get('status')
+    user: UserStore.find(params.userId)
   };
 }
 
 function fetchData(params: Object, query: Object): any {
   return co(function *() {
     yield UserAPI.getUserById(params.userId);
-    var name = UserEditStore.getState().getIn(['user', 'name']);
+    var name = UserStore.find(params.userId).get('name');
     yield getTitle(name.get('first') + ' ' + name.get('last'));
   });
 }
