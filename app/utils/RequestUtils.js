@@ -52,7 +52,7 @@ exports.postQuery = function(url: string, params: Object): request {
   return co(function *() {
     var response = yield makePromise(request.post(url).send(params));
 
-    yield response;
+    return response;
   });
 };
 

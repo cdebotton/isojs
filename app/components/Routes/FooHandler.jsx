@@ -3,7 +3,7 @@
 var React   = require('react');
 var co      = require('co');
 var Promise = require('bluebird');
-var {Link, RouteHandler}  = require('react-router');
+var {Link, RouteHandler} = require('react-router');
 
 var DeleteUser          = require('../common/DeleteUser.jsx');
 var UserActionCreators  = require('../../actions/UserActionCreators');
@@ -23,6 +23,7 @@ var FooHandler = React.createClass({
     return (
       <div className="foo-handler">
         <h2>Foo Handler</h2>
+        <Link to="createUser">New</Link>
         <RouteHandler {...this.props} />
         <ul>{getUsersList(this.state.users)}</ul>
       </div>
@@ -34,14 +35,15 @@ function getUsersList(users: Object): any {
   return users.toArray().map(function(user: Object, i: number) {
     var fullName = user.name.first + ' ' + user.name.last;
     var email = 'mailto:' + user.email;
-
     return (
       <li className="user" key={i}>
         <h3>
-          <Link to="bar" params={{userId: user._id}}>{fullName}</Link>
+          {user._id ?
+            <Link to="bar" params={{userId: user._id}}>{fullName}</Link> :
+            <span>{{fullName}}</span>}
           <span>&nbsp;</span>
           <a href={email}><i className="fa fa-envelope-o" /></a>
-          <DeleteUser userId={user._id}>x</DeleteUser>
+          {user._id ? <DeleteUser userId={user._id}>x</DeleteUser> : false}
         </h3>
       </li>
     );

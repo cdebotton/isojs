@@ -106,6 +106,8 @@ var AppWebAPIUtils: Object = {
     _pendingRequests[key] = delQuery(url, params)
       .then(digestResponse(key, params))
       .catch(digestError(key, params));
+
+    return _pendingRequests[key];
   },
 
   post: function(resource: string, key: string, params: Object) {
@@ -117,6 +119,8 @@ var AppWebAPIUtils: Object = {
     _pendingRequests[key] = postQuery(url, params)
       .then(digestResponse(key, params))
       .catch(digestError(key, params));
+
+    return _pendingRequests[key];
   }
 };
 

@@ -60,6 +60,16 @@ UserListStore.dispatcherToken = AppDispatcher.register(function(payload: Payload
       destroyUser(action.id);
       UserListStore.emitChange();
       break;
+
+    case ActionTypes.CREATE_USER:
+      createUser(action.params);
+      UserListStore.emitChange();
+      break;
+
+    case ActionTypes.POST_USERS:
+      postUsers(action.response);
+      UserListStore.emitChange();
+      break;
   }
 
   return true;
@@ -84,7 +94,19 @@ function destroyUser(id) {
     .toArray()
     .indexOf(id);
 
-  _users = _users.splice(index, 1);
+  _users = _users.delete(index);
 };
+
+function createUser(user) {
+  if (! isUnresolved(user)) {
+    _users = _users.concat(user);
+  }
+}
+
+function postUsers(user) {
+  if (! isUnresolved(user)) {
+    _users = _users.concat([user]);
+  }
+}
 
 module.exports = UserListStore;

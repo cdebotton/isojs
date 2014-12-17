@@ -32,8 +32,8 @@ Api.put('/users/:userId'/*, bearer */, function *() {
   }
 });
 
-Api.post('/users', bearer, function *() {
-  var body = this.body;
+Api.post('/users'/*, bearer*/, function *() {
+  var body = this.request.body;
   var user = yield usersService.create(body);
   this.body = user;
 });

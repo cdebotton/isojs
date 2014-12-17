@@ -17,11 +17,10 @@ var UserAPI = assign({}, AppWebAPIUtils, {
     return this.get(`users/${id}`, key);
   },
 
-  postUsers(username: string, password: string): void {
+  postUsers(params: Object): void {
     var key: string     = ActionTypes.POST_USERS;
-    var params: Object  = {username: username, password: password};
 
-    this.post('users', key, params);
+    return this.post('users', key, params);
   },
 
   destroyUsers(id: number): void {

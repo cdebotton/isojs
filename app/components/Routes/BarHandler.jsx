@@ -57,7 +57,8 @@ var FooHandler = React.createClass({
         onSubmit={this.handleSubmit}>
         <legend>var userId = {this.state.user.get('_id')}</legend>
         <NameInput
-          name={this.state.user.get('name').toObject()}
+          firstName={this.state.user.getIn(['name', 'first'])}
+          lastName={this.state.user.getIn(['name', 'last'])}
           onHandleChange={this.handleNameChange} />
         <input
           type="email"

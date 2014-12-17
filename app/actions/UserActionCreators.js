@@ -13,13 +13,13 @@ var AuthActionCreators: Object = {
     UserAPI.getUserById(id);
   },
 
-  createUser(username: string, password: string): void {
+  createUser(params: Object): void {
     AppDispatcher.handleViewAction({
       type: ActionTypes.CREATE_USER,
-      username: username
+      params: params
     });
 
-    UserAPI.postUsers(username, password);
+    UserAPI.postUsers(params);
   },
 
   updateUser(userId: number, params: Object): void {

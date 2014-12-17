@@ -28,8 +28,12 @@ var usersService = {
 
   create: function *(body) {
     var params = {
-      userName: body.userName,
-      password: body.password
+      email: body.email,
+      password: body.password,
+      name: {
+        first: body.name.first,
+        last: body.name.last
+      }
     };
 
     var user = yield User.create(params);
