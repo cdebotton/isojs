@@ -16,8 +16,12 @@ function getAuthData(sessionName: string): Immutable {
   try {
     var auth: string = localStorage.getItem(sessionName);
     var data: Object = JSON.parse(auth);
-
-    return Immutable.Map(data);
+    if (data) {
+      return Immutable.fromJS(data);
+    }
+    else {
+      return Immutable.Map();
+    }
   }
   catch(e) {
     return Immutable.Map();

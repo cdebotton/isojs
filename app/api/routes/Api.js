@@ -52,7 +52,7 @@ Api.delete('/users/:userId'/*, bearer*/, function *() {
 
 });
 
-Api.get('/login', function *(next) {
+Api.post('/login', function *(next) {
   try {
     var user = yield authService.login(this.req, this.res);
     this.body = user;

@@ -2,10 +2,11 @@
 
 var React = require('react/addons');
 var {LinkedStateMixin} = React.addons;
+var PageTitleMixin = require('../../mixins/PageTitleMixin');
 var AuthActionCreators = require('../../actions/AuthActionCreators');
 
 var LoginHandler = React.createClass({
-  mixins: [LinkedStateMixin],
+  mixins: [LinkedStateMixin, PageTitleMixin('login')],
 
   getInitialState(): Object {
     return {email: null, password: null};
@@ -13,6 +14,7 @@ var LoginHandler = React.createClass({
 
   handleSubmit(event): void {
     event.preventDefault();
+
     var {email, password} = this.state;
     this.setState({email: null, password: null});
 
@@ -22,7 +24,7 @@ var LoginHandler = React.createClass({
   render(): any {
     return (
       <div className="login-handler">
-        <h2>Sign in</h2>
+        <h2>Login</h2>
         <form onSubmit={this.handleSubmit}>
           <input type="email" valueLink={this.linkState('email')} placeholder="Email" />
           <input type="password" valueLink={this.linkState('password')} placeholder="Password" />

@@ -38,7 +38,7 @@ app.use(favicon(path.join(__dirname, '../dist', 'img', 'favicon.ico')));
 app.use(json({ pretty: !production }));
 app.use(compress());
 app.use(bodyParser());
-app.use(session());
+app.use(session(app));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(serveStatic(path.join(__dirname, '../dist')));
