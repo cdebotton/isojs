@@ -17,6 +17,7 @@ var mount             = require('koa-mount');
 var passport          = require('koa-passport');
 var json              = require('koa-json');
 var favicon           = require('koa-favicon');
+var KeyGrip           = require('keygrip');
 var mongoose          = require('mongoose');
 var serveStatic       = require('koa-static');
 var config            = require('./config');
@@ -31,7 +32,7 @@ var env = process.env.NODE_ENV === 'production'
 
 var production = env === 'production';
 
-app.keys = ['secret'];
+app.keys = new KeyGrip([config.secretKey, config.secretToken], 'sha256');
 
 app.use(responseTime('Response-time'));
 app.use(favicon(path.join(__dirname, '../dist', 'img', 'favicon.ico')));

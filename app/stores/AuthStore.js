@@ -6,32 +6,14 @@ var {ApiStates, ActionTypes}  = require('../constants/AppConstants');
 var Store                     = require('./Store');
 var AppDispatcher             = require('../dispatchers/AppDispatcher');
 var {isUnresolved}            = require('../utils/helpers');
-
-/**
- * Get the locally stored auth info
- * @param  {string} sessionName
- * @return {Immutable}
- */
-function getAuthData(sessionName: string): Immutable {
-  try {
-    var auth: string = localStorage.getItem(sessionName);
-    var data: Object = JSON.parse(auth);
-    if (data) {
-      return Immutable.fromJS(data);
-    }
-    else {
-      return Immutable.Map();
-    }
-  }
-  catch(e) {
-    return Immutable.Map();
-  }
-}
-
+var config                    = require('../config');
+var cookie                    = require('cookie');
 
 var _status: string = ApiStates.READY;
-var SESSION_NAME: string = 'cdb.session';
-var _auth: Immutable = getAuthData(SESSION_NAME);
+var _payload: Immutable = Immutable.Map({
+  session: Immutable.Map(),
+  status: ApiStates.READY
+});
 
 var AuthStore = assign({}, Store, {
   /**
@@ -39,7 +21,7 @@ var AuthStore = assign({}, Store, {
    * @return {object}
    */
   getState(): Object {
-    return _auth.toObject();
+    return _payload.toJS();
   },
 
   /**
@@ -48,7 +30,7 @@ var AuthStore = assign({}, Store, {
    * @return {string}
    */
   getToken(): string {
-    return _auth.get('key');
+    return _payload.getIn(['session', 'key']);
   },
 
   /**
@@ -57,9 +39,10 @@ var AuthStore = assign({}, Store, {
    * @return {object}
    */
   getUser(): ?Object {
-    if (_auth.get('_user')) {
-      return _auth.get('_user').toObject();
+    if (_payload.get('session').get('_id')) {
+      return _payload.get('session');
     }
+    return false;
   },
 
   /**
@@ -68,7 +51,7 @@ var AuthStore = assign({}, Store, {
    * @return {boolean}
    */
   authed(): bool {
-    return 'undefined' !== typeof _auth.getIn(['_user', '_id']);
+    return _payload.get('session').get('_id') ? true : false;
   }
 });
 
@@ -89,22 +72,13 @@ AuthStore.dispatchToken = AppDispatcher.register(function(payload: Payload): boo
 });
 
 /**
- * Save _auth state to localStorage
- */
-function setLocalStorage(): void {
-  var data = JSON.stringify(_auth.toJS());
-  localStorage.setItem(SESSION_NAME, data);
-}
-
-/**
  * Log a user in and store the session data
  * in the browser's localStorage
  * @param  {object} session
  */
 function login(session: any): ?bool {
   if (isUnresolved(session)) return true;
-  _auth = Immutable.fromJS(session);
-  setLocalStorage();
+  _payload = _payload.set('session', session);
   AuthStore.emitChange();
 }
 
@@ -113,8 +87,7 @@ function login(session: any): ?bool {
  * @param  {string} id
  */
 function logout(): void {
-  _auth = Immutable.Map();
-  setLocalStorage();
+  _payload = _payload.set('session', Immutable.Map());
   AuthStore.emitChange();
 }
 

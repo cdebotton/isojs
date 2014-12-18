@@ -4,6 +4,7 @@ var React   = require('react');
 var assign  = require('react/lib/Object.assign');
 var Router  = require('react-router');
 var Promise = require('bluebird');
+var request = require('superagent');
 var co      = require('co');
 var Routes  = require('./components/Routes.jsx');
 
@@ -24,6 +25,20 @@ function getRoutedComponent(routes, history) {
     });
   });
 }
+
+function getSession() {
+  return new Promise(function(resolve, reject) {
+    request.get('http://localhost:3000/api/v1/request-token')
+      .end(function(err, res) {
+        if (res.status == 200) {
+          resolve(res.body);
+        }
+        else {
+          resolve(false);
+        }
+      });
+  });
+};
 
 function fetchData(routes, params, query) {
   var calls: Array<Function> = routes.filter(route => route.handler.fetchData);
@@ -57,9 +72,9 @@ if ('undefined' !== typeof window) {
         else {
           fetchData(state.routes, state.params, state.query);
         }
-
         React.render(
           <Handler
+            // session={session}
             params={state.params}
             query={state.query}
             env={process.env.NODE_ENV} />,

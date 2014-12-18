@@ -1,6 +1,7 @@
-var React         = require('react');
-var assign        = require('react/lib/Object.assign');
-var ReactRouter   = require('react-router');
+var React               = require('react');
+var config              = require('../config');
+var assign              = require('react/lib/Object.assign');
+var ReactRouter         = require('react-router');
 
 var PRODUCTION    = process.env.NODE_ENV === 'production';
 
@@ -35,6 +36,10 @@ function fetchData(routes, params, query) {
     }, {}));
 }
 
+function *authenticate(user) {
+
+}
+
 function renderComponent() {
   return function *(next) {
     var {Handler, state} = yield getRoutedComponent(this.req.url);
@@ -43,19 +48,19 @@ function renderComponent() {
     try {
       var markup = React.renderToString(
         <Handler
+          session={this.session.passport.user || false}
           params={state.params}
           query={state.query}
           env={process.env.NODE_ENV} />
       );
 
       var body = `<!doctype html>\n${markup}`;
-
       this.body = body;
     }
-    catch (e) {
+    catch (err) {
       this.status = 500;
-      this.body = PRODUCTION ? 'Internal Server Error' : e.toString();
-      this.app.emit('error', e, this);
+      this.body = PRODUCTION ? 'Internal Server Error' : err.toString();
+      this.app.emit('error', err, this);
     }
   };
 }

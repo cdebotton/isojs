@@ -15,6 +15,13 @@ var AuthActionCreators: Object = {
     });
 
     AuthAPI.logout(id);
+  },
+
+  forceLogin(user: Object): void {
+    AppDispatcher.handleServerAction({
+      type: ActionTypes.FORCE_LOGIN,
+      user: user
+    });
   }
 };
 

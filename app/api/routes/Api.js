@@ -55,15 +55,15 @@ Api.delete('/users/:userId'/*, bearer*/, function *() {
 Api.post('/login', function *(next) {
   var ctx = this;
 
-  yield* passport.authenticate('local', function* (err, user, info) {
+  yield* passport.authenticate('local', function* (err, token, info) {
     if (err) throw err;
-    if (! user) {
+    if (! token) {
       ctx.status = 404;
       ctx.body = {success: false};
     }
     else {
-      yield ctx.login(user);
-      ctx.body = user;
+      yield ctx.login(token._user);
+      ctx.body = token;
     }
   }).call(this, next);
 });
@@ -71,6 +71,15 @@ Api.post('/login', function *(next) {
 Api.post('/logout', function *(next) {
   var key = this.body.key;
   yield authService.logout(key);
+});
+
+Api.get('/request-token', function *(next) {
+  if (this.session.passport.hasOwnProperty('user')) {
+    this.body = this.session.passport.user;
+  }
+  else {
+    this.body = false;
+  }
 });
 
 module.exports = Api;
