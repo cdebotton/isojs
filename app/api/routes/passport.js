@@ -7,13 +7,25 @@ var User = mongoose.model('User');
 var Token = mongoose.model('Token');
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  Token.findOne({_user: user.id}, function(err, token) {
+    done(null, token.key);
+  });
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
+  Token.findOne({key: id})
+    .populate('_user', '-password -__v')
+    .exec(function(err, token) {
+      if (err) {
+        done(err, null);
+      }
+      else if (token) {
+        done(null, token._user);
+      }
+      else {
+        done(null, null);
+      }
+    });
 });
 
 passport.use(new LocalStrategy(

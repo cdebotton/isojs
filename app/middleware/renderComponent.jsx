@@ -36,10 +36,6 @@ function fetchData(routes, params, query) {
     }, {}));
 }
 
-function *authenticate(user) {
-
-}
-
 function renderComponent() {
   return function *(next) {
     var {Handler, state} = yield getRoutedComponent(this.req.url);

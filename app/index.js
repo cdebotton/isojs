@@ -59,9 +59,9 @@ function fetchData(routes, params, query) {
 
 if ('undefined' !== typeof window) {
   var initialLoad = false;
-
   co(function *() {
     yield docLoaded();
+    var token = yield getSession();
 
     Router.run(Routes, Router.HistoryLocation, function(Handler, state) {
       co(function *() {
@@ -74,7 +74,7 @@ if ('undefined' !== typeof window) {
         }
         React.render(
           <Handler
-            // session={session}
+            session={token}
             params={state.params}
             query={state.query}
             env={process.env.NODE_ENV} />,
