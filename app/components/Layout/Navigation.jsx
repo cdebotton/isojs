@@ -4,9 +4,15 @@ var React  = require('react');
 var {Link} = require('react-router');
 var StoreMixin = require('../../mixins/StoreMixin');
 var AuthStore = require('../../stores/AuthStore');
+var AuthActionCreators = require('../../actions/AuthActionCreators');
 
 var Navigation = React.createClass({
   mixins: [StoreMixin(getState, AuthStore)],
+
+  handleLogout(event: Object): void {
+    event.preventDefault();
+    AuthActionCreators.logout();
+  },
 
   render(): any {
     return (
@@ -15,6 +21,7 @@ var Navigation = React.createClass({
         <Link to="posts"><i className="fa fa-tumblr" /></Link>
         {this.state.authed ? <Link to="foo"><i className="fa fa-users" /></Link> : false}
         {! this.state.authed ? <Link to="login"><i className="fa fa-sign-in" /></Link>: false}
+        {this.state.authed ? <a href="#" onClick={this.handleLogout}><i className="fa fa-sign-out" /></a>: false}
       </nav>
     );
   }

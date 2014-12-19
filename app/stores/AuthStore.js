@@ -49,7 +49,7 @@ var AuthStore = assign({}, Store, {
    * @return {boolean}
    */
   authed(): bool {
-    return _payload.get('session') !== null;
+    return _payload.get('key') !== null;
   },
 
   setSession(session: string): void {

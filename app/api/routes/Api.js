@@ -69,8 +69,8 @@ Api.post('/login', function *(next) {
 });
 
 Api.post('/logout', function *(next) {
-  var key = this.body.key;
-  yield authService.logout(key);
+  this.req.logout();
+  yield authService.logout(this.session.passport.user || null);
 });
 
 Api.get('/request-token', function *(next) {
