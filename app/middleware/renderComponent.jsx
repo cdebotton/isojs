@@ -5,17 +5,29 @@ var ReactRouter         = require('react-router');
 
 var PRODUCTION    = process.env.NODE_ENV === 'production';
 
-function getRoutedComponent(url) {
+function getRoutedComponent(url, app) {
   var Routes = require('../components/Routes.jsx');
   return new Promise(function(resolve, reject) {
+    var Router = ReactRouter.create({
+      routes: Routes,
+      location: url,
+      onAbort: (aborted) => {
+        var {to, params, query} = aborted;
+        var url = Router.makePath(to, params, query);
+        reject(url);
+      }
+    });
+
     try {
-      ReactRouter.run(Routes, url, function(Handler, state) {
+      Router.run(function(Handler, state) {
         resolve({Handler, state});
       });
     }
     catch (err) {
       reject(err);
     }
+  }).catch(function(redirect) {
+    app.redirect(redirect);
   });
 }
 
@@ -38,29 +50,29 @@ function fetchData(routes, params, query) {
 
 function renderComponent() {
   return function *(next) {
-
-    require('../utils/serverRedirect')(this);
     require('../stores/AuthStore').setSession(this.session.passport.user || null);
 
-    var {Handler, state} = yield getRoutedComponent(this.req.url);
+    var res = yield getRoutedComponent(this.req.url, this);
+    if (res) {
+      var {Handler, state} = res;
+      yield fetchData(state.routes, state.params, state.query);
 
-    yield fetchData(state.routes, state.params, state.query);
-    try {
-      var markup = React.renderToString(
-        <Handler
-          token={this.session.passport.user || null}
-          params={state.params}
-          query={state.query}
-          env={process.env.NODE_ENV} />
-      );
-
-      var body = `<!doctype html>\n${markup}`;
-      this.body = body;
-    }
-    catch (err) {
-      this.status = 500;
-      this.body = PRODUCTION ? 'Internal Server Error' : err.toString();
-      this.app.emit('error', err, this);
+      try {
+        var markup = React.renderToString(
+          <Handler
+            token={this.session.passport.user || null}
+            params={state.params}
+            query={state.query}
+            env={process.env.NODE_ENV} />
+        );
+        var body = `<!doctype html>\n${markup}`;
+        this.body = body;
+      }
+      catch (err) {
+        this.status = 500;
+        this.body = PRODUCTION ? 'Internal Server Error' : err.toString();
+        this.app.emit('error', err, this);
+      }
     }
   };
 }
