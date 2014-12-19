@@ -1,5 +1,8 @@
 /** @flow */
 
+var Promise             = require('bluebird');
+var request             = require('superagent');
+
 module.exports = function getSession() {
   return new Promise(function(resolve, reject) {
     request.get('http://localhost:3000/api/v1/request-token')
@@ -12,4 +15,4 @@ module.exports = function getSession() {
         }
       });
   });
-};
+}

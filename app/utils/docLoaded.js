@@ -1,5 +1,7 @@
 /** @flow */
 
+var Promise = require('bluebird');
+
 module.exports = function docLoaded() {
   return new Promise(function(resolve, reject) {
     var timer = setTimeout(reject, 10000);
