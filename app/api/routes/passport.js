@@ -45,6 +45,7 @@ passport.use(new LocalStrategy(
         else if (isMatch) {
           Token.findOrCreate({_user: user}, function(err, token) {
             if (err) done(err);
+
             return done(null, token);
           });
         }

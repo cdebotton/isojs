@@ -55,7 +55,7 @@ Api.delete('/users/:userId', bearer, function *() {
 Api.post('/login', function *(next) {
   var ctx = this;
 
-  yield* passport.authenticate('local', function* (err, token, info) {
+  yield passport.authenticate('local', function* (err, token, info) {
     if (err) throw err;
     if (! token) {
       ctx.status = 404;
@@ -69,8 +69,9 @@ Api.post('/login', function *(next) {
 });
 
 Api.post('/logout', function *(next) {
-  this.req.logout();
+  console.log(this.session.passport);
   yield authService.logout(this.session.passport.user || null);
+  this.req.logout();
   this.body = {key: null};
 });
 

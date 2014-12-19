@@ -5,17 +5,13 @@ var Token     = mongoose.model('Token');
 var authService = {
 
   logout: function *(key) {
-    var removal = yield Token.findOneAndRemove({key: key}).exec();
-
-    return removal;
-  },
-
-  validateToken: function *(key) {
-    var tokenData = yield Token.findOne({key: req.body.key})
-      .populate('_user', '-password -createdAt -updatedAt')
-      .exec();
-
-    return {err: tokenData.err }
+    try {
+      yield Token.findOneAndRemove({key: key}).exec();
+      return true;
+    }
+    catch (err) {
+      return false;
+    }
   }
 };
 
