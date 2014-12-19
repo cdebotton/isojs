@@ -40,11 +40,11 @@ var AppConstants = {
   }),
 
   ApiStates: keyMirror({
-    READY         : null,
-    ERROR         : null,
-    BAD_REQUEST   : null,
-    TIMEOUT       : null,
-    PENDING       : null
+    READY: null,
+    ERROR: null,
+    BAD_REQUEST: null,
+    TIMEOUT: null,
+    PENDING: null
   })
 };
 

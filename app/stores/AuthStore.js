@@ -63,17 +63,10 @@ AuthStore.dispatchToken = AppDispatcher.register(function(payload: Payload): boo
   switch (action.type) {
     case ActionTypes.AUTH_POST_LOGIN:
       login(action.response);
-      AuthStore.emitChange();
       break;
 
     case ActionTypes.AUTH_LOGOUT:
       logout();
-      AuthStore.emitChange();
-      break;
-
-    case ActionTypes.SET_SESSION:
-      login(action.key);
-      AuthStore.emitChange();
       break;
   }
 
@@ -87,7 +80,8 @@ AuthStore.dispatchToken = AppDispatcher.register(function(payload: Payload): boo
  */
 function login(session: any): ?bool {
   if (isUnresolved(session)) return true;
-  _payload = _payload.set('key', session);
+  _payload = _payload.set('key', session.token);
+  AuthStore.emitChange();
 }
 
 /**
@@ -96,6 +90,7 @@ function login(session: any): ?bool {
  */
 function logout(): void {
   _payload = _payload.set('key', null);
+  AuthStore.emitChange();
 }
 
 module.exports = AuthStore;

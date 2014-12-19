@@ -19,7 +19,7 @@ Api.get('/users/:userId', bearer, function *() {
   this.body = user;
 });
 
-Api.put('/users/:userId'/*, bearer */, function *() {
+Api.put('/users/:userId', bearer, function *() {
   var id = this.params.userId;
   var body = this.request.body;
 
@@ -63,7 +63,7 @@ Api.post('/login', function *(next) {
     }
     else {
       yield ctx.login(token._user);
-      ctx.body = token;
+      ctx.body = {token: token.key};
     }
   }).call(this, next);
 });
@@ -71,6 +71,7 @@ Api.post('/login', function *(next) {
 Api.post('/logout', function *(next) {
   this.req.logout();
   yield authService.logout(this.session.passport.user || null);
+  this.body = {key: null};
 });
 
 Api.get('/request-token', function *(next) {

@@ -9,15 +9,20 @@ var DeleteUser          = require('../common/DeleteUser.jsx');
 var UserActionCreators  = require('../../actions/UserActionCreators');
 var PageActionCreators  = require('../../actions/PageActionCreators');
 var {ActionTypes}       = require('../../constants/AppConstants');
-var UserStore       = require('../../stores/UserStore');
+var UserStore           = require('../../stores/UserStore');
 var PageStore           = require('../../stores/PageStore');
+var ProtectedRouteMixin = require('../../mixins/ProtectedRouteMixin');
 var AsyncDataMixin      = require('../../mixins/AsyncDataMixin');
 var StoreMixin          = require('../../mixins/StoreMixin');
 var UserAPI             = require('../../utils/UserAPI');
 
 
 var FooHandler = React.createClass({
-  mixins: [StoreMixin(getState, UserStore), AsyncDataMixin(fetchData)],
+  mixins: [
+    StoreMixin(getState, UserStore),
+    AsyncDataMixin(fetchData),
+    ProtectedRouteMixin
+  ],
 
   render(): any {
     return (

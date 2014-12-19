@@ -63,7 +63,8 @@ if ('undefined' !== typeof window) {
   co(function *() {
     yield docLoaded();
     var token = yield getSession();
-    AuthActionCreators.setSession(token);
+
+    require('./stores/AuthStore').setSession(token || null);
     Router.run(Routes, Router.HistoryLocation, function(Handler, state) {
       co(function *() {
         if (! initialLoad) {
