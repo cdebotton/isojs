@@ -1,6 +1,7 @@
 var React               = require('react');
 var config              = require('../config');
-var assign              = require('react/lib/Object.assign');
+var getTitle            = require('../utils/getTitle');
+var fetchData           = require('../utils/fetchData');
 var ReactRouter         = require('react-router');
 
 var PRODUCTION    = process.env.NODE_ENV === 'production';
@@ -29,33 +30,6 @@ function getRoutedComponent(url, app) {
   }).catch(function(redirect) {
     app.redirect(redirect);
   });
-}
-
-function fetchData(routes, params, query) {
-  var calls: Array<Function> = routes.filter(route => route.handler.fetchData);
-  var promiseArray: Array<any> = calls.map(route => {
-    return new Promise((resolve, reject) => {
-      route.handler.fetchData(params, query)
-        .then(data => resolve(data))
-        .catch(err => reject(err));
-    });
-  });
-
-  return Promise.all(promiseArray)
-    .then(data => data.reduce((memo, item) => {
-      memo = assign({}, memo, item);
-      return memo;
-    }, {}));
-}
-
-function getTitle(routes, params, query) {
-  return routes.reduce(function(memo, route) {
-    var handler = route.handler;
-    if ('function' === typeof handler.getPageTitle) {
-      memo = handler.getPageTitle(params, query);
-    }
-    return memo;
-  }, false);
 }
 
 function renderComponent() {
