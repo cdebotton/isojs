@@ -3,12 +3,18 @@
 var React = require('react/addons');
 var {Navigation} = require('react-router');
 var {LinkedStateMixin, update} = React.addons;
-var PageTitleMixin = require('../../mixins/PageTitleMixin');
+var ProtectedRouteMixin = require('../../mixins/ProtectedRouteMixin');
 var UserActionCreators = require('../../actions/UserActionCreators');
 var NameInput = require('../Common/NameInput.jsx');
 
 var CreateUserHandler = React.createClass({
-  mixins: [LinkedStateMixin, Navigation, PageTitleMixin('create user')],
+  statics: {
+    getPageTitle(): string {
+      return 'new user';
+    }
+  },
+
+  mixins: [LinkedStateMixin, ProtectedRouteMixin],
 
   getInitialState(): Object {
     return {email: null, password: null, firstName: null, lastName: null};
@@ -30,7 +36,7 @@ var CreateUserHandler = React.createClass({
 
     this.setState({email: null, password: null, firstName: null, lastName: null});
 
-    this.transitionTo('foo');
+    this.transitionTo('users');
   },
 
   handleNameChange(first: string, last: string) {

@@ -17,7 +17,13 @@ var StoreMixin          = require('../../mixins/StoreMixin');
 var UserAPI             = require('../../utils/UserAPI');
 
 
-var FooHandler = React.createClass({
+var UsersHandler = React.createClass({
+  statics: {
+    getPageTitle(): string {
+      return 'users';
+    }
+  },
+
   mixins: [
     StoreMixin(getState, UserStore),
     AsyncDataMixin(fetchData),
@@ -28,7 +34,7 @@ var FooHandler = React.createClass({
     return (
       <div className="foo-handler">
         <h2>Foo Handler</h2>
-        <Link to="createUser">New</Link>
+        <Link to="create-user">New</Link>
         <RouteHandler {...this.props} />
         <ul>{getUsersList(this.state.users)}</ul>
       </div>
@@ -44,7 +50,7 @@ function getUsersList(users: Object): any {
       <li className="user" key={i}>
         <h3>
           {user._id ?
-            <Link to="bar" params={{userId: user._id}}>{fullName}</Link> :
+            <Link to="user" params={{userId: user._id}}>{fullName}</Link> :
             <span>{{fullName}}</span>}
           <span>&nbsp;</span>
           <a href={email}><i className="fa fa-envelope-o" /></a>
@@ -55,17 +61,6 @@ function getUsersList(users: Object): any {
   });
 };
 
-function getTitle(title) {
-  return new Promise(function(resolve, reject) {
-    var handleChange = function() {
-      PageStore.removeChangeListener(handleChange);
-      resolve(PageStore.getState().get('title'));
-    };
-    PageStore.addChangeListener(handleChange);
-    PageActionCreators.setTitle(title);
-  });
-}
-
 function getState(params: Object, query: Object): Object {
   return {users: UserStore.getState().get('entities')};
 }
@@ -73,8 +68,7 @@ function getState(params: Object, query: Object): Object {
 function fetchData(params: Object, query: Object): any {
   return co(function *() {
     yield UserAPI.getUsers();
-    yield getTitle('foo')
   });
 }
 
-module.exports = FooHandler;
+module.exports = UsersHandler;

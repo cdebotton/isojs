@@ -3,9 +3,9 @@
 var React                 = require('react/addons');
 var co                    = require('co');
 var Immutable             = require('immutable');
-var {Navigation}          = require('react-router');
 
 var AsyncDataMixin        = require('../../mixins/AsyncDataMixin');
+var ProtectedRouteMixin   = require('../../mixins/ProtectedRouteMixin');
 var StoreMixin            = require('../../mixins/StoreMixin');
 var {ActionTypes}         = require('../../constants/AppConstants');
 var UserAPI               = require('../../utils/UserAPI');
@@ -16,8 +16,20 @@ var UserActionCreators    = require('../../actions/UserActionCreators');
 
 var NameInput = require('../Common/NameInput.jsx');
 
-var FooHandler = React.createClass({
-  mixins: [StoreMixin(getState, UserStore), AsyncDataMixin(fetchData), Navigation],
+var UserHandler = React.createClass({
+  statics: {
+    getPageTitle(params: Object, query: Object) {
+      var user = UserStore.find(params.userId).toJS();
+
+      return `${user.name.first} ${user.name.last}`.toLowerCase();
+    }
+  },
+
+  mixins: [
+    StoreMixin(getState, UserStore),
+    AsyncDataMixin(fetchData),
+    ProtectedRouteMixin
+  ],
 
   handleNameChange(first: string, last: string): void {
     var user = this.state.user
@@ -74,17 +86,6 @@ var FooHandler = React.createClass({
   }
 });
 
-function getTitle(title) {
-  return new Promise(function(resolve, reject) {
-    var handleChange = function() {
-      PageStore.removeChangeListener(handleChange);
-      resolve(PageStore.getState().get('title'));
-    };
-    PageStore.addChangeListener(handleChange);
-    PageActionCreators.setTitle(title);
-  });
-}
-
 function getState(params: Object, query?: Object): Object {
   return {user: UserStore.find(params.userId)};
 }
@@ -92,9 +93,7 @@ function getState(params: Object, query?: Object): Object {
 function fetchData(params: Object, query: Object): any {
   return co(function *() {
     yield UserAPI.getUserById(params.userId);
-    var name = UserStore.find(params.userId).get('name');
-    yield getTitle(name.get('first') + ' ' + name.get('last'));
   });
 }
 
-module.exports = FooHandler;
+module.exports = UserHandler;

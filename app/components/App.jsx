@@ -15,7 +15,8 @@ var App = React.createClass({
   propTypes: {
     query: React.PropTypes.object.isRequired,
     params: React.PropTypes.object.isRequired,
-    env: React.PropTypes.string.isRequired
+    env: React.PropTypes.string.isRequired,
+    title: React.PropTypes.string.isRequired
   },
 
   getBundle(env: string): any {
@@ -27,12 +28,12 @@ var App = React.createClass({
   },
 
   render(): any {
-    var {env} = this.props;
+    var {env, title} = this.props;
     var name = this.getRoutes().reverse()[0].name;
 
     return (
       <html lang="us">
-      <Head env={env} />
+      <Head env={env} title={title} />
       <body>
         <Navigation />
         <CSSTransitionGroup

@@ -48,6 +48,16 @@ function fetchData(routes, params, query) {
     }, {}));
 }
 
+function getTitle(routes, params, query) {
+  return routes.reduce(function(memo, route) {
+    var handler = route.handler;
+    if ('function' === typeof handler.getPageTitle) {
+      memo = handler.getPageTitle(params, query);
+    }
+    return memo;
+  }, false);
+}
+
 function renderComponent() {
   return function *(next) {
     require('../stores/AuthStore').setSession(this.session.passport.user || null);
@@ -55,11 +65,13 @@ function renderComponent() {
     var res = yield getRoutedComponent(this.req.url, this);
     if (res) {
       var {Handler, state} = res;
-      yield fetchData(state.routes, state.params, state.query);
+      var data = yield fetchData(state.routes, state.params, state.query);
+      var title = getTitle(state.routes, state.params, state.query);
 
       try {
         var markup = React.renderToString(
           <Handler
+            title={title}
             token={this.session.passport.user || null}
             params={state.params}
             query={state.query}

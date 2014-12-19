@@ -58,6 +58,17 @@ function fetchData(routes, params, query) {
     }, {}));
 }
 
+function getTitle(routes, params, query) {
+  return routes.reduce(function(memo, route) {
+    var handler = route.handler;
+
+    if ('function' === typeof handler.getPageTitle) {
+      memo = handler.getPageTitle(params, query);
+    }
+    return memo;
+  }, false);
+}
+
 if ('undefined' !== typeof window) {
   var initialLoad = false;
   co(function *() {
@@ -74,8 +85,12 @@ if ('undefined' !== typeof window) {
         else {
           fetchData(state.routes, state.params, state.query);
         }
+
+        var title = getTitle(state.routes, state.params, state.query);
+
         React.render(
           <Handler
+            title={title}
             session={token}
             params={state.params}
             query={state.query}

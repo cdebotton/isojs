@@ -15,7 +15,16 @@ var {ApiStates}           = require('../../constants/AppConstants');
 var {RouteHandler, Link}  = require('react-router');
 
 var PostsHandler = React.createClass({
-  mixins: [StoreMixin(getState, TumblrStore), AsyncDataMixin(fetchData)],
+  mixins: [
+    StoreMixin(getState, TumblrStore),
+    AsyncDataMixin(fetchData)
+  ],
+
+  statics: {
+    getPageTitle(): string {
+      return 'posts from tumblr';
+    }
+  },
 
   render(): any {
     var tumblr = this.state.tumblr.toJS();
@@ -69,20 +78,8 @@ function getState(params, query): Object {
   return { tumblr: tumblr };
 }
 
-function getTitle(title) {
-  return new Promise(function(resolve, reject) {
-    var handleChange = function() {
-      PageStore.removeChangeListener(handleChange);
-      resolve(PageStore.getState().get('title'));
-    };
-    PageStore.addChangeListener(handleChange);
-    PageActionCreators.setTitle(title);
-  });
-}
-
 function fetchData(params, query): Object {
   return co(function *() {
-    yield getTitle('posts from tumblr');
     yield TumblrAPI[params.postType || 'posts']();
   });
 }

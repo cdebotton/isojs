@@ -8,12 +8,12 @@ var PageTitleMixin = require('../../mixins/PageTitleMixin');
 var AuthActionCreators = require('../../actions/AuthActionCreators');
 
 var LoginHandler = React.createClass({
-  mixins: [LinkedStateMixin, PageTitleMixin('login'), Navigation],
+  mixins: [LinkedStateMixin, PageTitleMixin, Navigation],
 
   statics: {
     willTransitionTo(transition: Object): void {
       if (AuthStore.authed()) {
-        transition.redirect('foo');
+        transition.redirect('users');
       }
     }
   },
@@ -33,7 +33,7 @@ var LoginHandler = React.createClass({
   onAuthChange(): void {
     if (AuthStore.authed()) {
       process.nextTick(function() {
-        this.transitionTo('foo');
+        this.transitionTo('users');
       }.bind(this));
     }
   },
