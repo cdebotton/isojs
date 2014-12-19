@@ -10,6 +10,14 @@ var AuthActionCreators = require('../../actions/AuthActionCreators');
 var LoginHandler = React.createClass({
   mixins: [LinkedStateMixin, PageTitleMixin('login'), Navigation],
 
+  statics: {
+    willTransitionTo(transition: Object): void {
+      if (AuthStore.authed()) {
+        transition.redirect('foo');
+      }
+    }
+  },
+
   getInitialState(): Object {
     return {email: null, password: null};
   },

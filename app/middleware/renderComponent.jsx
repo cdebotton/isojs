@@ -38,6 +38,8 @@ function fetchData(routes, params, query) {
 
 function renderComponent() {
   return function *(next) {
+
+    require('../utils/serverRedirect')(this);
     require('../stores/AuthStore').setSession(this.session.passport.user || null);
 
     var {Handler, state} = yield getRoutedComponent(this.req.url);
