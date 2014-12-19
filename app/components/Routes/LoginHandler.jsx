@@ -4,13 +4,16 @@ var React = require('react/addons');
 var {Navigation} = require('react-router');
 var {LinkedStateMixin} = React.addons;
 var AuthStore = require('../../stores/AuthStore');
-var PageTitleMixin = require('../../mixins/PageTitleMixin');
 var AuthActionCreators = require('../../actions/AuthActionCreators');
 
 var LoginHandler = React.createClass({
-  mixins: [LinkedStateMixin, PageTitleMixin, Navigation],
+  mixins: [LinkedStateMixin, Navigation],
 
   statics: {
+    getPageTitle(): string {
+      return 'login';
+    },
+
     willTransitionTo(transition: Object): void {
       if (AuthStore.authed()) {
         transition.redirect('users');
