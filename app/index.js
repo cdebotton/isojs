@@ -7,6 +7,7 @@ var Promise = require('bluebird');
 var request = require('superagent');
 var co      = require('co');
 var Routes  = require('./components/Routes.jsx');
+var AuthActionCreators = require('./actions/AuthActionCreators');
 
 var config = require('./config');
 
@@ -31,7 +32,7 @@ function getSession() {
     request.get('http://localhost:3000/api/v1/request-token')
       .end(function(err, res) {
         if (res.status == 200) {
-          resolve(res.body);
+          resolve(res.body.key);
         }
         else {
           resolve(false);
@@ -62,7 +63,7 @@ if ('undefined' !== typeof window) {
   co(function *() {
     yield docLoaded();
     var token = yield getSession();
-
+    AuthActionCreators.setSession(token);
     Router.run(Routes, Router.HistoryLocation, function(Handler, state) {
       co(function *() {
         if (! initialLoad) {

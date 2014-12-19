@@ -7,11 +7,11 @@ var Store                     = require('./Store');
 var AppDispatcher             = require('../dispatchers/AppDispatcher');
 var {isUnresolved}            = require('../utils/helpers');
 var config                    = require('../config');
-var cookie                    = require('cookie');
 
 var _status: string = ApiStates.READY;
+
 var _payload: Immutable = Immutable.Map({
-  session: Immutable.Map(),
+  key: null,
   status: ApiStates.READY
 });
 
@@ -21,7 +21,7 @@ var AuthStore = assign({}, Store, {
    * @return {object}
    */
   getState(): Object {
-    return _payload.toJS();
+    return _payload;
   },
 
   /**
@@ -30,7 +30,7 @@ var AuthStore = assign({}, Store, {
    * @return {string}
    */
   getToken(): string {
-    return _payload.getIn(['session', 'key']);
+    return _payload.get('key');
   },
 
   /**
@@ -39,9 +39,7 @@ var AuthStore = assign({}, Store, {
    * @return {object}
    */
   getUser(): ?Object {
-    if (_payload.get('session').get('_id')) {
-      return _payload.get('session');
-    }
+
     return false;
   },
 
@@ -51,7 +49,11 @@ var AuthStore = assign({}, Store, {
    * @return {boolean}
    */
   authed(): bool {
-    return _payload.get('session').get('_id') ? true : false;
+    return _payload.get('session') !== null;
+  },
+
+  setSession(session: string): void {
+    _payload = _payload.set('key', session);
   }
 });
 
@@ -61,10 +63,17 @@ AuthStore.dispatchToken = AppDispatcher.register(function(payload: Payload): boo
   switch (action.type) {
     case ActionTypes.AUTH_POST_LOGIN:
       login(action.response);
+      AuthStore.emitChange();
       break;
 
     case ActionTypes.AUTH_LOGOUT:
       logout();
+      AuthStore.emitChange();
+      break;
+
+    case ActionTypes.SET_SESSION:
+      login(action.key);
+      AuthStore.emitChange();
       break;
   }
 
@@ -78,8 +87,7 @@ AuthStore.dispatchToken = AppDispatcher.register(function(payload: Payload): boo
  */
 function login(session: any): ?bool {
   if (isUnresolved(session)) return true;
-  _payload = _payload.set('session', session);
-  AuthStore.emitChange();
+  _payload = _payload.set('key', session);
 }
 
 /**
@@ -87,8 +95,7 @@ function login(session: any): ?bool {
  * @param  {string} id
  */
 function logout(): void {
-  _payload = _payload.set('session', Immutable.Map());
-  AuthStore.emitChange();
+  _payload = _payload.set('key', null);
 }
 
 module.exports = AuthStore;

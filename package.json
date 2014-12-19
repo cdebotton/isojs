@@ -55,8 +55,8 @@
     "node-jsx": "^0.12.4",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
-    "react": "^0.12.1",
-    "react-router": "^0.11.5",
+    "react": "^0.12.2",
+    "react-router": "^0.11.6",
     "superagent": "^0.21.0"
   },
   "devDependencies": {
@@ -65,7 +65,6 @@
     "browserify": "^7.0.0",
     "coffee-script": "^1.8.0",
     "connect-livereload": "^0.5.1",
-    "cookie": "^0.1.2",
     "deep-merge": "^1.0.0",
     "deepmerge": "^0.2.7",
     "del": "^0.1.3",

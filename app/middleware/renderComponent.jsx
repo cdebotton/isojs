@@ -38,13 +38,15 @@ function fetchData(routes, params, query) {
 
 function renderComponent() {
   return function *(next) {
-    var {Handler, state} = yield getRoutedComponent(this.req.url);
-    yield fetchData(state.routes, state.params, state.query);
+    require('../stores/AuthStore').setSession(this.session.passport.user || null);
 
+    var {Handler, state} = yield getRoutedComponent(this.req.url);
+
+    yield fetchData(state.routes, state.params, state.query);
     try {
       var markup = React.renderToString(
         <Handler
-          session={this.session.passport.user || false}
+          token={this.session.passport.user || null}
           params={state.params}
           query={state.query}
           env={process.env.NODE_ENV} />

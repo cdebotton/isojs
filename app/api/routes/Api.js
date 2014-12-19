@@ -7,12 +7,12 @@ var Api             = new Router();
 
 var bearer = passport.authenticate('bearer', {session: false});
 
-Api.get('/users'/*, bearer*/, function *() {
+Api.get('/users', bearer, function *() {
   var users = yield usersService.all();
   this.body = users;
 });
 
-Api.get('/users/:userId'/*, bearer*/, function *() {
+Api.get('/users/:userId', bearer, function *() {
   var userId = this.params.userId;
   var user = yield usersService.findById(userId);
 
@@ -32,13 +32,13 @@ Api.put('/users/:userId'/*, bearer */, function *() {
   }
 });
 
-Api.post('/users'/*, bearer*/, function *() {
+Api.post('/users', bearer, function *() {
   var body = this.request.body;
   var user = yield usersService.create(body);
   this.body = user;
 });
 
-Api.delete('/users/:userId'/*, bearer*/, function *() {
+Api.delete('/users/:userId', bearer, function *() {
   var userId = this.params.userId;
 
   try {
@@ -75,7 +75,7 @@ Api.post('/logout', function *(next) {
 
 Api.get('/request-token', function *(next) {
   if (this.session.passport.hasOwnProperty('user')) {
-    this.body = this.session.passport.user;
+    this.body = {key: this.session.passport.user};
   }
   else {
     this.body = false;

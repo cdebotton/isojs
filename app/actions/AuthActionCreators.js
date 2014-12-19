@@ -17,10 +17,10 @@ var AuthActionCreators: Object = {
     AuthAPI.logout(id);
   },
 
-  forceLogin(user: Object): void {
+  setSession(key: string): void {
     AppDispatcher.handleServerAction({
-      type: ActionTypes.FORCE_LOGIN,
-      user: user
+      type: ActionTypes.SET_SESSION,
+      key: key
     });
   }
 };

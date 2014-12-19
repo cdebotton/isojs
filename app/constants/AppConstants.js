@@ -22,7 +22,7 @@ var AppConstants = {
     UPDATE_USER: null,
     GET_SUBREDDIT: null,
     SET_TITLE: null,
-    FORCE_LOGIN: null
+    SET_SESSION: null
   }),
 
   TumblrActions: keyMirror({

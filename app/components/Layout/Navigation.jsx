@@ -14,7 +14,7 @@ var Navigation = React.createClass({
         <Link to="index"><i className="fa fa-home" /></Link>
         <Link to="posts"><i className="fa fa-tumblr" /></Link>
         {this.state.authed ? <Link to="foo"><i className="fa fa-users" /></Link> : false}
-        <Link to="login"><i className="fa fa-sign-in" /></Link>
+        {! this.state.authed ? <Link to="login"><i className="fa fa-sign-in" /></Link>: false}
       </nav>
     );
   }
