@@ -12,7 +12,8 @@ var _status: string = ApiStates.READY;
 
 var _payload: Immutable = Immutable.Map({
   key: null,
-  status: ApiStates.READY
+  status: ApiStates.READY,
+  user: Immutable.Map()
 });
 
 var AuthStore = assign({}, Store, {
@@ -38,9 +39,8 @@ var AuthStore = assign({}, Store, {
    * authenticated user.
    * @return {object}
    */
-  getUser(): ?Object {
-
-    return false;
+  getCurrentUser(): ?Object {
+    return _payload.get('user');
   },
 
   /**
@@ -59,7 +59,6 @@ var AuthStore = assign({}, Store, {
 
 AuthStore.dispatchToken = AppDispatcher.register(function(payload: Payload): bool {
   var action: Action = payload.action;
-
   switch (action.type) {
     case ActionTypes.AUTH_POST_LOGIN:
       login(action.response);
@@ -67,6 +66,10 @@ AuthStore.dispatchToken = AppDispatcher.register(function(payload: Payload): boo
 
     case ActionTypes.AUTH_LOGOUT:
       logout();
+      break;
+
+    case ActionTypes.GET_CURRENT_USER:
+      setAuthedUser(action.response);
       break;
   }
 
@@ -90,6 +93,18 @@ function login(session: any): ?bool {
  */
 function logout(): void {
   _payload = _payload.set('key', null);
+  _payload = _payload.set('user', Immutable.Map());
+  AuthStore.emitChange();
+}
+
+function setAuthedUser(user: any) {
+  if (isUnresolved(user)) {
+    _payload = _payload.set('status', ApiStates.PENDING);
+  }
+  else {
+    _payload = _payload.set('status', ApiStates.READY);
+    _payload = _payload.set('user', Immutable.fromJS(user));
+  }
   AuthStore.emitChange();
 }
 

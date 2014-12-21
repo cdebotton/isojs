@@ -9,21 +9,21 @@ var AuthAPI = assign({}, AppWebAPIUtils, {
     var key: string     = ActionTypes.AUTH_POST_LOGIN;
     var params: Object  = {email: email, password: password};
 
-    this.post('login', key, params);
+    return this.post('login', key, params);
   },
 
   logout(id: number): void {
     var key: string     = ActionTypes.AUTH_DEL_LOGOUT;
     var params: Object  = { tokenKey: id };
 
-    this.post('logout', key, params);
+    return this.post('logout', key, params);
   },
 
-  verifySession(token: string): void {
-    var key: string     = ActionTypes.AUTH_VERIFY_SESSION;
-    var params: Object  = { key: token };
+  getCurrentUser(token: string): void {
+    var key: string     = ActionTypes.GET_CURRENT_USER;
+    var params: Object  = {key: token};
 
-    this.post('auth/token', key, params);
+    return this.post('token', key, params);
   }
 });
 

@@ -23,6 +23,19 @@ module.exports = function(Api, passport, config) {
     this.body = {key: null};
   });
 
+  Api.post('/token', function *(next) {
+    if (this.session.passport.hasOwnProperty('user')) {
+      var sessionKey = this.session.passport.user || null;
+      var requestKey = this.request.body.key;
+      var user = yield authService.getCurrentUser(sessionKey, requestKey);
+
+      this.body = user;
+    }
+    else {
+      this.body = false;
+    }
+  });
+
   Api.get('/request-token', function *(next) {
     if (this.session.passport.hasOwnProperty('user')) {
       this.body = {key: this.session.passport.user};
