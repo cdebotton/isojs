@@ -20,3 +20,4 @@ all tbd
 1. postgres, mysql, and sqlite support
 2. code generators
 3. ability to swap out react for ember or backbone
+4. lots of tests
