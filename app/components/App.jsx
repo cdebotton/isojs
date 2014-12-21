@@ -1,21 +1,18 @@
 /** @flow */
 
-var React                 = require('react/addons');
-var request               = require('superagent');
-var co                    = require('co');
-var AuthAPI               = require('../utils/AuthAPI');
-var AuthStore             = require('../stores/AuthStore');
-var StoreMixin            = require('../mixins/StoreMixin');
-var AsyncDataMixin        = require('../mixins/AsyncDataMixin');
-var {CSSTransitionGroup}  = React.addons;
-
-var Head                = require('./Layout/Head.jsx');
-var Navigation          = require('./Layout/Navigation.jsx');
-
+var React = require('react/addons');
+var request = require('superagent');
+var co = require('co');
+var AuthAPI = require('../utils/AuthAPI');
+var AsyncDataMixin = require('../mixins/AsyncDataMixin');
+var Head = require('./Layout/Head.jsx');
+var Navigation = require('./Layout/Navigation.jsx');
 var {RouteHandler} = require('react-router');
+var {State: RouterStateMixin} = require('react-router');
+var {CSSTransitionGroup} = React.addons;
 
 var App = React.createClass({
-  mixins: [StoreMixin(getState, AuthStore)],
+  mixins: [RouterStateMixin],
 
   propTypes: {
     query: React.PropTypes.object.isRequired,
@@ -32,13 +29,6 @@ var App = React.createClass({
     );
   },
 
-  getMessage(): any {
-    var {user} = this.state;
-    return AuthStore.authed() ? (
-      <p>{`Hello, ${user.getIn(['name', 'first'])} ${user.getIn(['name', 'last'])}`}</p>
-    ) : false;
-  },
-
   render(): any {
     var {env, title} = this.props;
     var name = this.getRoutes().reverse()[0].name;
@@ -48,7 +38,6 @@ var App = React.createClass({
       <Head env={env} title={title} />
       <body>
         <Navigation />
-        {this.getMessage()}
         <CSSTransitionGroup
           className="router"
           transitionName="route"
@@ -61,9 +50,5 @@ var App = React.createClass({
     );
   }
 });
-
-function getState(params: Object, query: Object): Object {
-  return {user: AuthStore.getCurrentUser()};
-}
 
 module.exports = App;

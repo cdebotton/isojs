@@ -5,6 +5,7 @@ var assign                    = require('react/lib/Object.assign');
 var {ApiStates, ActionTypes}  = require('../constants/AppConstants');
 var Store                     = require('./Store');
 var AppDispatcher             = require('../dispatchers/AppDispatcher');
+var UserStore                 = require('./UserStore');
 var {isUnresolved}            = require('../utils/helpers');
 var config                    = require('../config');
 
@@ -35,15 +36,6 @@ var AuthStore = assign({}, Store, {
   },
 
   /**
-   * Return the currently
-   * authenticated user.
-   * @return {object}
-   */
-  getCurrentUser(): ?Object {
-    return _payload.get('user');
-  },
-
-  /**
    * Return true if the _user exists and has
    * an _id allocated
    * @return {boolean}
@@ -66,10 +58,6 @@ AuthStore.dispatchToken = AppDispatcher.register(function(payload: Payload): boo
 
     case ActionTypes.AUTH_LOGOUT:
       logout();
-      break;
-
-    case ActionTypes.GET_CURRENT_USER:
-      setAuthedUser(action.response);
       break;
   }
 
@@ -94,17 +82,6 @@ function login(session: any): ?bool {
 function logout(): void {
   _payload = _payload.set('key', null);
   _payload = _payload.set('user', Immutable.Map());
-  AuthStore.emitChange();
-}
-
-function setAuthedUser(user: any) {
-  if (isUnresolved(user)) {
-    _payload = _payload.set('status', ApiStates.PENDING);
-  }
-  else {
-    _payload = _payload.set('status', ApiStates.READY);
-    _payload = _payload.set('user', Immutable.fromJS(user));
-  }
   AuthStore.emitChange();
 }
 
