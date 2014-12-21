@@ -34,6 +34,8 @@ function getRoutedComponent(url, app) {
 
 function renderComponent() {
   return function *(next) {
+    yield* next;
+
     require('../app/stores/AuthStore').setSession(this.session.passport.user || null);
 
     var res = yield getRoutedComponent(this.req.url, this);
@@ -52,6 +54,12 @@ function renderComponent() {
             env={process.env.NODE_ENV} />
         );
         var body = `<!doctype html>\n${markup}`;
+
+        var handlerName = state.routes[state.routes.length - 1].handler.displayName;
+        if (handlerName === 'NotFoundHandler') {
+          this.status = 404;
+          this.type = 'html';
+        }
         this.body = body;
       }
       catch (err) {

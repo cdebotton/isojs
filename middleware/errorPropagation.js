@@ -5,7 +5,7 @@ function errorPropagation() {
     try {
       yield next;
       var status = this.status || 404;
-      if (status === 404) this.throw(404);
+      if (status === 404 && !this.body) this.throw(404);
     }
     catch(err) {
       err.status = err.status || 500;
