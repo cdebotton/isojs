@@ -26,6 +26,8 @@ var errorPropagation  = require('./middleware/errorPropagation');
 var Api               = require('./api/routes/Api');
 var app               = koa();
 
+// require('./api/routes/Api');
+
 var env = process.env.NODE_ENV === 'production'
   ? 'production'
   : 'development';
