@@ -3,13 +3,15 @@
 var React = require('react/addons');
 var request = require('superagent');
 var co = require('co');
-var AuthAPI = require('../utils/AuthAPI');
-var AsyncDataMixin = require('../mixins/AsyncDataMixin');
-var Head = require('./Layout/Head.jsx');
-var Navigation = require('./Layout/Navigation.jsx');
 var {RouteHandler} = require('react-router');
 var {State: RouterStateMixin} = require('react-router');
+
+var AuthAPI = require('../utils/AuthAPI');
+var AsyncDataMixin = require('../mixins/AsyncDataMixin');
 var {CSSTransitionGroup} = React.addons;
+
+var Head = require('./Layout/Head.jsx');
+var Navigation = require('./Layout/Navigation.jsx');
 
 var App = React.createClass({
   mixins: [RouterStateMixin],

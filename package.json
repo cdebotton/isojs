@@ -1,8 +1,8 @@
 {
-  "name": "koajs-server",
-  "version": "1.0.0",
-  "description": "An isomorphic server written in koa and react.",
-  "repository": "git@github.com:cdebotton/koajs-server.git",
+  "name": "isojs",
+  "version": "0.1.0",
+  "description": "A package for spinning up isomorphic react applications",
+  "repository": "git@github.com:cdebotton/isojs.git",
   "main": "server.js",
   "scripts": {
     "test": "jest",
