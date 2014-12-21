@@ -3,7 +3,7 @@ thumbs.db
 ._*
 
 node_modules
-dist
+public
 
 app/config/*
 !app/config/index.js
