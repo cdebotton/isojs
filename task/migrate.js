@@ -4,8 +4,8 @@ var mongoose  = require('mongoose');
 var async     = require('async');
 var gUtil     = require('gulp-util');
 var fs = require('fs');
-var modelPaths = __dirname + '/../app/api/models';
-var seedPaths = __dirname + '/../app/api/migrations';
+var modelPaths = __dirname + '/../api/models';
+var seedPaths = __dirname + '/../api/migrations';
 
 function readdir(callback) {
   fs.readdir(modelPaths, callback);

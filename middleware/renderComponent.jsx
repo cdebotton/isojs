@@ -1,13 +1,13 @@
 var React               = require('react');
-var config              = require('../config');
-var getTitle            = require('../utils/getTitle');
-var fetchData           = require('../utils/fetchData');
+var config              = require('../app/config');
+var getTitle            = require('../app/utils/getTitle');
+var fetchData           = require('../app/utils/fetchData');
 var ReactRouter         = require('react-router');
 
 var PRODUCTION    = process.env.NODE_ENV === 'production';
 
 function getRoutedComponent(url, app) {
-  var Routes = require('../components/Routes.jsx');
+  var Routes = require('../app/components/Routes.jsx');
   return new Promise(function(resolve, reject) {
     var Router = ReactRouter.create({
       routes: Routes,
@@ -34,7 +34,7 @@ function getRoutedComponent(url, app) {
 
 function renderComponent() {
   return function *(next) {
-    require('../stores/AuthStore').setSession(this.session.passport.user || null);
+    require('../app/stores/AuthStore').setSession(this.session.passport.user || null);
 
     var res = yield getRoutedComponent(this.req.url, this);
     if (res) {

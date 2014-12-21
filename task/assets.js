@@ -2,11 +2,11 @@ var gulp          = require('gulp');
 var gUtil         = require('gulp-util');
 
 var PATHS = {
-  BUILD             : './dist/',
+  BUILD             : './public/',
   FONTAWESOME_SRC   : './node_modules/font-awesome/fonts/*',
-  FONTS_DEST        : './dist/fonts/',
+  FONTS_DEST        : './public/fonts/',
   IMAGE_SRC         : './app/assets/img/**/*',
-  IMAGE_DEST        : './dist/img',
+  IMAGE_DEST        : './public/img',
   SRC               : './app/assets/**/*',
 };
 

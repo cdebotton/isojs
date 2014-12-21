@@ -20,7 +20,7 @@ var favicon           = require('koa-favicon');
 var KeyGrip           = require('keygrip');
 var mongoose          = require('mongoose');
 var serveStatic       = require('koa-static');
-var config            = require('./config');
+var config            = require('./app/config');
 var responseTime      = require('./middleware/responseTime');
 var errorPropagation  = require('./middleware/errorPropagation');
 var Api               = require('./api/routes/Api');
@@ -35,14 +35,14 @@ var production = env === 'production';
 app.keys = new KeyGrip([config.secretKey, config.secretToken], 'sha256');
 
 app.use(responseTime('Response-time'));
-app.use(favicon(path.join(__dirname, '../dist', 'img', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, './public', 'img', 'favicon.ico')));
 app.use(json({ pretty: !production }));
 app.use(compress());
 app.use(bodyParser());
 app.use(session(app));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(serveStatic(path.join(__dirname, '../dist')));
+app.use(serveStatic(path.join(__dirname, './public')));
 app.use(mount('/api/v1', Api.middleware()));
 app.use(errorPropagation());
 

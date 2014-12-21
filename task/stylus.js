@@ -19,8 +19,8 @@ function StylusCompiler(watch, build) {
     FONTAWESOME : './node_modules/font-awesome/css/font-awesome.css',
     SRC         : './app/styles/index.styl',
     STYLUS      : './app/**/*.styl',
-    DEST        : './dist/stylesheets/',
-    DEST_SRC    : './dist/stylesheets/**/*.css',
+    DEST        : './public/stylesheets/',
+    DEST_SRC    : './public/stylesheets/**/*.css',
     TARGET      : 'app.css'
   };
 

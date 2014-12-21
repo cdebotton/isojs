@@ -48,7 +48,7 @@ function Bundler(watch, build) {
   if (watch) {
     bundler = watchify(bundler);
     bundler.on('update', rebundle);
-    gulp.watch(['./dist/**/*.js'], koaServer.notify);
+    gulp.watch(['./public/**/*.js'], koaServer.notify);
   }
 
   function rebundle() {
@@ -63,7 +63,7 @@ function Bundler(watch, build) {
         compress: {unused: false}
       }))))
       .pipe(gIf(build, gRename({suffix: '.min'})))
-      .pipe(gulp.dest('./dist'));
+      .pipe(gulp.dest('./public'));
   }
 
   return rebundle();

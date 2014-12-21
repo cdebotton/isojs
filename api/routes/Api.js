@@ -2,7 +2,7 @@ var Router          = require('koa-router');
 var passport        = require('./passport');
 var usersService    = require('../services/usersService');
 var authService     = require('../services/authService');
-var config          = require('../../config');
+var config          = require('../../app/config');
 var Api             = new Router();
 
 var bearer = passport.authenticate('bearer', {session: false});
