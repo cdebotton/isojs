@@ -7,8 +7,10 @@ var User = mongoose.model('User');
 var Token = mongoose.model('Token');
 
 passport.serializeUser(function(user, done) {
-  Token.findOne({_user: user.id}, function(err, token) {
-    done(null, token.key);
+  Token.findOrCreate({_user: user}, function(err, token) {
+    if (err) done(err);
+
+    return done(null, token.key);
   });
 });
 
